@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+        <title>Infopanel Bootstrap</title>
+
+        <!-- Bootstrap -->
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+		<style type="text/css">
+			body { background: #F5F4F0 !important; }
+		</style>
+    </head>
+    <body>
+		<ul class="nav nav-tabs">
+			<li class="active"><a data-toggle="tab" href="#home">Hem</a></li>
+			<li><a data-toggle="tab" href="#phone"><span class="glyphicon glyphicon-earphone" aria-hidden="true"></span></a></li>
+			<li><a data-toggle="tab" href="#metod">Metodbok</a></li>
+			<li><a data-toggle="tab" href="#schema">Schema</a></li>
+		</ul>
+		
+		<div class="tab-content">
+			<div id="home" class="tab-pane fade in active">
+				<h3>Om Inforutan</h3>
+				<p>I den här rutan kan vi lägga all möjlig information som vi behöver, t.ex. telefonnummer, metodböcker m.m.</p>
+			</div>
+			<div id="phone" class="tab-pane fade">
+				<h3>Telefoni</h3>
+				<a href="http://informera.sll.se/catalogue.whtml?search_partuid=6eafc255-9f22-11e5-9b53-24e9b38a9f93" target="_blank" class="btn btn-primary btn-sm" aria-label="Solna">
+					<span class="glyphicon glyphicon-earphone" aria-hidden="true"></span>
+					Vision 80/20
+				</a>
+				<hr>
+				<form>
+					<div class="form-group">
+						<label>Intern sök</label>
+						<input type="text" class="form-control" placeholder="Sök">
+					</div>
+				</form>
+			</div>
+			<div id="metod" class="tab-pane fade">
+				<h3>Metodböcker</h3>
+				<a href="http://ks.rontgen.interactit.se/Mod/Mbook/User/" target="_blank" class="btn btn-primary btn-sm" aria-label="Solna">Solna</a>
+				<a href="http://gantry.se/" target="_blank" class="btn btn-primary btn-sm" aria-label="Huddinge">Huddinge</a>
+			</div>
+			<div id="schema" class="tab-pane fade">
+				<h3>Schema</h3>
+				<a href="http://schema.medinet.se/ksrtgsolna" target="_blank" class="btn btn-primary btn-sm" aria-label="Solna">Solna</a>
+				<a href="http://schema.medinet.se/ksrtghuddinge" target="_blank" class="btn btn-primary btn-sm" aria-label="Huddinge">Huddinge</a>
+				<a href="https://schema.medinet.se/ksneurorad/schema/neuron" target="_blank" class="btn btn-primary btn-sm" aria-label="Neuro">Neuro</a>
+			</div>
+		</div>
+
+        
+
+
+        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <!-- Include all compiled plugins (below), or include individual files as needed -->
+        <script src="js/bootstrap.min.js"></script>
+    </body>
+</html>
