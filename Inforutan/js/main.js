@@ -4,8 +4,8 @@ $(document).ready(function(){
         $('#numberList').html('');
         $('#state').val('');
         var searchField = $('#searchNumber').val();
-        var expression = new RegExp(searchField, 'i');
         if(searchField != ''){
+            var expression = new RegExp(searchField, 'i');
             $.getJSON('data.json', function(data) {
                 $.each(data, function(key, value){
                     if (value.name.search(expression) != -1)
