@@ -40,12 +40,12 @@
 					Vision 80/20
 				</a>
 				<hr>
-				<form>
-					<div class="form-group">
-						<label>Interna telefonnummer</label>
-						<input type="text" class="form-control" placeholder="Sök">
-					</div>
-				</form>
+				<div class="searchContainer">
+					<h3>Interna telefonnummer</h3>
+					<input type="text" id="searchNumber" class="form-control" placeholder="Sök..">
+				</div>
+				<br>
+				<div id="numberList"></div>
 			</div>
 			<div id="metod" class="tab-pane fade">
 				<h3>Metodböcker</h3>
@@ -73,6 +73,8 @@
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
         <!-- Include all compiled plugins (below), or include individual files as needed -->
-        <script src="js/bootstrap.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+		
+		<script src="js/main.js"></script>
     </body>
 </html>
