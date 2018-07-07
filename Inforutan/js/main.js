@@ -7,13 +7,17 @@ $(document).ready(function(){
         if(searchField != ''){
             var expression = new RegExp(searchField, 'i');
             $.getJSON('data.json', function(data) {
+                $('#numberList').append('<table class="table table-striped">');
+                $('#numberList').append('<thead><tr><th>Namn</th><th>Nummer</th></thead>');
+                $('#numberList').append('<tbody>');
                 $.each(data, function(key, value){
                     if (value.name.search(expression) != -1)
                         {
                         //här väljer vi vilka noder som ska visas
-                        $('#numberList').append('<li class="list-group-item">'+value.name+' | <span class="text-muted">'+value.phonenumber+value.type+value.organisation+'</span></li>');
+                        $('#numberList').append('<tr><th scope="row">'+value.name+'</th><td>'+value.phonenumber+'</td></tr>');
                         }
-                });   
+                });
+                $('numberList').append('</tbody>');
             });
         };
     });
