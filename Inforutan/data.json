@@ -3,19 +3,22 @@
         "name":"Röntgenjour/Akut Röd",
         "phonenumber": "73781",
         "type":"Läkare",
-        "organisation":"S FO T/M"
+        "organisation":"S FO T/M",
+        "description":"Nummer till akut slätröntgen dagtid och röntgenjour jourtid"
     },
     {
         "name":"Akut Grön",
         "phonenumber": "76762",
         "type":"Läkare",
-        "organisation":"S FO T/M"
+        "organisation":"S FO T/M",
+        "description":"Nummer till elektiv slätröntgen"
     },
     {
         "name":"DT COP",
         "phonenumber": "76762",
         "type":"Läkare",
-        "organisation":"S FO T/M"
+        "organisation":"S FO T/M",
+        "description":"Nummer till akut DT dagtid, ej bevakad jourtid"
     }
 ]
   

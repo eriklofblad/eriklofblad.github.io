@@ -1,4 +1,12 @@
 $(document).ready(function(){
+    
+    
+    /*
+    $('[data-toggle="tooltip"]').tooltip(
+        {
+            //verkar som att man behöver få option "selector:" att fungera för att få till snygg formatering av tooltips som kommer från dynamiskt insatt DOM
+        });
+    */
     $.ajaxSetup({ cache: false });
     $('#searchNumber').keyup(function(){
         $('#numberList').html('');
@@ -7,17 +15,16 @@ $(document).ready(function(){
         if(searchField != ''){
             var expression = new RegExp(searchField, 'i');
             $.getJSON('data.json', function(data) {
-                $('#numberList').append('<table class="table table-striped">');
-                $('#numberList').append('<thead><tr><th>Namn</th><th>Nummer</th></thead>');
+                $('#numberList').html('<thead><tr><th>Namn</th><th>Nummer</th><th>Roll</th><th>FO</th></thead>');
                 $('#numberList').append('<tbody>');
                 $.each(data, function(key, value){
                     if (value.name.search(expression) != -1)
                         {
                         //här väljer vi vilka noder som ska visas
-                        $('#numberList').append('<tr><th scope="row">'+value.name+'</th><td>'+value.phonenumber+'</td></tr>');
+                        $('#numberList').append('<tr><th id="erikstest" scope="row" data-toggle="tooltip" title="'+value.description+'">'+value.name+'</th><td>'+value.phonenumber+'</td><td>'+value.type+'</td><td>'+value.organisation+'</td></tr>');
                         }
                 });
-                $('numberList').append('</tbody>');
+                $('#numberList').append('</tbody>');
             });
         };
     });
