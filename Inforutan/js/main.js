@@ -10,7 +10,7 @@ $(document).ready(function(){
                 $.each(data, function(key, value){
                     if (value.name.search(expression) != -1)
                         {
-                        $('#numberList').append('<li class="list-group-item">'+value.name+' | <span class="text-muted">'+value.phonenumber+'</span></li>');
+                        $('#numberList').append('<li class="list-group-item">'+value.name+' | <span class="text-muted">'+value.phonenumber+value.type+value.organisation'</span></li>');
                         }
                 });   
             });

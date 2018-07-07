@@ -1,15 +1,21 @@
 [
     {
-        "name":"Akut Röd",
-        "phonenumber": "73781"
+        "name":"Röntgenjour/Akut Röd",
+        "phonenumber": "73781",
+        "type":"Läkare",
+        "organisation":"S FO T/M"
     },
     {
         "name":"Akut Grön",
-        "phonenumber": "76762"
+        "phonenumber": "76762",
+        "type":"Läkare",
+        "organisation":"S FO T/M"
     },
     {
         "name":"DT COP",
-        "phonenumber": "76762"
+        "phonenumber": "76762",
+        "type":"Läkare",
+        "organisation":"S FO T/M"
     }
 ]
   
