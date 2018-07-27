@@ -19,7 +19,29 @@ $(document).ready(function(){
             //verkar som att man behöver få option "selector:" att fungera för att få till snygg formatering av tooltips som kommer från dynamiskt insatt DOM
         });
     */
-    
+    $('#hjartstopp').click(function(){
+        //console.log("Hjärtstopp klickad");
+        $('#anafylaxiinfo').hide();
+        $('#lindrig').hide();
+        $('#hjartstoppinfo').show();
+    });
+
+    $('#anafylaxi').click(function(){
+        //console.log("Anafylaxi klickad");
+        $('#hjartstoppinfo').hide();
+        $('#lindrig').hide();
+        $('#anafylaxiinfo').show();
+        
+    });
+
+    $('#kontrastreak').click(function(){
+        //console.log("Anafylaxi klickad");
+        $('#hjartstoppinfo').hide();
+        $('#anafylaxiinfo').hide();
+        $('#lindrig').show();
+    });
+
+
     $('#searchNumber').keyup(function(){
         $('#numberList').html('');
         //$('#state').val('');

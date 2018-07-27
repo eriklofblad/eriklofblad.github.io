@@ -22,10 +22,11 @@
     </head>
     <body>
 		<ul class="nav nav-tabs">
-			<li class="active"><a data-toggle="tab" href="#home">Hem</a></li>
+			<li class="active"><a data-toggle="tab" href="#home"><span class="glyphicon glyphicon-home" aria-hidden="true"></span></a></li>
 			<li><a data-toggle="tab" href="#phone"><span class="glyphicon glyphicon-earphone" aria-hidden="true"></span></a></li>
-			<li><a data-toggle="tab" href="#metod">Metodbok</a></li>
-			<li><a data-toggle="tab" href="#schema">Schema</a></li>
+			<li><a data-toggle="tab" href="#metod"><span class="glyphicon glyphicon-book" aria-hidden="true"></span></a></li>
+			<li><a data-toggle="tab" href="#schema"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></a></li>
+			<li><a data-toggle="tab" href="#akut" class="text-danger bg-danger">AKUT</a></li>
 		</ul>
 		
 		<div class="tab-content">
@@ -49,8 +50,10 @@
 			</div>
 			<div id="metod" class="tab-pane fade">
 				<h3>Metodböcker</h3>
-				<a href="http://ks.rontgen.interactit.se/Mod/Mbook/User/" target="_blank" class="btn btn-primary btn-sm" aria-label="Solna">Solna</a>
-				<a href="http://gantry.se/" target="_blank" class="btn btn-primary btn-sm" aria-label="Huddinge">Huddinge</a>
+				<div class="btn-group" role="group" aria-label="metodböcker">
+					<a href="http://ks.rontgen.interactit.se/Mod/Mbook/User/" target="_blank" class="btn btn-primary btn-sm" aria-label="Solna">Solna</a>
+					<a href="http://gantry.se/" target="_blank" class="btn btn-primary btn-sm" aria-label="Huddinge">Huddinge</a>
+				</div>
 				<hr>
 				<form>
 					<div class="form-group">
@@ -64,6 +67,36 @@
 				<a href="http://schema.medinet.se/ksrtgsolna" target="_blank" class="btn btn-primary btn-sm" aria-label="Solna">Solna</a>
 				<a href="http://schema.medinet.se/ksrtghuddinge" target="_blank" class="btn btn-primary btn-sm" aria-label="Huddinge">Huddinge</a>
 				<a href="https://schema.medinet.se/ksneurorad/schema/neuron" target="_blank" class="btn btn-warning btn-sm" aria-label="Neuro">Neuro</a>
+			</div>
+			<div id="akut" class="tab-pane fade">
+				<h3>AKUT</h3>
+				<button id="hjartstopp" type="button" class="btn btn-danger"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span> Hjärtstopp</button>
+				<button id="anafylaxi" type="button" class="btn btn-danger"><span class="glyphicon glyphicon-pushpin" aria-hidden="true"></span> Anafylaxi</button>
+				<button id="kontrastreak" type="button" class="btn btn-warning">Lindrig kontrastreaktion</button>
+				<div id="hjartstoppinfo" style="display: none">
+					<h4>Hjärtstopp</h4>
+					<ol>
+						<li>LARMA tel 6000 </li>
+						<li>Påbörja HLR 30 kompressioner 2 inblåsningar</li>
+						<li>Hämta och koppla defibrilator</li>
+					</ol>
+				</div>
+				<div id="anafylaxiinfo" style="display: none">
+					<h4>Åtgärder vid anafylaxi</h4>
+					<ol>
+						<li>LARMA tel 6000 </li>
+						<li>Adrenalin – Emerade adrenalinpenna intramuskulärt utsida lår 0.3 mg Upprepas vid behov en gång.</li>	
+						<li>Syrgas 10 L/min på mask</li> 
+						<li>Sänkt huvudända</li> 
+						<li>Om medvetslöshet och avsaknad av andning starta HLR.</li> 
+						<li>Ringer infusion iv</li>
+						<li>Tablett Aerius 10 mg</li> 
+						<li>Tablett Betapred 0.5 mg x 10 alt injektion Betapred intravenöst 2 ml (4mg/ml)</li>
+					</ol>
+				</div>
+				<div id="lindrig" style="display: none">
+					<h4>PM om kontrastmedelsreaktioner</h4>
+				</div>
 			</div>
 		</div>
 
