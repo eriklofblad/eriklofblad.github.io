@@ -26,7 +26,7 @@ $(document).ready(function(){
         var searchField = $('#searchNumber').val();
         if(searchField != ''){
             var expression = new RegExp(searchField, 'i');
-            $.getJSON('telefonbok_2.json', function(data) {
+            $.getJSON('telefonbok_3.json', function(data) {
                 $('#numberList').html('<thead><tr><th>Namn</th><th>Nummer</th><th>Roll</th><th>FO</th></thead>');
                 $('#numberList').append('<tbody>');
                 $.each(data, function(key1, value1){

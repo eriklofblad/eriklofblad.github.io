@@ -1,0 +1,750 @@
+{
+  "FO Trauma/MSK": [
+    {
+      "name": "DT-COP",
+      "phonenumber": 76762,
+      "type": "Läkare",
+      "organisation": "S FO T/M",
+      "description": "Akut DT dagtid, ej bevakad jourtid"
+    },
+    {
+      "name": "Akut Röd",
+      "phonenumber": 73781,
+      "type": "Läkare",
+      "organisation": "S FO T/M",
+      "description": "Akut slätröntgen dagtid och röntgenjour jourtid"
+    },
+    {
+      "name": "Akut Grön",
+      "phonenumber": "70000?",
+      "type": "Läkare",
+      "organisation": "S FO T/M",
+      "description": "Elektiv slätröntgen"
+    },
+    {
+      "name": "Akut Röd",
+      "phonenumber": "727 14",
+      "type": "Reception/Tidsbest.",
+      "organisation": "S FO T/M",
+      "description": ""
+    },
+    {
+      "name": "Akut Röd",
+      "phonenumber": "727 22",
+      "type": "Reception/Tidsbest.",
+      "organisation": "S FO T/M",
+      "description": ""
+    },
+    {
+      "name": "DT-COP",
+      "phonenumber": "727 73",
+      "type": "Sjuksköterska",
+      "organisation": "S FO T/M",
+      "description": ""
+    },
+    {
+      "name": "DT-COP",
+      "phonenumber": 74502,
+      "type": "Sjuksköterska",
+      "organisation": "S FO T/M",
+      "description": ""
+    },
+    {
+      "name": "Akut grön",
+      "phonenumber": "745 90",
+      "type": "Reception/Tidsbest.",
+      "organisation": "S FO T/M",
+      "description": "Akuta lungor -15"
+    },
+    {
+      "name": "Akut grön",
+      "phonenumber": "745 09",
+      "type": "Reception",
+      "organisation": "S FO T/M",
+      "description": ""
+    },
+    {
+      "name": "Ultraljud",
+      "phonenumber": "708 50",
+      "type": "Reception/ Akut",
+      "organisation": "S FO T/M",
+      "description": ""
+    },
+    {
+      "name": "Ultraljud",
+      "phonenumber": "708 59",
+      "type": "Tidbokning",
+      "organisation": "S FO T/M",
+      "description": ""
+    },
+    {
+      "name": "Ultraljud",
+      "phonenumber": "707 82",
+      "type": "Läkare",
+      "organisation": "S FO T/M",
+      "description": ""
+    },
+    {
+      "name": "RTG LAB 42 (C4:27)",
+      "phonenumber": "943 56",
+      "type": "LAB 42 (C4:27)",
+      "organisation": "S FO T/M + Buk",
+      "description": ""
+    },
+    {
+      "name": "DT LAB 43 (C4:27)",
+      "phonenumber": "745 79",
+      "type": "DT LAB 43 (C4:27)",
+      "organisation": "S FO T/M + Buk",
+      "description": ""
+    },
+    {
+      "name": "Granskning (C4:27)",
+      "phonenumber": "943 57",
+      "type": "Läkare",
+      "organisation": "S FO T/M + Buk",
+      "description": ""
+    },
+    {
+      "name": "RECEPTION (F5:75 / C5:25)",
+      "phonenumber": "719 54",
+      "type": "RECEPTION (F5:75 / C5:25)",
+      "organisation": "S FO T/M + Buk",
+      "description": ""
+    },
+    {
+      "name": "Fax, Reception (F5:75 / C5:25)",
+      "phonenumber": "795 38",
+      "type": "Fax, Reception (F5:75 / C5:25)",
+      "organisation": "S FO T/M + Buk",
+      "description": ""
+    },
+    {
+      "name": "Fax, Mediarum (F5:75 / C5:25)",
+      "phonenumber": "930 44",
+      "type": "Fax, Mediarum (F5:75 / C5:25)",
+      "organisation": "S FO T/M + Buk",
+      "description": ""
+    },
+    {
+      "name": "RTG LAB 5 (F5:75)",
+      "phonenumber": "749 62",
+      "type": "RTG LAB 5 (F5:75)",
+      "organisation": "S FO T/M + Buk",
+      "description": ""
+    },
+    {
+      "name": "RTG LAB 6 (F5:75?)",
+      "phonenumber": "750 93",
+      "type": "RTG LAB 6 (F5:75?)",
+      "organisation": "S FO T/M + Buk",
+      "description": ""
+    },
+    {
+      "name": "DT LAB 3 (F5:75)",
+      "phonenumber": "745 70\n 936 46",
+      "type": "DT LAB 3 (F5:75)",
+      "organisation": "S FO T/M + Buk",
+      "description": ""
+    },
+    {
+      "name": "DT LAB 8 (F5:75)",
+      "phonenumber": "724 62",
+      "type": "DT LAB 8 (F5:75)",
+      "organisation": "S FO T/M + Buk",
+      "description": ""
+    },
+    {
+      "name": "Granskning (F5:75)",
+      "phonenumber": "725 09",
+      "type": "Läkare",
+      "organisation": "S FO T/M + Buk",
+      "description": ""
+    },
+    {
+      "name": "FIX (F5:75 / C5:25)",
+      "phonenumber": "745 10",
+      "type": "FIX (F5:75 / C5:25)",
+      "organisation": "S FO T/M + Buk",
+      "description": ""
+    },
+    {
+      "name": "G-LYS LAB 7 (F5:75)",
+      "phonenumber": "",
+      "type": "G-LYS LAB 7 (F5:75)",
+      "organisation": "S FO T/M + Buk",
+      "description": ""
+    },
+    {
+      "name": "Fredrik Haglund",
+      "phonenumber": "070-2835923",
+      "type": "FOC",
+      "organisation": "S FO T/M",
+      "description": "Avgående FOC, ersätts av Subhash Srivastava"
+    },
+    {
+      "name": "Mats Beckman",
+      "phonenumber": "073-9661948",
+      "type": "FEC",
+      "organisation": "S FO T/M",
+      "description": ""
+    },
+    {
+      "name": "Subhash Srivastava",
+      "phonenumber": "08-517 736 87",
+      "type": "TF FOC",
+      "organisation": "S FO T/M",
+      "description": ""
+    },
+    {
+      "name": "Kumba Swa Hammare",
+      "phonenumber": "072-5840740",
+      "type": "OVC",
+      "organisation": "S FO T/M",
+      "description": ""
+    },
+    {
+      "name": "Pepi Morales Gneib",
+      "phonenumber": "073-7471601",
+      "type": "OVC",
+      "organisation": "S FO T/M",
+      "description": ""
+    },
+    {
+      "name": "Jessica Filipsson",
+      "phonenumber": "072-469 87 37",
+      "type": "CHEFSASS",
+      "organisation": "S FO T/M",
+      "description": ""
+    }
+  ],
+  "FO Buk": [
+    {
+      "name": "INTERVENTION",
+      "phonenumber": "745 08",
+      "type": "Tidsbeställning",
+      "organisation": "S FO Buk?",
+      "description": ""
+    },
+    {
+      "name": "MR ADR",
+      "phonenumber": "743 93",
+      "type": "Tidsbeställning",
+      "organisation": "S FO Buk?",
+      "description": ""
+    },
+    {
+      "name": "MR ADR",
+      "phonenumber": "738 69",
+      "type": "Tidsbeställning",
+      "organisation": "S FO Buk?",
+      "description": "Internt nummer"
+    },
+    {
+      "name": "MR ADR",
+      "phonenumber": "743 93",
+      "type": "Akuta u.s dagtid",
+      "organisation": "S FO Buk?",
+      "description": ""
+    },
+    {
+      "name": "MR ADR",
+      "phonenumber": "764 37",
+      "type": "Läkare",
+      "organisation": "S FO Buk?",
+      "description": "Lab 18"
+    },
+    {
+      "name": "MR ADR",
+      "phonenumber": "729 87",
+      "type": "Läkare",
+      "organisation": "S FO Buk?",
+      "description": "Lab 30/31"
+    },
+    {
+      "name": "(C-rtg) Samordnare",
+      "phonenumber": "738 69",
+      "type": "TIDSBOKNINGEN (C-rtg)",
+      "organisation": "S FO Buk?",
+      "description": "Tuija Ögrim"
+    },
+    {
+      "name": "(C-rtg) Ultraljud",
+      "phonenumber": "708 59, 753 00",
+      "type": "TIDSBOKNINGEN (C-rtg)",
+      "organisation": "S FO Buk?",
+      "description": "Marita internt"
+    },
+    {
+      "name": "(C-rtg) Datortomografi",
+      "phonenumber": "797 01",
+      "type": "TIDSBOKNINGEN (C-rtg)",
+      "organisation": "S FO Buk?",
+      "description": "Armi"
+    },
+    {
+      "name": "(C-rtg) Skelett/lungor/Njurar",
+      "phonenumber": "734 78",
+      "type": "TIDSBOKNINGEN (C-rtg)",
+      "organisation": "S FO Buk?",
+      "description": ""
+    },
+    {
+      "name": "ULTRALJUD (NKS)",
+      "phonenumber": "797 82",
+      "type": "RECEPTION (A5:01)",
+      "organisation": "S FO Buk",
+      "description": ""
+    },
+    {
+      "name": "ULTRALJUD (NKS)",
+      "phonenumber": "941 53",
+      "type": "LAB",
+      "organisation": "S FO Buk",
+      "description": ""
+    },
+    {
+      "name": "ULTRALJUD (NKS)",
+      "phonenumber": "941 54",
+      "type": "LAB",
+      "organisation": "S FO Buk",
+      "description": ""
+    },
+    {
+      "name": "ULTRALJUD (NKS)",
+      "phonenumber": "941 55",
+      "type": "LAB",
+      "organisation": "S FO Buk",
+      "description": ""
+    },
+    {
+      "name": "ULTRALJUD (NKS)",
+      "phonenumber": "941 56",
+      "type": "LAB",
+      "organisation": "S FO Buk",
+      "description": ""
+    },
+    {
+      "name": "ULTRALJUD (NKS)",
+      "phonenumber": "707 82",
+      "type": "GRANSKNING",
+      "organisation": "S FO Buk",
+      "description": ""
+    },
+    {
+      "name": "ULTRALJUD (NKS)",
+      "phonenumber": "708 50",
+      "type": "TJÄNSTELINJE",
+      "organisation": "S FO Buk",
+      "description": ""
+    },
+    {
+      "name": "MAGNETKAMERA (NKS)",
+      "phonenumber": "764 90",
+      "type": "RECEPTION",
+      "organisation": "S FO Buk",
+      "description": ""
+    },
+    {
+      "name": "MAGNETKAMERA (NKS)",
+      "phonenumber": "787 01",
+      "type": "TJÄNSTELINJE, Mohamed",
+      "organisation": "S FO Buk",
+      "description": ""
+    },
+    {
+      "name": "MAGNETKAMERA (NKS)",
+      "phonenumber": "743 90",
+      "type": "KOORDINATOR",
+      "organisation": "S FO Buk",
+      "description": ""
+    },
+    {
+      "name": "MAGNETKAMERA (NKS)",
+      "phonenumber": "729 87",
+      "type": "MR ansv BUK-radiolog",
+      "organisation": "S FO Buk",
+      "description": ""
+    },
+    {
+      "name": "MAGNETKAMERA (NKS)",
+      "phonenumber": "764 39",
+      "type": "MR ansv MSK-radiolog",
+      "organisation": "S FO Buk",
+      "description": ""
+    },
+    {
+      "name": "MAGNETKAMERA (NKS)",
+      "phonenumber": 94308,
+      "type": "TIDBOKNING Tuija Ögrim",
+      "organisation": "S FO Buk",
+      "description": ""
+    },
+    {
+      "name": "TIDBOKNING",
+      "phonenumber": 94201,
+      "type": "DT FO BUK",
+      "organisation": "S FO Buk",
+      "description": ""
+    },
+    {
+      "name": "TIDBOKNING",
+      "phonenumber": "74503,  072-4689285",
+      "type": "ELIN",
+      "organisation": "S FO Buk",
+      "description": ""
+    },
+    {
+      "name": "TIDBOKNING",
+      "phonenumber": "",
+      "type": "ARMI",
+      "organisation": "S FO Buk",
+      "description": ""
+    },
+    {
+      "name": "TIDBOKNING",
+      "phonenumber": "",
+      "type": "UL / TRAUMA MSK/G-LYS/\n INTERVENTION",
+      "organisation": "S FO Buk",
+      "description": ""
+    },
+    {
+      "name": "TIDBOKNING",
+      "phonenumber": 78701,
+      "type": "TUIJA (MR)",
+      "organisation": "S FO Buk",
+      "description": ""
+    },
+    {
+      "name": "TIDBOKNING",
+      "phonenumber": 70859,
+      "type": "MARITA (UL)",
+      "organisation": "S FO Buk",
+      "description": ""
+    },
+    {
+      "name": "Katarina Fredriksson",
+      "phonenumber": "072-5840707",
+      "type": "FOC",
+      "organisation": "S FO Buk",
+      "description": ""
+    },
+    {
+      "name": "Jan Bohlin",
+      "phonenumber": "076-8680932",
+      "type": "FEC",
+      "organisation": "S FO Buk",
+      "description": ""
+    },
+    {
+      "name": "Amar Karalli",
+      "phonenumber": "072-599 10 83",
+      "type": "FEC",
+      "organisation": "S FO Buk",
+      "description": ""
+    },
+    {
+      "name": "Roya Shams Latifi",
+      "phonenumber": "072-5968230",
+      "type": "OVC",
+      "organisation": "S FO Buk",
+      "description": ""
+    },
+    {
+      "name": "Ervin Polimac",
+      "phonenumber": "072 599 10 24",
+      "type": "OVC",
+      "organisation": "S FO Buk",
+      "description": ""
+    }
+  ],
+  "FO Thorax": [
+    {
+      "name": "THORAXRADIOLOGI (NKS)",
+      "phonenumber": "936 40",
+      "type": "RECEPTION (B5:14)",
+      "organisation": "S FO Thorax",
+      "description": ""
+    },
+    {
+      "name": "THORAXRADIOLOGI (NKS)",
+      "phonenumber": "931 17",
+      "type": "LAB 4 (B5:11) Dropin lungor",
+      "organisation": "S FO Thorax",
+      "description": ""
+    },
+    {
+      "name": "THORAXRADIOLOGI (NKS)",
+      "phonenumber": "738 89",
+      "type": "DT LAB 5 (C8:26)",
+      "organisation": "S FO Thorax",
+      "description": ""
+    },
+    {
+      "name": "THORAXRADIOLOGI (NKS)",
+      "phonenumber": "932 02",
+      "type": "DT LAB 6 (B5:11)",
+      "organisation": "S FO Thorax",
+      "description": ""
+    },
+    {
+      "name": "THORAXRADIOLOGI (NKS)",
+      "phonenumber": "936 57",
+      "type": "GRANSKNING DT",
+      "organisation": "S FO Thorax",
+      "description": ""
+    },
+    {
+      "name": "THORAXRADIOLOGI (NKS)",
+      "phonenumber": "763 43",
+      "type": "GRANSKNING Lungor",
+      "organisation": "S FO Thorax",
+      "description": ""
+    }
+  ],
+  "FO Barn": [
+    {
+      "name": "Reception Barn",
+      "phonenumber": "771 47",
+      "type": "Reception",
+      "organisation": "S FO Barn",
+      "description": ""
+    },
+    {
+      "name": "Tidbokning",
+      "phonenumber": "",
+      "type": "Tidbokning",
+      "organisation": "S FO Barn",
+      "description": ""
+    },
+    {
+      "name": "DT Lab Barn C7:?",
+      "phonenumber": "771 23",
+      "type": "Sjuksköterska",
+      "organisation": "S FO Barn",
+      "description": ""
+    },
+    {
+      "name": "RTG SSK JOURTID",
+      "phonenumber": "776 00",
+      "type": "Sjuksköterska",
+      "organisation": "S FO Barn",
+      "description": ""
+    },
+    {
+      "name": "Trauma telefon",
+      "phonenumber": "776 03",
+      "type": "Läkare?",
+      "organisation": "S FO Barn",
+      "description": ""
+    },
+    {
+      "name": "MR support",
+      "phonenumber": "716 10",
+      "type": "MTA? Läkare?",
+      "organisation": "S FO Barn",
+      "description": ""
+    }
+  ],
+  "FO Neuro": [
+    {
+      "name": "Neuroröntgenjour",
+      "phonenumber": 70000,
+      "type": "Läkare",
+      "organisation": "S FO Neuro",
+      "description": "Jour på Neuroröntgen"
+    },
+    {
+      "name": "Reception",
+      "phonenumber": "754 10",
+      "type": "Reception",
+      "organisation": "S FO Neuro",
+      "description": ""
+    },
+    {
+      "name": "Tidsbokning",
+      "phonenumber": "746 66, 735 08",
+      "type": "Tidsbokning",
+      "organisation": "S FO Neuro",
+      "description": ""
+    },
+    {
+      "name": "Bild och demo",
+      "phonenumber": "755 11",
+      "type": "Bild och demo",
+      "organisation": "S FO Neuro",
+      "description": "Neuroröntgens egna Bild & Demo"
+    },
+    {
+      "name": "Akuta beställningar",
+      "phonenumber": "746 63",
+      "type": "Akuta beställningar",
+      "organisation": "S FO Neuro",
+      "description": ""
+    },
+    {
+      "name": "Akuta undersökningar",
+      "phonenumber": "746 65",
+      "type": "Akuta undersökningar",
+      "organisation": "S FO Neuro",
+      "description": ""
+    },
+    {
+      "name": "Interventionsjour",
+      "phonenumber": "737 50",
+      "type": "Läkare",
+      "organisation": "S FO Neuro",
+      "description": ""
+    },
+    {
+      "name": "Angio lab 4",
+      "phonenumber": "740 04",
+      "type": "Angio lab 4",
+      "organisation": "S FO Neuro",
+      "description": ""
+    }
+  ],
+  "FO Klinisk Fysiologi": [],
+  "Övrigt": [
+    {
+      "name": "MTA Jourtid",
+      "phonenumber": "073-6251838",
+      "type": "MTA - Röntgen",
+      "organisation": "TEKNIK / ÖVRIGT",
+      "description": ""
+    },
+    {
+      "name": "Verkstaden",
+      "phonenumber": "745 14",
+      "type": "MTA - Röntgen",
+      "organisation": "TEKNIK / ÖVRIGT",
+      "description": ""
+    },
+    {
+      "name": "Ronnie Abrahamsson",
+      "phonenumber": "073 – 682 29 77",
+      "type": "MTA - Röntgen",
+      "organisation": "TEKNIK / ÖVRIGT",
+      "description": ""
+    },
+    {
+      "name": "Mathias Bratt",
+      "phonenumber": "073 – 699 43 39",
+      "type": "MTA - Röntgen",
+      "organisation": "TEKNIK / ÖVRIGT",
+      "description": ""
+    },
+    {
+      "name": "Roger Jonsson",
+      "phonenumber": "070 – 484 01 07",
+      "type": "MTA - Röntgen",
+      "organisation": "TEKNIK / ÖVRIGT",
+      "description": ""
+    },
+    {
+      "name": "Ali Mehran",
+      "phonenumber": "073 – 625 18 27",
+      "type": "MTA - Röntgen",
+      "organisation": "TEKNIK / ÖVRIGT",
+      "description": ""
+    },
+    {
+      "name": "Elisabet Ibring",
+      "phonenumber": "0700 85 68 15",
+      "type": "",
+      "organisation": "TEKNIK / ÖVRIGT",
+      "description": ""
+    },
+    {
+      "name": "Ris / Pacs beredskap",
+      "phonenumber": "073 - 625 18 38",
+      "type": "",
+      "organisation": "TEKNIK / ÖVRIGT",
+      "description": "Mån-Tors: 16.30-07.45\nFre – Mån: 16.00-07.45  "
+    },
+    {
+      "name": "Korridortelefon rond",
+      "phonenumber": "721 63",
+      "type": "",
+      "organisation": "TEKNIK / ÖVRIGT",
+      "description": ""
+    },
+    {
+      "name": "Anna",
+      "phonenumber": "076-5697630",
+      "type": "Bild och demo",
+      "organisation": "ADMIN / ARKIV",
+      "description": ""
+    },
+    {
+      "name": "Patricia",
+      "phonenumber": "713 32",
+      "type": "Bild och demo",
+      "organisation": "ADMIN / ARKIV",
+      "description": ""
+    },
+    {
+      "name": "Helena",
+      "phonenumber": "072- 2542241",
+      "type": "Bild och demo",
+      "organisation": "ADMIN / ARKIV",
+      "description": ""
+    },
+    {
+      "name": "Bild och demo",
+      "phonenumber": 74285,
+      "type": "Bild och demo",
+      "organisation": "ADMIN / ARKIV",
+      "description": ""
+    },
+    {
+      "name": "ORTOPETMOTTAGNING",
+      "phonenumber": "942 20",
+      "type": "RECEPTION",
+      "organisation": "Ortopedi",
+      "description": ""
+    },
+    {
+      "name": "ORTOPETMOTTAGNING",
+      "phonenumber": "729 25",
+      "type": "SSK MOTT KORRIDOR",
+      "organisation": "Ortopedi",
+      "description": ""
+    },
+    {
+      "name": "ORTOPETMOTTAGNING",
+      "phonenumber": "729 90",
+      "type": "TIDBOKNING",
+      "organisation": "Ortopedi",
+      "description": ""
+    },
+    {
+      "name": "Medicinsk Teknik (MT)",
+      "phonenumber": "880 00",
+      "type": "MT",
+      "organisation": "TEKNIK / ÖVRIGT",
+      "description": ""
+    },
+    {
+      "name": "SLL IT",
+      "phonenumber": "777 77",
+      "type": "IT",
+      "organisation": "TEKNIK / ÖVRIGT",
+      "description": ""
+    },
+    {
+      "name": "COOR",
+      "phonenumber": "780 90",
+      "type": "COOR",
+      "organisation": "TEKNIK / ÖVRIGT",
+      "description": ""
+    },
+    {
+      "name": "Vakt/Säkerhetsavdelning",
+      "phonenumber": "888 88",
+      "type": "VAKT",
+      "organisation": "TEKNIK / ÖVRIGT",
+      "description": ""
+    }
+  ]
+}
