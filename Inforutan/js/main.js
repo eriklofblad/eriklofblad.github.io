@@ -13,12 +13,11 @@ $(document).ready(function(){
     });
     */
 
-    /*
-    $('[data-toggle="tooltip"]').tooltip(
-        {
-            //verkar som att man behöver få option "selector:" att fungera för att få till snygg formatering av tooltips som kommer från dynamiskt insatt DOM
-        });
-    */
+    $(document).tooltip({
+        container: 'body',
+        selector: '[data-toggle]'
+    });
+
     $('#hjartstopp').click(function(){
         //console.log("Hjärtstopp klickad");
         $('#anafylaxiinfo').hide();
