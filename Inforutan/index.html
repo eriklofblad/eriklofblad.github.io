@@ -8,7 +8,11 @@
         <title>Infopanelen</title>
 
         <!-- Bootstrap -->
-        <link href="css/bootstrap.css" rel="stylesheet">
+		<link href="css/bootstrap.css" rel="stylesheet">
+		
+		<!--Font awesome-->
+
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -81,7 +85,7 @@
 						<div class="panel-heading">
 							<h4 class="panel-title">
 								<a data-toggle="collapse" data-parent="#akutgrupp" href="#hjartstoppinfo">
-									<span class="glyphicon glyphicon-heart"></span> Hjärtstopp
+									<span class="fa fa-heartbeat"></span> Hjärtstopp
 								</a>
 							</h4>
 						</div>
@@ -95,7 +99,12 @@
 									</div>
 									<li>Hämta och koppla defibrilator</li>
 								</ol>
-								<a href="490-40502-Rev-C-150dpi.png" class="btn btn-primary" target="_blank">A-HLR plansch</a>
+								<h4>Planscher Vuxna</h4>
+								<a href="A-HLR_plansch.png" class="btn btn-success btn-sm" target="_blank">A-HLR</a>
+								<a href="S-HLR_plansch.png" class="btn btn-warning btn-sm" target="_blank">S-HLR</a>
+								<h4>Planscher Barn</h4>
+								<a href="A-HLR_Barn_plansch.png" class="btn btn-info btn-sm" target="_blank">Barn A-HLR</a>
+								<a href="HLR-Barn_generell.png" class="btn btn-primary btn-sm" target="_blank">Barn HLR Allmänt</a>
 							</div>
 						</div>
 					</div>
@@ -125,12 +134,23 @@
 					<div class="panel panel-warning">
 						<div class="panel-heading">
 							<h4 class="panel-title">
-								<a data-toggle="collapse" data-parent="#akutgrupp" href="#lindrig">Lindrig kontrastreaktion</a>
+								<a data-toggle="collapse" data-parent="#akutgrupp" href="#lindrig"><span class="fa fa-medkit"></span> Lindrig kontrastreaktion</a>
 							</h4>
 						</div>
 						<div id="lindrig" class="panel-collapse collapse">
-							<div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-								Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</div>
+							<div class="panel-body">
+								<h5>Isolerade symtom (utan påverkan av ABCD)</h5>
+								<ul>
+									<li>Lugnt omhändertagnade</li>
+									<li>Säkra i.v. infart</li>
+									<li>Observation i minst 30 minuter</li>
+								</ul>
+								<h5>Kliande urticaria (utan påverkan av ABCD)</h5>
+								<ul>
+									<li>Tablett Aerius 10 mg</li>
+									<li>Observation under minst 30 minuter</li>
+								</ul>
+							</div>
 						</div>
 					</div>
 				</div>
