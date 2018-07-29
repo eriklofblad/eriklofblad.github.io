@@ -17,7 +17,7 @@ $(document).ready(function(){
         container: 'body',
         selector: '[data-toggle]'
     });
-
+    /*
     $('#hjartstopp').click(function(){
         //console.log("Hjärtstopp klickad");
         $('#anafylaxiinfo').hide();
@@ -39,8 +39,8 @@ $(document).ready(function(){
         $('#anafylaxiinfo').hide();
         $('#lindrig').show();
     });
-
-
+    */
+   
     $('#searchNumber').keyup(function(){
         $('#numberList').html('');
         //$('#state').val('');

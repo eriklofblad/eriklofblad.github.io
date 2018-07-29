@@ -22,10 +22,10 @@
     </head>
     <body>
 		<ul class="nav nav-tabs">
-			<li class="active"><a data-toggle="tab" href="#home"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></a></li>
-			<li><a data-toggle="tab" href="#phone"><span class="glyphicon glyphicon-earphone" aria-hidden="true"></span></a></li>
-			<li><a data-toggle="tab" href="#metod"><span class="glyphicon glyphicon-book" aria-hidden="true"></span></a></li>
-			<li><a data-toggle="tab" href="#schema"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></a></li>
+			<li class="active"><a data-toggle="tab" href="#home"><span class="glyphicon glyphicon-info-sign"></span></a></li>
+			<li><a data-toggle="tab" href="#phone"><span class="glyphicon glyphicon-earphone"></span></a></li>
+			<li><a data-toggle="tab" href="#metod"><span class="glyphicon glyphicon-book"></span></a></li>
+			<li><a data-toggle="tab" href="#schema"><span class="glyphicon glyphicon-calendar"></span></a></li>
 			<li><a data-toggle="tab" href="#akut" class="text-danger"><b>AKUT</b></a></li>
 		</ul>
 		
@@ -33,11 +33,14 @@
 			<div id="home" class="tab-pane fade in active container-fluid">
 				<h3>Om Inforutan</h3>
 				<p>I den här rutan kan vi lägga all möjlig information som vi behöver, t.ex. telefonnummer, metodböcker m.m.</p>
+				<div class="well">
+					<h4>Driftinfo</h4>
+				</div>
 			</div>
 			<div id="phone" class="tab-pane fade container-fluid">
 					<h3>Telefoni</h3>
-					<a href="http://informera.sll.se/catalogue.whtml?search_partuid=6eafc255-9f22-11e5-9b53-24e9b38a9f93" target="_blank" class="btn btn-primary btn-sm" aria-label="Solna">
-						<span class="glyphicon glyphicon-earphone" aria-hidden="true"></span>
+					<a href="http://informera.sll.se/catalogue.whtml?search_partuid=6eafc255-9f22-11e5-9b53-24e9b38a9f93" target="_blank" class="btn btn-primary btn-sm">
+						<span class="glyphicon glyphicon-earphone"></span>
 						Vision 80/20
 					</a>
 					<hr>
@@ -51,9 +54,9 @@
 			</div>
 			<div id="metod" class="tab-pane fade container-fluid">
 				<h3>Metodböcker</h3>
-				<div class="btn-group" role="group" aria-label="metodböcker">
-					<a href="http://ks.rontgen.interactit.se/Mod/Mbook/User/" target="_blank" class="btn btn-primary btn-sm" aria-label="Solna">Solna</a>
-					<a href="http://gantry.se/" target="_blank" class="btn btn-primary btn-sm" aria-label="Huddinge">Huddinge</a>
+				<div class="btn-group" role="group">
+					<a href="http://ks.rontgen.interactit.se/Mod/Mbook/User/" target="_blank" class="btn btn-primary btn-sm">Solna</a>
+					<a href="http://gantry.se/" target="_blank" class="btn btn-primary btn-sm">Huddinge</a>
 				</div>
 				<hr>
 				<form>
@@ -65,55 +68,71 @@
 			</div>
 			<div id="schema" class="tab-pane fade container-fluid">
 				<h3>Schema</h3>
-				<div class="btn-group" role="group" aria-label="scheman">
-					<a href="http://schema.medinet.se/ksrtgsolna" target="_blank" class="btn btn-primary btn-sm" aria-label="Solna">Solna</a>
-					<a href="http://schema.medinet.se/ksrtghuddinge" target="_blank" class="btn btn-primary btn-sm" aria-label="Huddinge">Huddinge</a>
-					<a href="https://schema.medinet.se/ksneurorad/schema/neuron" target="_blank" class="btn btn-warning btn-sm" aria-label="Neuro">Neuro</a>
+				<div class="btn-group" role="group">
+					<a href="http://schema.medinet.se/ksrtgsolna" target="_blank" class="btn btn-primary btn-sm">Solna</a>
+					<a href="http://schema.medinet.se/ksrtghuddinge" target="_blank" class="btn btn-primary btn-sm">Huddinge</a>
+					<a href="https://schema.medinet.se/ksneurorad/schema/neuron" target="_blank" class="btn btn-warning btn-sm">Neuro</a>
 				</div>
 			</div>
 			<div id="akut" class="tab-pane fade container-fluid">
 				<h3>AKUT</h3>
-				<div class="btn-group" role="group" aria-label="akut">
-					<button id="hjartstopp" type="button" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span> Hjärtstopp</button>
-					<button id="anafylaxi" type="button" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-pushpin" aria-hidden="true"></span> Anafylaxi</button>
-					<button id="kontrastreak" type="button" class="btn btn-warning btn-sm">Lindrig kontrastreaktion</button>
-				</div>
-				<hr>
-				<div id="hjartstoppinfo" style="display: none">
-					<h4>Hjärtstopp</h4>
-					<ol>
-						<li>LARMA tel 6000 </li>
-						<li>Påbörja HLR 30 kompressioner 2 inblåsningar</li>
-						<li>Hämta och koppla defibrilator</li>
-					</ol>
-				</div>
-				<div id="anafylaxiinfo" style="display: none">
-					<h4>Åtgärder vid anafylaxi</h4>
-					<ol>
-						<li>LARMA tel 6000 </li>
-						<li>Adrenalin – Emerade adrenalinpenna intramuskulärt utsida lår 0.3 mg Upprepas vid behov en gång.</li>	
-						<li>Syrgas 10 L/min på mask</li> 
-						<li>Sänkt huvudända</li> 
-						<li>Om medvetslöshet och avsaknad av andning starta HLR.</li> 
-						<li>Ringer infusion iv</li>
-						<li>Tablett Aerius 10 mg</li> 
-						<li>Tablett Betapred 0.5 mg x 10 alt injektion Betapred intravenöst 2 ml (4mg/ml)</li>
-					</ol>
-				</div>
-				<div id="lindrig" style="display: none">
-					<h4>Lindriga reaktioner på kontrastmedel</h4>
-					<br>
-					<h5>Isolerade symtom (utan påverkan av ABCD)</h5>
-					<ul>
-						<li>Lugnt omhändertagnade</li>
-						<li>Säkra i.v. infart</li>
-						<li>Observation i minst 30 minuter</li>
-					</ul>
-					<h5>Kliande urticaria (utan påverkan av ABCD)</h5>
-					<ul>
-						<li>Tablett Aerius 10 mg</li>
-						<li>Observation under minst 30 minuter</li>
-					</ul>
+				<div class="panel-group" id="akutgrupp">
+					<div class="panel panel-danger">
+						<div class="panel-heading">
+							<h4 class="panel-title">
+								<a data-toggle="collapse" data-parent="#akutgrupp" href="#hjartstoppinfo">
+									<span class="glyphicon glyphicon-heart"></span> Hjärtstopp
+								</a>
+							</h4>
+						</div>
+						<div id="hjartstoppinfo" class="panel-collapse collapse">
+							<div class="panel-body">
+								<ol>
+									<li>LARMA tel 6000 </li>
+									<li>Påbörja HLR</li>
+									<div class="well">
+										<h5>30:2</h5>
+									</div>
+									<li>Hämta och koppla defibrilator</li>
+								</ol>
+								<a href="490-40502-Rev-C-150dpi.png" class="btn btn-primary" target="_blank">A-HLR plansch</a>
+							</div>
+						</div>
+					</div>
+					<div class="panel panel-danger">
+						<div class="panel-heading">
+							<h4 class="panel-title">
+								<a data-toggle="collapse" data-parent="#akutgrupp" href="#anafylaxiinfo">
+									<span class="glyphicon glyphicon-pushpin"></span> Anafylaxi
+								</a>
+							</h4>
+						</div>
+						<div id="anafylaxiinfo" class="panel-collapse collapse">
+							<div class="panel-body">
+								<ol>
+									<li>LARMA tel 6000 </li>
+									<li>Adrenalin – Emerade adrenalinpenna intramuskulärt utsida lår 0.3 mg Upprepas vid behov en gång.</li>	
+									<li>Syrgas 10 L/min på mask</li> 
+									<li>Sänkt huvudända</li> 
+									<li>Om medvetslöshet och avsaknad av andning starta HLR.</li> 
+									<li>Ringer infusion iv</li>
+									<li>Tablett Aerius 10 mg</li> 
+									<li>Tablett Betapred 0.5 mg x 10 alt injektion Betapred intravenöst 2 ml (4mg/ml)</li>
+								</ol>
+							</div>
+						</div>
+					</div>
+					<div class="panel panel-warning">
+						<div class="panel-heading">
+							<h4 class="panel-title">
+								<a data-toggle="collapse" data-parent="#akutgrupp" href="#lindrig">Lindrig kontrastreaktion</a>
+							</h4>
+						</div>
+						<div id="lindrig" class="panel-collapse collapse">
+							<div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+								Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>

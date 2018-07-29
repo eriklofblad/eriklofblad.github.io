@@ -1,0 +1,48 @@
+<!-->
+				<div id="akutgrupp" class="btn-group" role="group">
+					<button id="hjartstopp" type="button" class="btn btn-danger btn-sm" data-toggle="collapse" data-target="#hjartstoppinfo" data-parent="#akutgrupp"><span class="glyphicon glyphicon-heart"></span> Hjärtstopp</button>
+					<button id="anafylaxi" type="button" class="btn btn-danger btn-sm" data-toggle="collapse" data-target="#anafylaxiinfo" data-parent="#akutgrupp"><span class="glyphicon glyphicon-pushpin"></span> Anafylaxi</button>
+					<button id="kontrastreak" type="button" class="btn btn-warning btn-sm">Lindrig kontrastreaktion</button>
+				</div>
+				<hr>
+				<div class="collapse" id="hjartstoppinfo1">
+					<div class="well">
+					<h4>Hjärtstopp</h4>
+						<ol>
+							<li>LARMA tel 6000 </li>
+							<li>Påbörja HLR 30 kompressioner 2 inblåsningar</li>
+							<li>Hämta och koppla defibrilator</li>
+						</ol>
+					</div>
+				</div>
+				<div class="collapse" id="anafylaxiinfo1">
+					<div class="well">
+						<h4>Åtgärder vid anafylaxi</h4>
+						<ol>
+							<li>LARMA tel 6000 </li>
+							<li>Adrenalin – Emerade adrenalinpenna intramuskulärt utsida lår 0.3 mg Upprepas vid behov en gång.</li>	
+							<li>Syrgas 10 L/min på mask</li> 
+							<li>Sänkt huvudända</li> 
+							<li>Om medvetslöshet och avsaknad av andning starta HLR.</li> 
+							<li>Ringer infusion iv</li>
+							<li>Tablett Aerius 10 mg</li> 
+							<li>Tablett Betapred 0.5 mg x 10 alt injektion Betapred intravenöst 2 ml (4mg/ml)</li>
+						</ol>
+					</div>
+				</div>
+				<div id="lindrig" style="display: none">
+					<h4>Lindriga reaktioner på kontrastmedel</h4>
+					<br>
+					<h5>Isolerade symtom (utan påverkan av ABCD)</h5>
+					<ul>
+						<li>Lugnt omhändertagnade</li>
+						<li>Säkra i.v. infart</li>
+						<li>Observation i minst 30 minuter</li>
+					</ul>
+					<h5>Kliande urticaria (utan påverkan av ABCD)</h5>
+					<ul>
+						<li>Tablett Aerius 10 mg</li>
+						<li>Observation under minst 30 minuter</li>
+					</ul>
+				</div>
+				</-->
