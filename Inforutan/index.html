@@ -1,18 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
         <title>Infopanelen</title>
 
         <!-- Bootstrap -->
-		<link href="css/bootstrap.css" rel="stylesheet">
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 		
 		<!--Font awesome-->
 
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
 
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -25,23 +24,27 @@
 		</style>
     </head>
     <body>
-		<ul class="nav nav-tabs">
-			<li class="active"><a data-toggle="tab" href="#home"><span class="glyphicon glyphicon-info-sign"></span></a></li>
-			<li><a data-toggle="tab" href="#phone"><span class="glyphicon glyphicon-earphone"></span></a></li>
-			<li><a data-toggle="tab" href="#metod"><span class="glyphicon glyphicon-book"></span></a></li>
-			<li><a data-toggle="tab" href="#schema"><span class="glyphicon glyphicon-calendar"></span></a></li>
-			<li><a data-toggle="tab" href="#akut" class="text-danger"><span class="fa fa-ambulance"></span><b> AKUT</b></a></li>
+		<ul class="nav nav-pills">
+			<li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#home"><i class="fas fa-info-circle"></i></a></li>
+			<li class="nav-item"><a class="nav-link" data-toggle="tab" href="#phone"><i class="fas fa-phone"></i></span></a></li>
+			<li class="nav-item"><a class="nav-link" data-toggle="tab" href="#metod"><i class="fas fa-book"></i></a></li>
+			<li class="nav-item"><a class="nav-link" data-toggle="tab" href="#schema"><i class="fas fa-calendar"></i></a></li>
+			<li class="nav-item"><a class="nav-link text-danger" data-toggle="tab" href="#akut"><span class="fas fa-ambulance"></span><b> AKUT</b></a></li>
 		</ul>
 		
 		<div class="tab-content">
-			<div id="home" class="tab-pane fade in active container-fluid">
+			<div id="home" class="tab-pane fade show active container-fluid mt-3">
 				<h3>Om Inforutan</h3>
 				<p>I den här rutan kan vi lägga all möjlig information som vi behöver, t.ex. telefonnummer, metodböcker m.m.</p>
-				<div class="well">
-					<h4>Driftinfo</h4>
+				<div class="card">
+					<div class="card-header">
+						<h4>Driftinfo</h4>
+					</div>
+					<div id="driftinfo-body" class="card-body">
+					</div>
 				</div>
 			</div>
-			<div id="phone" class="tab-pane fade container-fluid">
+			<div id="phone" class="tab-pane fade container-fluid mt-3">
 					<h3>Telefoni</h3>
 					<a href="http://informera.sll.se/catalogue.whtml?search_partuid=6eafc255-9f22-11e5-9b53-24e9b38a9f93" target="_blank" class="btn btn-primary btn-sm">
 						<span class="glyphicon glyphicon-earphone"></span>
@@ -56,7 +59,7 @@
 					<table id="numberList" class="table table-striped"></table>
 				
 			</div>
-			<div id="metod" class="tab-pane fade container-fluid">
+			<div id="metod" class="tab-pane fade container-fluid mt-3">
 				<h3>Metodböcker</h3>
 				<div class="btn-group" role="group">
 					<a href="http://ks.rontgen.interactit.se/Mod/Mbook/User/" target="_blank" class="btn btn-primary btn-sm">Solna</a>
@@ -70,7 +73,7 @@
 					</div>
 				</form>
 			</div>
-			<div id="schema" class="tab-pane fade container-fluid">
+			<div id="schema" class="tab-pane fade container-fluid mt-3">
 				<h3>Schema</h3>
 				<div class="btn-group" role="group">
 					<a href="http://schema.medinet.se/ksrtgsolna" target="_blank" class="btn btn-primary btn-sm">Solna</a>
@@ -78,46 +81,46 @@
 					<a href="https://schema.medinet.se/ksneurorad/schema/neuron" target="_blank" class="btn btn-warning btn-sm">Neuro</a>
 				</div>
 			</div>
-			<div id="akut" class="tab-pane fade container-fluid">
+			<div id="akut" class="tab-pane fade container-fluid mt-3">
 				<h3>AKUT</h3>
-				<div class="panel-group" id="akutgrupp">
-					<div class="panel panel-danger">
-						<div class="panel-heading">
-							<h4 class="panel-title">
-								<a data-toggle="collapse" data-parent="#akutgrupp" href="#hjartstoppinfo">
+				<div class="accordion" id="akutgrupp">
+					<div class="card">
+						<div class="card-header bg-danger">
+							<h5 class="mb-0">
+								<a class="text-white" data-toggle="collapse" href="#hjartstoppinfo">
 									<span class="fa fa-heartbeat"></span> Hjärtstopp
 								</a>
-							</h4>
+							</h5>
 						</div>
-						<div id="hjartstoppinfo" class="panel-collapse collapse">
-							<div class="panel-body">
+						<div id="hjartstoppinfo" class="collapse" data-parent="#akutgrupp">
+							<div class="card-body">
 								<ol>
 									<li>LARMA tel 6000 </li>
 									<li>Påbörja HLR</li>
-									<div class="well">
-										<h5>30:2</h5>
+									<div class="card-body">
+										<h5 class="mb-0">30:2</h5>
 									</div>
 									<li>Hämta och koppla defibrilator</li>
 								</ol>
-								<h4>Planscher Vuxna</h4>
-								<a href="A-HLR_plansch.png" class="btn btn-success btn-sm" target="_blank">A-HLR</a>
-								<a href="S-HLR_plansch.png" class="btn btn-warning btn-sm" target="_blank">S-HLR</a>
-								<h4>Planscher Barn</h4>
-								<a href="A-HLR_Barn_plansch.png" class="btn btn-info btn-sm" target="_blank">Barn A-HLR</a>
-								<a href="HLR-Barn_generell.png" class="btn btn-primary btn-sm" target="_blank">Barn HLR Allmänt</a>
+								<h5>Planscher Vuxna</h5>
+								<a href="A-HLR_plansch.png" class="btn btn-sm btn-success" target="_blank">A-HLR</a>
+								<a href="S-HLR_plansch.png" class="btn btn-sm btn-warning" target="_blank">S-HLR</a>
+								<h5>Planscher Barn</h5>
+								<a href="A-HLR_Barn_plansch.png" class="btn btn-sm btn-info" target="_blank">Barn A-HLR</a>
+								<a href="HLR-Barn_generell.png" class="btn btn-sm btn-primary" target="_blank">Barn HLR Allmänt</a>
 							</div>
 						</div>
 					</div>
-					<div class="panel panel-danger">
-						<div class="panel-heading">
-							<h4 class="panel-title">
-								<a data-toggle="collapse" data-parent="#akutgrupp" href="#anafylaxiinfo">
-									<span class="glyphicon glyphicon-pushpin"></span> Anafylaxi
+					<div class="card">
+						<div class="card-header bg-danger">
+							<h5 class="mb-0">
+								<a class="text-white" data-toggle="collapse"  href="#anafylaxiinfo">
+									<span class="fas fa-syringe"></span> Anafylaxi
 								</a>
-							</h4>
+							</h5>
 						</div>
-						<div id="anafylaxiinfo" class="panel-collapse collapse">
-							<div class="panel-body">
+						<div id="anafylaxiinfo" class="collapse" data-parent="#akutgrupp">
+							<div class="card-body">
 								<ol>
 									<li>LARMA tel 6000 </li>
 									<li>Adrenalin – Emerade adrenalinpenna intramuskulärt utsida lår 0.3 mg Upprepas vid behov en gång.</li>	
@@ -131,14 +134,14 @@
 							</div>
 						</div>
 					</div>
-					<div class="panel panel-warning">
-						<div class="panel-heading">
-							<h4 class="panel-title">
-								<a data-toggle="collapse" data-parent="#akutgrupp" href="#lindrig"><span class="fa fa-medkit"></span> Lindrig kontrastreaktion</a>
-							</h4>
+					<div class="card">
+						<div class="card-header bg-warning">
+							<h5 class="mb-0">
+								<a class="text-white" data-toggle="collapse" href="#lindrig"><span class="fa fa-medkit"></span> Lindrig kontrastreaktion</a>
+							</h5>
 						</div>
-						<div id="lindrig" class="panel-collapse collapse">
-							<div class="panel-body">
+						<div id="lindrig" class="collapse" data-parent="#akutgrupp">
+							<div class="card-body">
 								<h5>Isolerade symtom (utan påverkan av ABCD)</h5>
 								<ul>
 									<li>Lugnt omhändertagnade</li>
@@ -161,9 +164,10 @@
 
 		
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
         <!-- Include all compiled plugins (below), or include individual files as needed -->
-		<script src="js/bootstrap.min.js"></script>
 		<script src="js/main.js"></script>
 		
     </body>
