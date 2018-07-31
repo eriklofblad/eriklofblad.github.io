@@ -40,7 +40,15 @@ $(document).ready(function(){
         $('#lindrig').show();
     });
     */
-   
+
+    $.get('Akut driftinformation-Inuti_2.htm', function(data){
+        news_elements = $(data).find('.news');
+        $(news_elements).addClass('list-group').removeClass('news');
+        $('#driftinfo-body').append(news_elements);
+        $(".list-group li").addClass('list-group-item bg-warning');
+        $(".list-group-item a").addClass('text-danger');
+    });
+
     $('#searchNumber').keyup(function(){
         $('#numberList').html('');
         //$('#state').val('');
