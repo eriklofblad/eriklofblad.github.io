@@ -17,37 +17,64 @@ $(document).ready(function(){
         container: 'body',
         selector: '[data-toggle]'
     });
+    
+    // $("#driftinfo-body").load("Akut_driftinformation-Inuti_2.htm")
+
     /*
-    $('#hjartstopp').click(function(){
-        //console.log("Hjärtstopp klickad");
-        $('#anafylaxiinfo').hide();
-        $('#lindrig').hide();
-        $('#hjartstoppinfo').show();
+    $.ajax({
+        url: "www.dn.se",
+        success: function(data){
+            $('#driftinfo-body').append(data);
+        }
     });
 
-    $('#anafylaxi').click(function(){
-        //console.log("Anafylaxi klickad");
-        $('#hjartstoppinfo').hide();
-        $('#lindrig').hide();
-        $('#anafylaxiinfo').show();
+    */
+    $.ajax({
+        url: 'Akut_driftinformation-Inuti_2.htm',
+        success: function(data){
+            //console.log(data);
+            var initial = String(data);
+            //console.log(initial);
+            var split1 = initial.split('<section class="news-list">');
+            var split2 = split1[1].split('</section>');
+            var news_elements = $(split2[0]);
+            $(news_elements).addClass('list-group').removeClass('news');
+            console.log(news_elements);
+            $('#driftinfo-body').append(news_elements);
+            $(".list-group li").addClass('list-group-item bg-warning');
+            $(".list-group-item a").addClass('text-danger');
+        }
+    });
+
+    /*
+    $.get('Akut_driftinformation-Inuti_2.htm', function(data){
+        console.log("AJAX lyckad");
+        //var news_selector = $('.news');
+        // var news_elements = $(".news", data);
+        var parser = new DOMParser();
+        var news_elements = parser.parseFromString(data, "text/html");
+        console.log(news_elements);
+        // news_elements.innerHTML = data;
+        // document.querySelector("#driftinfo-body").innerHTML = news_elements.getElementsByClassName("news").innerHTML;
+        console.log(news_elements.getElementsByClassName("news"));
+
+        $('#driftinfo-body').append(news_elements);
+
+        // document.getElementById("driftinfo-body").innerHTML = news_elements2.innerHTML;
+        // $(news_elements).addClass('list-group').removeClass('news');
+        // $('#driftinfo-body').append(news_elements);
+        // $('#driftinfo-body').html(news_elements2);
+        $(".list-group li").addClass('list-group-item bg-warning');
+        $(".list-group-item a").addClass('text-danger');
+        console.log("efter ajax processning");
         
     });
 
-    $('#kontrastreak').click(function(){
-        //console.log("Anafylaxi klickad");
-        $('#hjartstoppinfo').hide();
-        $('#anafylaxiinfo').hide();
-        $('#lindrig').show();
-    });
     */
 
-    $.get('Akut driftinformation-Inuti_2.htm', function(data){
-        news_elements = $(data).find('.news');
-        $(news_elements).addClass('list-group').removeClass('news');
-        $('#driftinfo-body').append(news_elements);
-        $(".list-group li").addClass('list-group-item bg-warning');
-        $(".list-group-item a").addClass('text-danger');
-    });
+
+
+
 
     $('#searchNumber').keyup(function(){
         $('#numberList').html('');
