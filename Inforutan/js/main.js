@@ -29,17 +29,43 @@ $(document).ready(function(){
     });
 
     */
+
+    /*
+    function loadDoc() {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                var split1 = this.responseText.split('<section class="news-list">');
+                //console.log(split1[1]);
+                var split2 = split1[1].split('</section>');
+                var news_elements = $(split2[0]);
+                $(news_elements).addClass('list-group').removeClass('news');
+                //console.log(news_elements);
+                $('#driftinfo-body').append(news_elements);
+                $(".list-group li").addClass('list-group-item bg-warning');
+                $(".list-group-item a").addClass('text-danger');
+            };
+        };
+        xhttp.open("GET", "Akut_driftinformation-Inuti_2.htm", true);
+        xhttp.send();
+    };
+
+    loadDoc();
+    */
+
     $.ajax({
-        url: 'Akut_driftinformation-Inuti_2.htm',
+        url: 'driftinfo_3.htm',
+        dataType: "html",
+        context: document.body,
         success: function(data){
             //console.log(data);
-            var initial = String(data);
             //console.log(initial);
-            var split1 = initial.split('<section class="news-list">');
+            var split1 = data.split('<section class="news-list">');
+            //onsole.log(split1[1]);
             var split2 = split1[1].split('</section>');
             var news_elements = $(split2[0]);
             $(news_elements).addClass('list-group').removeClass('news');
-            console.log(news_elements);
+            //console.log(news_elements);
             $('#driftinfo-body').append(news_elements);
             $(".list-group li").addClass('list-group-item bg-warning');
             $(".list-group-item a").addClass('text-danger');
