@@ -22,39 +22,18 @@ $(document).ready(function(){
 
     /*
     $.ajax({
-        url: "www.dn.se",
+        url: 'https://eriklofblad.github.io/Inforutan/driftinfo_3.htm',
+        type: 'GET',
+        crossDomain: true,
+        dataType: 'html',
         success: function(data){
             $('#driftinfo-body').append(data);
         }
     });
-
-    */
-
-    /*
-    function loadDoc() {
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
-                var split1 = this.responseText.split('<section class="news-list">');
-                //console.log(split1[1]);
-                var split2 = split1[1].split('</section>');
-                var news_elements = $(split2[0]);
-                $(news_elements).addClass('list-group').removeClass('news');
-                //console.log(news_elements);
-                $('#driftinfo-body').append(news_elements);
-                $(".list-group li").addClass('list-group-item bg-warning');
-                $(".list-group-item a").addClass('text-danger');
-            };
-        };
-        xhttp.open("GET", "Akut_driftinformation-Inuti_2.htm", true);
-        xhttp.send();
-    };
-
-    loadDoc();
     */
 
     $.ajax({
-        url: 'driftinfo_3.htm',
+        url: 'https://eriklofblad.github.io/Inforutan/driftinfo_3.htm',
         dataType: "html",
         context: document.body,
         success: function(data){
@@ -70,6 +49,15 @@ $(document).ready(function(){
             $(".list-group li").addClass('list-group-item bg-warning');
             $(".list-group-item a").addClass('text-danger');
         }
+    });
+
+    $.ajax({
+        url: 'https://schema.medinet.se/ksneurorad/schema/neuron/language/se',
+        success: function(data){
+            var oncalldoctor = $(data).find("#day-79-2018-08-06");
+            $('#driftinfo-body').append(oncalldoctor);
+        }
+
     });
 
     /*
