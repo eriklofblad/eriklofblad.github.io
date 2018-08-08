@@ -1,6 +1,18 @@
 $(document).ready(function(){
     $.ajaxSetup({ cache: false });
     
+	
+	//Remember selected tab on refresh and between sessions
+    $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
+        localStorage.setItem('activeTab', $(e.target).attr('href'));
+    });
+    var activeTab = localStorage.getItem('activeTab');
+    if(activeTab){
+        $('#myTab a[href="' + activeTab + '"]').tab('show');
+    }
+
+	
+	
     /*
     //Test för att parsa komplexa JSON
     $.getJSON('telefonbok_2.json', function(json) {
@@ -17,78 +29,89 @@ $(document).ready(function(){
         container: 'body',
         selector: '[data-toggle]'
     });
-    
-    // $("#driftinfo-body").load("Akut_driftinformation-Inuti_2.htm")
-
     /*
-    $.ajax({
-        url: 'https://eriklofblad.github.io/Inforutan/driftinfo_3.htm',
-        type: 'GET',
-        crossDomain: true,
-        dataType: 'html',
-        success: function(data){
-            $('#driftinfo-body').append(data);
-        }
-    });
-    */
-
-    $.ajax({
-        url: 'https://eriklofblad.github.io/Inforutan/driftinfo_3.htm',
-        dataType: "html",
-        context: document.body,
-        success: function(data){
-            //console.log(data);
-            //console.log(initial);
-            var split1 = data.split('<section class="news-list">');
-            //onsole.log(split1[1]);
-            var split2 = split1[1].split('</section>');
-            var news_elements = $(split2[0]);
-            $(news_elements).addClass('list-group').removeClass('news');
-            //console.log(news_elements);
-            $('#driftinfo-body').append(news_elements);
-            $(".list-group li").addClass('list-group-item bg-warning');
-            $(".list-group-item a").addClass('text-danger');
-        }
+    $('#hjartstopp').click(function(){
+        //console.log("Hjärtstopp klickad");
+        $('#anafylaxiinfo').hide();
+        $('#lindrig').hide();
+        $('#hjartstoppinfo').show();
     });
 
-    $.ajax({
-        url: 'https://schema.medinet.se/ksneurorad/schema/neuron/language/se',
-        success: function(data){
-            var oncalldoctor = $(data).find("#day-79-2018-08-06");
-            $('#driftinfo-body').append(oncalldoctor);
-        }
-
-    });
-
-    /*
-    $.get('Akut_driftinformation-Inuti_2.htm', function(data){
-        console.log("AJAX lyckad");
-        //var news_selector = $('.news');
-        // var news_elements = $(".news", data);
-        var parser = new DOMParser();
-        var news_elements = parser.parseFromString(data, "text/html");
-        console.log(news_elements);
-        // news_elements.innerHTML = data;
-        // document.querySelector("#driftinfo-body").innerHTML = news_elements.getElementsByClassName("news").innerHTML;
-        console.log(news_elements.getElementsByClassName("news"));
-
-        $('#driftinfo-body').append(news_elements);
-
-        // document.getElementById("driftinfo-body").innerHTML = news_elements2.innerHTML;
-        // $(news_elements).addClass('list-group').removeClass('news');
-        // $('#driftinfo-body').append(news_elements);
-        // $('#driftinfo-body').html(news_elements2);
-        $(".list-group li").addClass('list-group-item bg-warning');
-        $(".list-group-item a").addClass('text-danger');
-        console.log("efter ajax processning");
+    $('#anafylaxi').click(function(){
+        //console.log("Anafylaxi klickad");
+        $('#hjartstoppinfo').hide();
+        $('#lindrig').hide();
+        $('#anafylaxiinfo').show();
         
     });
 
+    $('#kontrastreak').click(function(){
+        //console.log("Anafylaxi klickad");
+        $('#hjartstoppinfo').hide();
+        $('#anafylaxiinfo').hide();
+        $('#lindrig').show();
+    });
     */
+	webScraper();
+	setInterval(webScraper, 300000);
+	
+	function webScraper(){
+		var urlBase = 'http://inuti.karolinska.se';
+    //Akut info
+    $.get('/Infopanel/getWebPage.php', {site: 'http://inuti.karolinska.se/Driftinformation/Driftinformation/Akut-driftinformation/'}, function(html){
+	// $.get('/Infopanel/getWebPage.php', {site: 'http://localhost/Infopanel/AkutDriftinformation.htm'}, function(html){
+        var news_elements = $(html).find('.news');
 
-
-
-
+		$(news_elements).find('a').each(function() {
+			var link = $(this).attr('href');
+			//If other page than inuti
+			if (!link.startsWith('http')){
+				$(this).attr('href',  urlBase + link);
+			}
+		$(this).attr('target', '_blank');
+    });
+        $(news_elements).addClass('list-group').removeClass('news');
+        $('#akutdriftinfo-body').html(news_elements);
+        $('#akutdriftinfo-body .list-group li').addClass('list-group-item bg-warning');
+        $('.list-group-item a').addClass('text-danger');
+    });
+	
+	// Planerad info
+	    // $.get('/Infopanel/getWebPage.php', {site: 'http://inuti.karolinska.se/Driftinformation/Driftinformation/Planerad-driftsinformation/'}, function(html){
+		$.get('/Infopanel/getWebPage.php', {site: 'http://localhost/Infopanel/PlaneradDriftinformation.html'}, function(html){
+		var limitDate = new Date($.now());
+		limitDate.setDate(limitDate.getDate() + 2); //Today plus 2 days
+        var news_elements = $(html).find('.news');
+		$(news_elements).find('a').each(function() {
+						
+			var date = new Date($(this).prev().attr('datetime').substring(0,10));
+			if (date > limitDate){
+				$(this).parent().remove();
+			}
+			else{
+				var link = $(this).attr('href');
+				//If other page than inuti
+				if (!link.startsWith('http')){
+					$(this).attr('href',  urlBase + link);
+				}
+				$(this).attr('target', '_blank');
+				var textInfo = $(this).text();
+				
+				if(textInfo.toLowerCase().indexOf('pacs')>-1 || textInfo.toLowerCase().indexOf('ris')>-1 || textInfo.toLowerCase().indexOf('takecare')>-1){
+					$(this).parent().addClass('list-group-item bg-warning')
+					$(this).addClass('text-danger');
+				}
+				else{
+					$(this).parent().addClass('list-group-item bg-light');
+					$(this).addClass('text-info');
+				}
+			}
+    });
+        $(news_elements).addClass('list-group').removeClass('news');
+        $('#planeraddriftinfo-body').html(news_elements);
+        //$('#planeraddriftinfo-body .list-group li').addClass('list-group-item bg-light');
+    });
+	}
 
     $('#searchNumber').keyup(function(){
         $('#numberList').html('');
