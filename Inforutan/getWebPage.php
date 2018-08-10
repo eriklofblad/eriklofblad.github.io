@@ -16,8 +16,6 @@
 	curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
 	$html = curl_exec($ch);
 	curl_close($ch);
-	
-	$dom = new DOMDocument;
  
 	echo $html;
 
