@@ -52,19 +52,37 @@ $(document).ready(function(){
         $('#lindrig').show();
     });
     */
-	webScraper();
-	setInterval(webScraper, 300000);
+	webScraper(); //Run once before the loop
+	setInterval(webScraper, 300000); //Run every 5 minutes
 	
+	/**
+	This function works as a webscraper to get information from a local webpage at Karolinska University Hospital.
+	It requires the php file "getWebPage.php" which runs two times to be able to fetch the site content of to different sites.
+	The result is injected into the divs with id "akutdriftinfo-body" and "planeraddriftinfo-body" within the file index.html
+	*/
 	function webScraper(){
-		var urlBase = 'http://inuti.karolinska.se';
-    //Akut info
-    $.get('/Infopanel/getWebPage.php', {site: 'http://inuti.karolinska.se/Driftinformation/Driftinformation/Akut-driftinformation/'}, function(html){
-	// $.get('/Infopanel/getWebPage.php', {site: 'http://localhost/Infopanel/AkutDriftinformation.htm'}, function(html){
-        var news_elements = $(html).find('.news');
+		var urlBase = 'http://inuti.karolinska.se'; //added to the relative paths scraped from the webpages
+		
+    /*
+	Akut info
+	*/
+		// Working on hospital network (Uncomment and remove the test link below this link)
+		// $.get('/Infopanel/getWebPage.php', {site: 'http://inuti.karolinska.se/Driftinformation/Driftinformation/Akut-driftinformation/'}, function(html){
+		
+		//######################### OBS Testing purpose only (Remove on production) OBS ######################
+		$.get('/Infopanel/getWebPage.php', {site: 'http://localhost/Infopanel/AkutDriftinformation.htm'}, function(html){
+    	//######################### OBS Testing purpose only (Remove on production) OBS ######################    
+		
+		//Extract the news tag
+		var news_elements = $(html).find('.news');
 
+		//Loop through news
 		$(news_elements).find('a').each(function() {
+			
+			//Extract link to news
 			var link = $(this).attr('href');
-			//If other page than inuti
+			
+			//If not external link add the url base to relative link
 			if (!link.startsWith('http')){
 				$(this).attr('href',  urlBase + link);
 			}
@@ -76,27 +94,48 @@ $(document).ready(function(){
         $('.list-group-item a').addClass('text-danger');
     });
 	
-	// Planerad info
+	/*
+	Planerad info
+	*/
+		// Working on hospital network (Uncomment and remove the test link below this link)
 	    // $.get('/Infopanel/getWebPage.php', {site: 'http://inuti.karolinska.se/Driftinformation/Driftinformation/Planerad-driftsinformation/'}, function(html){
+		
+		//######################### OBS Testing purpose only (Remove on production) OBS ######################
 		$.get('/Infopanel/getWebPage.php', {site: 'http://localhost/Infopanel/PlaneradDriftinformation.html'}, function(html){
+		//######################### OBS Testing purpose only (Remove on production) OBS ######################
+		
+		//The limit for how many days ahead should be displayed
 		var limitDate = new Date($.now());
 		limitDate.setDate(limitDate.getDate() + 2); //Today plus 2 days
+		
+		//Extract the news tag
         var news_elements = $(html).find('.news');
+		
+		//Loop through news
 		$(news_elements).find('a').each(function() {
-						
+			
+			//Extract the 10 first characters from the date in the news and convert it to Date-format
 			var date = new Date($(this).prev().attr('datetime').substring(0,10));
+			
+			//Remove news if older than limmit 
 			if (date > limitDate){
 				$(this).parent().remove();
 			}
+			//Display the news
 			else{
+				//Extract link to news
 				var link = $(this).attr('href');
-				//If other page than inuti
+				
+				//If not external link add the url base to relative link
 				if (!link.startsWith('http')){
 					$(this).attr('href',  urlBase + link);
 				}
 				$(this).attr('target', '_blank');
+				
+				//Extract the news information text
 				var textInfo = $(this).text();
 				
+				//If the information text contains pacs/ris/takecare make it orange background with red text
 				if(textInfo.toLowerCase().indexOf('pacs')>-1 || textInfo.toLowerCase().indexOf('ris')>-1 || textInfo.toLowerCase().indexOf('takecare')>-1){
 					$(this).parent().addClass('list-group-item bg-warning')
 					$(this).addClass('text-danger');
@@ -109,7 +148,6 @@ $(document).ready(function(){
     });
         $(news_elements).addClass('list-group').removeClass('news');
         $('#planeraddriftinfo-body').html(news_elements);
-        //$('#planeraddriftinfo-body .list-group li').addClass('list-group-item bg-light');
     });
 	}
 
