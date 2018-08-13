@@ -7,7 +7,7 @@ $(document).ready(function(){
     });
 
     $.ajax({
-        url: 'http://inuti.karolinska.se/Driftinformation/Driftinformation/Akut-driftinformation',
+        url: 'https://inuti.karolinska.se/Driftinformation/Driftinformation/Akut-driftinformation',
         dataType: "html",
         context: document.body,
         success: function(data){
