@@ -7,7 +7,7 @@ $(document).ready(function(){
     });
 
     $.ajax({
-        url: 'https://eriklofblad.github.io/Inforutan/driftinfo_3.htm',
+        url: 'http://inuti.karolinska.se/Driftinformation/Driftinformation/Akut-driftinformation',
         dataType: "html",
         context: document.body,
         success: function(data){
