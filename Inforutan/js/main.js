@@ -1,8 +1,8 @@
 $(document).ready(function(){
     $.ajaxSetup({ cache: false });
-    
-	
-	//Remember selected tab on refresh and between sessions
+
+
+    //Remember selected tab on refresh and between sessions
     $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
         localStorage.setItem('activeTab', $(e.target).attr('href'));
     });
@@ -11,49 +11,12 @@ $(document).ready(function(){
         $('#myTab a[href="' + activeTab + '"]').tab('show');
     }
 
-	
-	
-    /*
-    //Test för att parsa komplexa JSON
-    $.getJSON('telefonbok_2.json', function(json) {
-        $.each(json, function(key, value){
-            $('#home').append('<h3>'+key+'</h3>')
-            $.each(value, function(key2, value2){
-                $('#home').append('<p>Phonenumber: '+value2.name+'</p>')
-            });
-        });
-    });
-    */
-
     $(document).tooltip({
-        container: 'body',
-        selector: '[data-toggle]'
+      container: 'body',
+      selector: '[data-toggle]'
     });
-    /*
-    $('#hjartstopp').click(function(){
-        //console.log("Hjärtstopp klickad");
-        $('#anafylaxiinfo').hide();
-        $('#lindrig').hide();
-        $('#hjartstoppinfo').show();
-    });
-
-    $('#anafylaxi').click(function(){
-        //console.log("Anafylaxi klickad");
-        $('#hjartstoppinfo').hide();
-        $('#lindrig').hide();
-        $('#anafylaxiinfo').show();
-        
-    });
-
-    $('#kontrastreak').click(function(){
-        //console.log("Anafylaxi klickad");
-        $('#hjartstoppinfo').hide();
-        $('#anafylaxiinfo').hide();
-        $('#lindrig').show();
-    });
-    */
-	webScraper(); //Run once before the loop
-	setInterval(webScraper, 300000); //Run every 5 minutes
+    webScraper(); //Run once before the loop
+    setInterval(webScraper, 300000); //Run every 5 minutes
 	
 	/**
 	This function works as a webscraper to get information from a local webpage at Karolinska University Hospital.
@@ -86,8 +49,8 @@ $(document).ready(function(){
 			if (!link.startsWith('http')){
 				$(this).attr('href',  urlBase + link);
 			}
-		$(this).attr('target', '_blank');
-    });
+		    $(this).attr('target', '_blank');
+        });
         $(news_elements).addClass('list-group').removeClass('news');
         $('#akutdriftinfo-body').html(news_elements);
         $('#akutdriftinfo-body .list-group li').addClass('list-group-item bg-warning');
@@ -150,6 +113,7 @@ $(document).ready(function(){
         $('#planeraddriftinfo-body').html(news_elements);
     });
 	}
+
 
     $('#searchNumber').keyup(function(){
         $('#numberList').html('');
