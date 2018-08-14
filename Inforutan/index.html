@@ -1,10 +1,12 @@
+
 <!DOCTYPE html>
-<html lang="sv">
+<html lang="en">
     <head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+		<!-- <base href="http://inuti.karolinska.se" target="_blank"> -->
         <title>Infopanelen</title>
 
         <!-- Bootstrap -->
@@ -25,23 +27,30 @@
 		</style>
     </head>
     <body>
-		<ul class="nav nav-pills">
-			<li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#home"><i class="fas fa-info-circle"></i></a></li>
-			<li class="nav-item"><a class="nav-link" data-toggle="tab" href="#phone"><i class="fas fa-phone"></i></a></li>
-			<li class="nav-item"><a class="nav-link" data-toggle="tab" href="#metod"><i class="fas fa-book"></i></a></li>
-			<li class="nav-item"><a class="nav-link" data-toggle="tab" href="#schema"><i class="fas fa-calendar"></i></a></li>
-			<li class="nav-item"><a class="nav-link text-danger" data-toggle="tab" href="#akut"><span class="fas fa-ambulance"></span><b> AKUT</b></a></li>
+		<ul class="nav nav-tabs" id="myTab">
+			<li><a class="nav-link" data-toggle="tab" href="#home"><i class="fas fa-info-circle"></i></a></li>
+			<li><a class="nav-link" data-toggle="tab" href="#phone"><i class="fas fa-phone"></i></span></a></li>
+			<li><a class="nav-link" data-toggle="tab" href="#metod"><i class="fas fa-book"></i></a></li>
+			<li><a class="nav-link" data-toggle="tab" href="#schema"><i class="fas fa-calendar"></i></a></li>
+			<li><a class="nav-link text-danger" data-toggle="tab" href="#akut"><span class="fas fa-ambulance"></span><b> AKUT</b></a></li>
 		</ul>
-		
 		<div class="tab-content">
 			<div id="home" class="tab-pane fade show active container-fluid mt-3">
 				<h3>Om Inforutan</h3>
 				<p>I den här rutan kan vi lägga all möjlig information som vi behöver, t.ex. telefonnummer, metodböcker m.m.</p>
+				<a href="http://inuti.karolinska.se/Inuti/Verksamheter/Funktioner/Funktion-Bild-och-funktion/Projekt-RISPACS/" target="_blank" class="btn btn-primary btn-sm">
+						RIS/PACS manualer
+				</a>
 				<div class="card">
 					<div class="card-header">
-						<h4>Driftinfo</h4>
+						<h3>Akut Driftinfo</h3>
 					</div>
-					<div id="driftinfo-body" class="card-body">
+					<div id="akutdriftinfo-body" class="card-body driftinfo">
+					</div>
+					<div class="card-header">
+						<h3>Planerad Driftinfo</h3>
+					</div>
+					<div id="planeraddriftinfo-body" class="card-body driftinfo">
 					</div>
 				</div>
 			</div>
@@ -65,6 +74,7 @@
 				<div class="btn-group" role="group">
 					<a href="http://ks.rontgen.interactit.se/Mod/Mbook/User/" target="_blank" class="btn btn-primary btn-sm">Solna</a>
 					<a href="http://gantry.se/" target="_blank" class="btn btn-primary btn-sm">Huddinge</a>
+					<a href="http://www.fysiologen.se/" target="_blank" class="btn btn-warning btn-sm">Klinfys</a>
 				</div>
 				<hr>
 				<form>
@@ -80,6 +90,13 @@
 					<a href="https://schema.medinet.se/ksrtgsolna/schema/sateet" target="_blank" class="btn btn-primary btn-sm">Solna</a>
 					<a href="http://schema.medinet.se/ksrtghuddinge" target="_blank" class="btn btn-primary btn-sm">Huddinge</a>
 					<a href="https://schema.medinet.se/ksneurorad/schema/neuron" target="_blank" class="btn btn-warning btn-sm">Neuro</a>
+				</div>
+				<h4>Klinfys</h4>
+					<div class="btn-group" role="group">
+					<a href="https://schema.medinet.se/ksfys/schema/tyokoe" target="_blank" class="btn btn-primary btn-sm">S Läkare</a>
+					<a href="file:///S:/Kar/OnkTho/Fyskli/Solna/BMA" target="_blank" class="btn btn-primary btn-sm">S BMA</a>
+					<a href="https://schema.medinet.se/fyshe/schema/koetyo" target="_blank" class="btn btn-warning btn-sm">H Läkare</a>
+					<a href="file:///S:/Kar/OnkTho/Fyskli/Huddinge/BMA/Veckoschema BMA" target="_blank" class="btn btn-warning btn-sm">H BMA</a>
 				</div>
 			</div>
 			<div id="akut" class="tab-pane fade container-fluid mt-3">
