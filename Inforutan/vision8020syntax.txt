@@ -1,1 +1,4 @@
 http://informera.sll.se/engine_search.wsc?session=1&s_sokomr=0&searchmode=-1&s_fname=&s_ename=&s_anknr=&s1=l%F6fblad&s2=&s3=&textboxNames=s_sokomr%2Cs_anknr%2Cs1%2Cs2%2Cs3&search_partuid=6eafc255-9f22-11e5-9b53-24e9b38a9f93
+
+
+http://informera.sll.se/engine_search.wsc?s_univ=yu&searchmode=27&search_partuid=6eafc255-9f22-11e5-9b53-24e9b38a9f93
