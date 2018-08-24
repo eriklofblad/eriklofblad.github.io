@@ -8,7 +8,14 @@ $(document).ready(function () {
 		String.prototype.startsWith = function (search, pos) {
 			return this.substr(!pos || pos < 0 ? 0 : +pos, search.length) === search;
 		};
-	}
+    }
+    
+    userName = getUrlParameter('user') 
+    if(userName != ''){
+        console.log(userName);
+    }else{
+        console.log('no user')
+    }
 
 	/**
 	Hide collapseable card if pressed anywhere on the card
@@ -223,3 +230,10 @@ function webScraper() {
 		$('#odiHeaderNumber').text(numOngoing);
 	});
 }
+
+function getUrlParameter(name) {
+    name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+    var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+    var results = regex.exec(location.search);
+    return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+};

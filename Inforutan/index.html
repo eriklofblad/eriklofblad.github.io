@@ -35,7 +35,7 @@
 			background: #F5F4F0;
 		}
 
-		.driftinfoHeader {
+		.card-header {
 			cursor: pointer;
 		}
 
@@ -165,11 +165,9 @@
 		<div id="akut" class="tab-pane fade container-fluid mt-5">
 			<div class="accordion" id="akutgrupp">
 				<div class="card">
-					<div class="card-header bg-danger py-2">
-						<h5 class="m-0">
-							<a class="text-white" data-toggle="collapse" href="#hjartstoppinfo">
-								<span class="fa fa-heartbeat"></span> Hjärtstopp
-							</a>
+					<div class="card-header bg-danger py-2" data-toggle="collapse" data-target="#hjartstoppinfo">
+						<h5 class="m-0 text-white">
+							<span class="fa fa-heartbeat"></span> Hjärtstopp
 						</h5>
 					</div>
 					<div id="hjartstoppinfo" class="collapse" data-parent="#akutgrupp">
@@ -192,11 +190,9 @@
 					</div>
 				</div>
 				<div class="card">
-					<div class="card-header bg-danger py-2">
-						<h5 class="m-0">
-							<a class="text-white" data-toggle="collapse" href="#anafylaxiinfo">
+					<div class="card-header bg-danger py-2" data-toggle="collapse" data-target="#anafylaxiinfo">
+						<h5 class="m-0 text-white">
 								<span class="fas fa-syringe"></span> Anafylaxi
-							</a>
 						</h5>
 					</div>
 					<div id="anafylaxiinfo" class="collapse" data-parent="#akutgrupp">
@@ -215,10 +211,9 @@
 					</div>
 				</div>
 				<div class="card">
-					<div class="card-header bg-warning py-2">
-						<h5 class="m-0">
-							<a class="text-white" data-toggle="collapse" href="#lindrig">
-								<span class="fa fa-medkit"></span> Lindrig kontrastreaktion</a>
+					<div class="card-header bg-warning py-2" data-toggle="collapse" data-target="#lindrig">
+						<h5 class="m-0 text-white">
+								<span class="fa fa-medkit"></span> Lindrig kontrastreaktion
 						</h5>
 					</div>
 					<div id="lindrig" class="collapse" data-parent="#akutgrupp">
