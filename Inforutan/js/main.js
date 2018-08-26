@@ -10,6 +10,8 @@ $(document).ready(function () {
 		};
     }
 	
+	var userData
+
 	checkUser();
 
 	/**
@@ -28,9 +30,6 @@ $(document).ready(function () {
 		$(target).collapse('toggle');
 	});
 
-
-	//Remember selected tab on refresh and between sessions
-	keepTabOnReload();
 
 	//Scrape website
 	webScraper(); //Run once before the loop
@@ -226,6 +225,7 @@ function webScraper() {
 	});
 }
 
+//Function to parse the username from the query string
 function getUrlParameter(name) {
     name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
     var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
@@ -233,30 +233,54 @@ function getUrlParameter(name) {
     return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
 };
 
+//Check if a username is specified and if so set the user settings.
 function checkUser() {
 	userName = getUrlParameter('user') 
     if(userName != ''){
 		$("#navSettings").show();
-		$.get('check-user.php', {user: userName}, function(user){
-			if(user == ""){
-				console.log(user);
+		userFile = "userData/" + userName + ".json"
+		userData = $.ajax({
+			url: userFile,
+			dataType: "json",
+			error: function(xhr, status){
+				console.log(userFile);
+				console.log(status);
 				console.log("New user");
+				document.getElementById("userNameInput").value = userName;
 				document.getElementById("newUserAlert").className = "alert alert-primary";
 				document.getElementById("newUserAlert").innerHTML = "<h4>Välkommen som ny användare</h4><p>Ställ in dina inställningar och tryck sen på spara. Genom att spara godkänner du att den information om dig som du angett sparas på denna server. Du kan när som helst återkomma hit och ta bort dina användarinställningar.</p>"
-			}else if(user == "1"){
-				console.log(user);
+				document.getElementById("saveUserSettings").innerHTML = "Spara & Godkänn"
+				//Remember selected tab on refresh and between sessions
+				keepTabOnReload();
+			},
+			success: function(){
+				console.log(userFile);
 				console.log("User already excists");
+				console.log(userData);
 				populateUserSettings();
 			}
 		});
     }else{
-        console.log('no user');
+		console.log('no user');
+		//Remember selected tab on refresh and between sessions
+		keepTabOnReload();
     }
 }
 
+//This function is run when a known user logs on and applies that users settings.
 function populateUserSettings(){
-	userPhone1 = "0732476695";
+	document.getElementById("userNameInput").value = userName;
+	userPhone1 = userData.responseJSON.phoneNumber1;
 	document.getElementById("userPhonenumber").value = userPhone1;
-	dispPhone = "<p>Ditt telefonnummer är " + userPhone1 + "</p>"
 	document.getElementById("displayUserPhoneNumber").innerHTML = "<p>Ditt telefonnummer är " + userPhone1 + "</p>";
+	document.getElementById("settingStartSida").value = userData.responseJSON.startTab;
+	//if the user has set a specific start tab, start there. Otherwise start with the last tab.
+	if(userData.responseJSON.startTab == "1"){
+		//Remember selected tab on refresh and between sessions
+		keepTabOnReload();
+	}else{
+		$('#myTab a[href="#' + userData.responseJSON.startTab + '"]').tab('show');
+	}
+
+
 }
