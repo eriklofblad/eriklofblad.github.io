@@ -75,10 +75,16 @@
 		</li>
 		<li>
 			<a class="nav-link text-danger" data-toggle="tab" href="#akut">
-				<span class="fas fa-ambulance"></span>
+				<i class="fas fa-ambulance"></i>
 				<b> AKUT</b>
 			</a>
 		</li>
+		<li>
+			<a class="nav-link" id="navSettings" data-toggle="tab" href="#userSettings" style="display: none">
+				<i class="fas fa-cog"></i>
+			</a>
+		</li>
+
 	</ul>
 	<div class="tab-content">
 		<div id="home" class="tab-pane fade show active container-fluid mt-5">
@@ -114,6 +120,7 @@
 				Vision 80/20
 			</a>
 			<a href="http://136.155.84.120/personsokning.html" target="_blank" class="btn btn-primary btn-sm">Personsökning</a>
+			<div id="displayUserPhoneNumber" class="mt-2"></div>
 			<hr>
 			<form method="GET" action="http://informera.sll.se/engine_search.wsc" accept-charset="ISO-8859-1" target="_blank">
 				<label for="searchNumber">Interna telefonnummer</label>
@@ -233,6 +240,29 @@
 					</div>
 				</div>
 			</div>
+		</div>
+		<div id="userSettings" class="tab-pane fade container-fluid mt-5">
+			<h5>Användarinställningar</h5>
+			<div id="newUserAlert"></div>
+			<form action="set-user-settings.php">
+				<div class="form-group">
+					<label for="userPhonenumber">Mitt telefonnummer</label>
+					<input type="text" class="form-control" id="userPhonenumber" placeholder="Telefonnummer">
+					<small id="phoneHelp" class="form-text text-muted">Används för att automatiskt kunna göra personsökningar och visas i telefoni-fliken</small>
+				</div>
+				<div class="form-group">
+					<label for="settingStartSida">Startflik</label>
+					<select class="form-control" id="settingStartSida">
+						<option>Senast använda flik</option>
+						<option>Driftinfo</option>
+						<option>Telefoni</option>
+						<option>Metodbok</option>
+						<option>Schema</option>
+						<option>Akut</option>
+					</select>
+				</div>
+				<button type="submit" class="btn btn-primary">Spara</button>
+			</form>
 		</div>
 	</div>
 

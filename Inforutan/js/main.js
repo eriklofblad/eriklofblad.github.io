@@ -9,13 +9,8 @@ $(document).ready(function () {
 			return this.substr(!pos || pos < 0 ? 0 : +pos, search.length) === search;
 		};
     }
-    
-    userName = getUrlParameter('user') 
-    if(userName != ''){
-        console.log(userName);
-    }else{
-        console.log('no user')
-    }
+	
+	checkUser();
 
 	/**
 	Hide collapseable card if pressed anywhere on the card
@@ -103,7 +98,7 @@ function webScraper() {
 	Akut info
 	*/
 	// Working on hospital network (Uncomment and remove the test link below this link)
-	$.get('/Infopanel/getWebPage.php', { site: 'http://inuti.karolinska.se/Driftinformation/Driftinformation/Akut-driftinformation/' }, function (html) {
+	$.get('getWebPage.php', { site: 'http://inuti.karolinska.se/Driftinformation/Driftinformation/Akut-driftinformation/' }, function (html) {
 
 	//######################### OBS Testing purpose only (Remove on production) OBS ######################
 	// $.get('/Infopanel/getWebPage.php', { site: 'http://localhost/Infopanel/AkutDriftinformation.html' }, function (html) {
@@ -141,7 +136,7 @@ function webScraper() {
 	Planerad/Ongoing info
 	*/
 	// Working on hospital network (Uncomment and remove the test link below this link)
-	$.get('/Infopanel/getWebPage.php', { site: 'http://inuti.karolinska.se/Driftinformation/Driftinformation/Planerad-driftsinformation/' }, function (html) {
+	$.get('getWebPage.php', { site: 'http://inuti.karolinska.se/Driftinformation/Driftinformation/Planerad-driftsinformation/' }, function (html) {
 
 	//######################### OBS Testing purpose only (Remove on production) OBS ######################
 	// $.get('/Infopanel/getWebPage.php', { site: 'http://localhost/Infopanel/PlaneradDriftinformation.html' }, function (html) {
@@ -237,3 +232,31 @@ function getUrlParameter(name) {
     var results = regex.exec(location.search);
     return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
 };
+
+function checkUser() {
+	userName = getUrlParameter('user') 
+    if(userName != ''){
+		$("#navSettings").show();
+		$.get('check-user.php', {user: userName}, function(user){
+			if(user == ""){
+				console.log(user);
+				console.log("New user");
+				document.getElementById("newUserAlert").className = "alert alert-primary";
+				document.getElementById("newUserAlert").innerHTML = "<h4>Välkommen som ny användare</h4><p>Ställ in dina inställningar och tryck sen på spara. Genom att spara godkänner du att den information om dig som du angett sparas på denna server. Du kan när som helst återkomma hit och ta bort dina användarinställningar.</p>"
+			}else if(user == "1"){
+				console.log(user);
+				console.log("User already excists");
+				populateUserSettings();
+			}
+		});
+    }else{
+        console.log('no user');
+    }
+}
+
+function populateUserSettings(){
+	userPhone1 = "0732476695";
+	document.getElementById("userPhonenumber").value = userPhone1;
+	dispPhone = "<p>Ditt telefonnummer är " + userPhone1 + "</p>"
+	document.getElementById("displayUserPhoneNumber").innerHTML = "<p>Ditt telefonnummer är " + userPhone1 + "</p>";
+}
