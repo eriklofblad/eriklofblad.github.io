@@ -250,8 +250,7 @@ function checkUser() {
 				document.getElementById("newUserAlert").className = "alert alert-primary";
 				document.getElementById("newUserAlert").innerHTML = "<h4>Välkommen som ny användare</h4><p>Ställ in dina inställningar och tryck sen på spara. Genom att spara godkänner du att den information om dig som du angett sparas på denna server. Du kan när som helst återkomma hit och ta bort dina användarinställningar.</p>"
 				document.getElementById("saveUserSettings").innerHTML = "Spara & Godkänn"
-				//Remember selected tab on refresh and between sessions
-				keepTabOnReload();
+				$('#myTab a[href="#userSettings"]').tab('show');
 			},
 			success: function(){
 				console.log(userFile);
