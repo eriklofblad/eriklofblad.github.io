@@ -41,6 +41,11 @@ $(document).ready(function () {
 		selector: '[data-toggle]'
 	});
 
+	$('#userSettingsForm').submit(event, function(){
+		submitUserForm();
+		event.preventDefault();
+	});
+
 	//Search for phonenumbers
 	$('#searchNumber').keyup(function () {
 		$('#numberList').html('');
@@ -243,9 +248,8 @@ function checkUser() {
 			url: userFile,
 			dataType: "json",
 			error: function(xhr, status){
-				console.log(userFile);
 				console.log(status);
-				console.log("New user");
+				console.log('"'+ userName + '" is a new user');
 				document.getElementById("userNameInput").value = userName;
 				document.getElementById("newUserAlert").className = "alert alert-primary";
 				document.getElementById("newUserAlert").innerHTML = "<h4>Välkommen som ny användare</h4><p>Ställ in dina inställningar och tryck sen på spara. Genom att spara godkänner du att den information om dig som du angett sparas på denna server. Du kan när som helst återkomma hit och ta bort dina användarinställningar.</p>"
@@ -253,26 +257,37 @@ function checkUser() {
 				$('#myTab a[href="#userSettings"]').tab('show');
 			},
 			success: function(){
-				console.log(userFile);
-				console.log("User already excists");
-				console.log(userData);
+				console.log('User "' + userName +  '" already excists');
 				populateUserSettings();
 			}
 		});
     }else{
 		console.log('no user');
 		//Remember selected tab on refresh and between sessions
-		keepTabOnReload();
+		var activeTab = localStorage.getItem('activeTab');
+		if (activeTab != "#userSettings") {
+			keepTabOnReload();
+		}
     }
 }
 
 //This function is run when a known user logs on and applies that users settings.
 function populateUserSettings(){
-	document.getElementById("userNameInput").value = userName;
-	userPhone1 = userData.responseJSON.phoneNumber1;
-	document.getElementById("userPhonenumber").value = userPhone1;
-	document.getElementById("displayUserPhoneNumber").innerHTML = "<p>Ditt telefonnummer är " + userPhone1 + "</p>";
-	document.getElementById("settingStartSida").value = userData.responseJSON.startTab;
+	$.each(userData.responseJSON, function(key, value){
+		if(key != "medinetSite"){
+			$("[name=" + key + "]").val(value);
+		}
+		
+	});
+	if(userData.responseJSON.phoneNumber1 != ""){
+		document.getElementById("displayUserPhoneNumber").innerHTML = '<div class="alert alert-secondary">Ditt telefonnummer är ' + userData.responseJSON.phoneNumber1 + '<button type="button" class="close" data-dismiss="alert"><span>&times;</span></button></div>';
+	}
+	selectSite = "medinetSite" + userData.responseJSON.medinetSite;
+	document.getElementById(selectSite).checked = true;
+	document.getElementById(selectSite).parentNode.classList.add("active");
+	document.getElementById("SDusername").value = userData.responseJSON.statdxusername;
+	document.getElementById("SDpassword").value = userData.responseJSON.statdxpassword;
+
 	//if the user has set a specific start tab, start there. Otherwise start with the last tab.
 	if(userData.responseJSON.startTab == "1"){
 		//Remember selected tab on refresh and between sessions
@@ -280,6 +295,26 @@ function populateUserSettings(){
 	}else{
 		$('#myTab a[href="#' + userData.responseJSON.startTab + '"]').tab('show');
 	}
+}
 
-
+function submitUserForm(){
+	var formElement = document.getElementById('userSettingsForm');
+	var formData = new FormData(formElement);
+	$.ajax({
+		type: 'POST',
+		url: 'set-user-settings.php',
+		data: formData,
+		processData: false,
+		contentType: false
+	}).done(function(data){
+		$('#userSettingsForm').append('<div class="alert alert-success mt-3 alert-dismissible fade show" role="alert" id="postAlert">Inställningar sparade</div>');
+		setTimeout(function(){
+			$("#postAlert").alert('close');
+		}, 5000);
+	}).fail(function(){
+		$('#userSettingsForm').append('<div class="alert alert-danger mt-3 alert-dismissible fade show" role="alert" id="postAlert">Misslyckades med att spara dina instälningar</div>');
+		setTimeout(function(){
+			$("#postAlert").alert('close');
+		}, 5000);
+	});
 }
