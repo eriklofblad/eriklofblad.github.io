@@ -272,7 +272,9 @@ function checkUser() {
 }
 
 //This function is run when a known user logs on and applies that users settings.
-function populateUserSettings(){
+function populateUserSettings(repopulate = false){
+	console.log(repopulate);
+	
 	$.each(userData.responseJSON, function(key, value){
 		if(key != "medinetSite"){
 			$("[name=" + key + "]").val(value);
@@ -288,13 +290,33 @@ function populateUserSettings(){
 	document.getElementById("SDusername").value = userData.responseJSON.statdxusername;
 	document.getElementById("SDpassword").value = userData.responseJSON.statdxpassword;
 
-	//if the user has set a specific start tab, start there. Otherwise start with the last tab.
-	if(userData.responseJSON.startTab == "1"){
-		//Remember selected tab on refresh and between sessions
-		keepTabOnReload();
-	}else{
-		$('#myTab a[href="#' + userData.responseJSON.startTab + '"]').tab('show');
+	if(repopulate == false){
+		//if the user has set a specific start tab, start there. Otherwise start with the last tab.
+		if(userData.responseJSON.startTab == "1"){
+			//Remember selected tab on refresh and between sessions
+			keepTabOnReload();
+		}else{
+			$('#myTab a[href="#' + userData.responseJSON.startTab + '"]').tab('show');
+		}
 	}
+	
+	
+}
+
+function repopulateUserSettings(){
+	userName = getUrlParameter('user')
+	userFile = "userData/" + userName + ".json"
+	userData = $.ajax({
+		url: userFile,
+		dataType: "json",
+		error: function(xhr, status){
+			console.log(status);
+		},
+		success: function(){
+			console.log('Reloading user settings');
+			populateUserSettings(true);
+		}
+	});
 }
 
 function submitUserForm(){
@@ -307,14 +329,26 @@ function submitUserForm(){
 		processData: false,
 		contentType: false
 	}).done(function(data){
-		$('#userSettingsForm').append('<div class="alert alert-success mt-3 alert-dismissible fade show" role="alert" id="postAlert">Inställningar sparade</div>');
-		setTimeout(function(){
-			$("#postAlert").alert('close');
-		}, 5000);
+		if(data.startsWith("Success")){
+			$('#userSettingsForm').append('<div class="alert alert-success mt-3 alert-dismissible fade show" role="alert" id="postAlert">Inställningar sparade</div>');
+			setTimeout(function(){
+				$("#postAlert").alert('close');
+			}, 5000);
+			console.log(data);
+			repopulateUserSettings();
+		}else{
+			failAlert();
+			console.log(data);
+		}
+		
 	}).fail(function(){
-		$('#userSettingsForm').append('<div class="alert alert-danger mt-3 alert-dismissible fade show" role="alert" id="postAlert">Misslyckades med att spara dina instälningar</div>');
-		setTimeout(function(){
-			$("#postAlert").alert('close');
-		}, 5000);
+		failAlert();
 	});
+}
+
+function failAlert(){
+	$('#userSettingsForm').append('<div class="alert alert-danger mt-3 alert-dismissible fade show" role="alert" id="postAlert">Misslyckades med att spara dina instälningar</div>');
+	setTimeout(function(){
+		$("#postAlert").alert('close');
+	}, 5000);
 }
