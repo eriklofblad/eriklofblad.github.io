@@ -75,10 +75,16 @@
 		</li>
 		<li>
 			<a class="nav-link text-danger" data-toggle="tab" href="#akut">
-				<span class="fas fa-ambulance"></span>
+				<i class="fas fa-ambulance"></i>
 				<b> AKUT</b>
 			</a>
 		</li>
+		<li>
+			<a class="nav-link" id="navSettings" data-toggle="tab" href="#userSettings" style="display: none">
+				<i class="fas fa-cog"></i>
+			</a>
+		</li>
+
 	</ul>
 	<div class="tab-content">
 		<div id="home" class="tab-pane fade show active container-fluid mt-5">
@@ -114,6 +120,7 @@
 				Vision 80/20
 			</a>
 			<a href="http://136.155.84.120/personsokning.html" target="_blank" class="btn btn-primary btn-sm">Personsökning</a>
+			<div id="displayUserPhoneNumber" class="mt-2"></div>
 			<hr>
 			<form method="GET" action="http://informera.sll.se/engine_search.wsc" accept-charset="ISO-8859-1" target="_blank">
 				<label for="searchNumber">Interna telefonnummer</label>
@@ -140,7 +147,14 @@
 				<a href="http://www.fysiologen.se/" target="_blank" class="btn btn-warning btn-sm">Klinfys</a>
 			</div>
 			<hr>
-			<form>
+			<h6>Länkar</h6>
+			<form action="https://app.statdx.com/login" method="POST">
+				<input type="text" name="username" id="SDusername" hidden>
+				<input type="password" name="password" id="SDpassword" hidden>
+				<button class="btn btn-primary btn-sm" type="submit" target="_blank">StatDx</button>
+				<a href="http://www.imaios.com" class="btn btn-primary btn-sm">IMAIOS</a>
+			</form>
+			<form hidden>
 				<div class="form-group">
 					<label>Sök i Gantry</label>
 					<input type="text" class="form-control" placeholder="Sök...">
@@ -233,6 +247,55 @@
 					</div>
 				</div>
 			</div>
+		</div>
+		<div id="userSettings" class="tab-pane fade container-fluid mt-5">
+			<h5>Användarinställningar</h5>
+			<div id="newUserAlert"></div>
+			<form action="set-user-settings.php" id="userSettingsForm" method="POST">
+				<div class="form-group">
+					<label for="userNameLabel">Användarnamn</label>
+					<input type="text" class="form-control" id="userNameInput" value="" name="userName" readonly>
+				</div>
+				<div class="form-group">
+					<label for="userPhonenumber">Mitt telefonnummer</label>
+					<input type="text" class="form-control" id="userPhonenumber" placeholder="Telefonnummer" name="phoneNumber1">
+					<small id="userPhoneHelp" class="form-text text-muted">Används för att automatiskt kunna göra personsökningar och visas i telefoni-fliken</small>
+				</div>
+				<div class="form-group">
+					<label for="settingStartSida">Startflik</label>
+					<select class="custom-select" id="settingStartSida" name="startTab">
+						<option value="1">Senast använda flik</option>
+						<option value="home">Driftinfo</option>
+						<option value="phone">Telefoni</option>
+						<option value="metod">Metodbok</option>
+						<option value="schema">Schema</option>
+						<option value="akut">Akut</option>
+					</select>
+				</div>
+				<div class="form-group">
+					<label for="userMedinetPassword">Lösenord till medinet</label>
+					<input type="password" class="form-control" id="userMedinetPassword" placeholder="Lösenord" name="medinetPassword">
+					<div class="btn-group btn-group-toggle mt-2" data-toggle="buttons" id="chooseSite">
+						<label class="btn btn-secondary btn-sm">
+						  <input type="radio" name="medinetSite" id="medinetSiteSolnartg" value="Solnartg" autocomplete="off"> Solna
+						</label>
+						<label class="btn btn-secondary btn-sm">
+						  <input type="radio" name="medinetSite" id="medinetSiteHuddingertg" value="Huddingertg" autocomplete="off"> Huddinge
+						</label>
+						<label class="btn btn-secondary btn-sm">
+						  <input type="radio" name="medinetSite" id="medinetSiteNeuro" value="Neuro" autocomplete="off"> Neuro
+						</label>
+					</div>
+					<small id="medinetPasswordInfo" class="form-text text-muted">Används för att automatiskt kunna logga in på medinet via länken under schema</small>
+				</div>
+				<div class="form-group">
+					<label for="statDxUserName">Inloggningsuppgifter till StatDx</label>
+					<input type="text" class="form-control" name="statdxusername" id="statDxUserName" placeholder="Användarnamn">
+					<input type="password" class="form-control" name="statdxpassword" id="statDxPassword" placeholder="Lösenord">
+					<small class="form-text text-muted">Används för automatisk inloggning till StatDx</small>
+				</div>
+				<button id="saveUserSettings" type="submit" class="btn btn-primary">Spara</button>
+			</form>
 		</div>
 	</div>
 
