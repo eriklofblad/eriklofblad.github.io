@@ -289,8 +289,9 @@ function populateUserSettings(repopulate){
 	if(userData.responseJSON.phoneNumber1 != ""){
 		document.getElementById("displayUserPhoneNumber").innerHTML = '<div class="alert alert-secondary">Ditt telefonnummer är ' + userData.responseJSON.phoneNumber1 + '<button type="button" class="close" data-dismiss="alert"><span>&times;</span></button></div>';
 	}
-	selectSite = "medinetSite" + userData.responseJSON.medinetSite;
-	if(selectSite != ""){
+	
+	if(userData.responseJSON.medinetSite != null){
+		selectSite = "medinetSite" + userData.responseJSON.medinetSite;
 		document.getElementById(selectSite).checked = true;
 		document.getElementById(selectSite).parentNode.classList.add("active");
 	}
