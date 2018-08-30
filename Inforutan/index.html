@@ -164,7 +164,7 @@
 		<div id="schema" class="tab-pane fade container-fluid mt-5">
 			<h4>Schema</h4>
 			<div class="btn-group" role="group">
-				<a href="http://schema.medinet.se/ksrtgsolna" target="_blank" class="btn btn-primary btn-sm">Solna</a>
+				<a href="https://schema.medinet.se/ksrtgsolna/schema/sateet" target="_blank" class="btn btn-primary btn-sm">Solna</a>
 				<a href="http://schema.medinet.se/ksrtghuddinge" target="_blank" class="btn btn-primary btn-sm">Huddinge</a>
 				<a href="https://schema.medinet.se/ksneurorad/schema/neuron" target="_blank" class="btn btn-warning btn-sm">Neuro</a>
 			</div>
@@ -174,6 +174,34 @@
 				<a href="file:///S:/Kar/OnkTho/Fyskli/Solna/BMA" target="_blank" class="btn btn-primary btn-sm">S BMA</a>
 				<a href="https://schema.medinet.se/fyshe/schema/koetyo" target="_blank" class="btn btn-warning btn-sm">H Läkare</a>
 				<a href="file:///S:/Kar/OnkTho/Fyskli/Huddinge/BMA/Veckoschema BMA" target="_blank" class="btn btn-warning btn-sm">H BMA</a>
+			</div>
+			<hr>
+			<div id="jourLista">
+				<table class="table table-borderless">
+					<thead>
+						<tr>
+							<th scope="col" colspan="2">Dygnets jourer</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>Neuro Natt</td>
+							<td id="neuroNattJour">Oklart vem</td>
+						</tr>
+						<tr>
+							<td>Neuro Bakjour</td>
+							<td id="neuroBakjour"></td>
+						</tr>
+						<tr>
+							<td>Solna Kvällsjour</td>
+							<td id="solnaKvallsjour"></td>
+						</tr>
+						<tr>
+							<td>Solna Nattjour</td>
+							<td id="solnaNattjour"></td>
+						</tr>
+					</tbody>
+				</table>
 			</div>
 		</div>
 		<div id="akut" class="tab-pane fade container-fluid mt-5">
