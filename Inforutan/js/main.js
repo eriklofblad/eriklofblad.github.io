@@ -14,7 +14,10 @@ $(document).ready(function () {
 
     checkUser();
     
-    getOnCallDr();
+	getOnCallDr('https://schema.medinet.se/ksneurorad/schema/neuron', "day-79", "#neuroNattJour");
+	getOnCallDr('https://schema.medinet.se/ksneurorad/schema/neuron', "day-80", "#neuroBakjour");
+	getOnCallDr('https://schema.medinet.se/ksrtgsolna/schema/sateet', 'pm-190', "#solnaKvallsjour");
+	getOnCallDr('https://schema.medinet.se/ksrtgsolna/schema/sateet', 'pm-8', "#solnaNattjour");
 
 	/**
 	Hide collapseable card if pressed anywhere on the card
@@ -184,7 +187,7 @@ function webScraper() {
 
 				//If the information text contains PACS/RIS/takecare make it orange background with red text
 				if (textInfo.indexOf('PACS') > -1 || textInfo.indexOf('RIS') > -1 || textInfo.toLowerCase().indexOf('takecare') > -1) {
-					a.parent().addClass('list-group-item bg-warning py-0')
+					a.parent().addClass('list-group-item bg-warning py-0');
 					a.addClass('text-danger');
 				}
 
@@ -260,7 +263,7 @@ function checkUser() {
 			},
 			success: function(){
 				console.log('User "' + userName +  '" already excists');
-				populateUserSettings();
+				populateUserSettings(false);
 			}
 		});
     }else{
@@ -274,7 +277,7 @@ function checkUser() {
 }
 
 //This function is run when a known user logs on and applies that users settings.
-function populateUserSettings(repopulate = false){
+function populateUserSettings(repopulate){
 	console.log(repopulate);
 	
 	$.each(userData.responseJSON, function(key, value){
@@ -355,10 +358,21 @@ function failAlert(){
 	}, 5000);
 }
 
-function getOnCallDr(){
-    $.get('getWebPage.php', { site: 'https://schema.medinet.se/ksneurorad/schema/neuron' }, function (htmlData) {
-        console.log(htmlData);
-        var onCallInfo = $(htmlData).find("#day-79-2018-08-30");
-        console.log(onCallInfo);
-    });
+
+
+function getOnCallDr(medinetSite, position, elementId){
+	$.get('getWebPage.php', { site: medinetSite }, function (htmlData) {
+		var d = new Date(Date.now());
+		var isoString = d.toISOString();
+		var dateString = isoString.split("T");
+		var selectElement = "#" + position + "-" + dateString[0] + " td";
+		var onCallDrAbr = $(htmlData).find(selectElement).html()
+		var medinetUserSite = medinetSite + "/menu/users"
+		if(onCallDrAbr != ""){
+			$.get('getWebPage.php', { site: medinetUserSite }, function(html){
+				var o = $(html).find("td:contains(" + onCallDrAbr + ")");
+				$(elementId).html(o.prev().html());
+			});
+		}
+	});
 }
