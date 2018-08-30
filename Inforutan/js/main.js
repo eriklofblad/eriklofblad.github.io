@@ -12,7 +12,9 @@ $(document).ready(function () {
 	
 	var userData
 
-	checkUser();
+    checkUser();
+    
+    getOnCallDr();
 
 	/**
 	Hide collapseable card if pressed anywhere on the card
@@ -351,4 +353,12 @@ function failAlert(){
 	setTimeout(function(){
 		$("#postAlert").alert('close');
 	}, 5000);
+}
+
+function getOnCallDr(){
+    $.get('getWebPage.php', { site: 'https://schema.medinet.se/ksneurorad/schema/neuron' }, function (htmlData) {
+        console.log(htmlData);
+        var onCallInfo = $(htmlData).find("#day-79-2018-08-30");
+        console.log(onCallInfo);
+    });
 }
