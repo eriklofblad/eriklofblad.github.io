@@ -14,10 +14,11 @@ $(document).ready(function () {
 
     checkUser();
     
-	getOnCallDr('https://schema.medinet.se/ksneurorad/schema/neuron', "day-79", "#neuroNattJour");
-	getOnCallDr('https://schema.medinet.se/ksneurorad/schema/neuron', "day-80", "#neuroBakjour");
-	getOnCallDr('https://schema.medinet.se/ksrtgsolna/schema/sateet', 'pm-190', "#solnaKvallsjour");
-	getOnCallDr('https://schema.medinet.se/ksrtgsolna/schema/sateet', 'pm-8', "#solnaNattjour");
+	getOnCallDr('https://schema.medinet.se/ksneurorad/schema/neuron', {'day-79':"#neuroNattJour", 'day-80': "#neuroBakjour"});
+	getOnCallDr('https://schema.medinet.se/ksrtgsolna/schema/sateet', {'pm-190':"#solnaKvallsjour", 'pm-8':"#solnaNattjour"});
+	//getOnCallDr('https://schema.medinet.se/ksneurorad/schema/neuron', "day-80", "#neuroBakjour");
+	// getOnCallDr('https://schema.medinet.se/ksrtgsolna/schema/sateet', 'pm-190', "#solnaKvallsjour");
+	// getOnCallDr('https://schema.medinet.se/ksrtgsolna/schema/sateet', 'pm-8', "#solnaNattjour");
 
 	/**
 	Hide collapseable card if pressed anywhere on the card
@@ -364,19 +365,22 @@ function failAlert(){
 
 
 
-function getOnCallDr(medinetSite, position, elementId){
+function getOnCallDr(medinetSite, positionAndElement){
 	$.get('getWebPage.php', { site: medinetSite }, function (htmlData) {
+		var medinetUserSite = medinetSite + "/menu/users"
 		var d = new Date(Date.now());
 		var isoString = d.toISOString();
 		var dateString = isoString.split("T");
-		var selectElement = "#" + position + "-" + dateString[0] + " td";
-		var onCallDrAbr = $(htmlData).find(selectElement).html()
-		var medinetUserSite = medinetSite + "/menu/users"
-		if(onCallDrAbr != ""){
-			$.get('getWebPage.php', { site: medinetUserSite }, function(html){
-				var o = $(html).find("td:contains(" + onCallDrAbr + ")");
-				$(elementId).html(o.prev().html());
+		console.log("ett varv i getOnCallDr")
+		$.get('getWebPage.php', { site: medinetUserSite }, function(html){
+			$.each(positionAndElement, function(position, elementId){
+				var selectElement = "#" + position + "-" + dateString[0] + " td";
+				var onCallDrAbr = $(htmlData).find(selectElement).html()
+				if(onCallDrAbr != ""){
+					var o = $(html).find("td:contains(" + onCallDrAbr + ")");
+					$(elementId).html(o.prev().html());
+				}
 			});
-		}
+		});
 	});
 }
