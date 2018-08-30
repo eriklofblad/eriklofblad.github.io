@@ -290,12 +290,15 @@ function populateUserSettings(repopulate){
 		document.getElementById("displayUserPhoneNumber").innerHTML = '<div class="alert alert-secondary">Ditt telefonnummer är ' + userData.responseJSON.phoneNumber1 + '<button type="button" class="close" data-dismiss="alert"><span>&times;</span></button></div>';
 	}
 	selectSite = "medinetSite" + userData.responseJSON.medinetSite;
-	document.getElementById(selectSite).checked = true;
-	document.getElementById(selectSite).parentNode.classList.add("active");
+	if(selectSite != ""){
+		document.getElementById(selectSite).checked = true;
+		document.getElementById(selectSite).parentNode.classList.add("active");
+	}
+	
 	document.getElementById("SDusername").value = userData.responseJSON.statdxusername;
 	document.getElementById("SDpassword").value = userData.responseJSON.statdxpassword;
 
-	if(repopulate == false){
+	if(repopulate === false){
 		//if the user has set a specific start tab, start there. Otherwise start with the last tab.
 		if(userData.responseJSON.startTab == "1"){
 			//Remember selected tab on refresh and between sessions
