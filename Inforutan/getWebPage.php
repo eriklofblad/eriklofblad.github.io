@@ -5,7 +5,7 @@
 	//url to the site
     if(isset($_GET["site"]))
     {
-		$site = filter_var($_GET["site"], FILTER_SANITIZE_URL);
+		$site = $_GET["site"];
 		$cache_file = "cache/".hash('md5', $site).".html";
 		//Requires cURL to be installed on server
 		if (file_exists($cache_file) && (filemtime($cache_file) > (time() - 600 ))) { // 600 seconds = 10 min.
@@ -20,18 +20,18 @@
 			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 			$html = curl_exec($ch);
 			$contentType = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
-			$responseCode = curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
+			$responseCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 			curl_close($ch);
 			if($responseCode == 200){
-				$body = preg_replace("/.*<body[^>]*>|<\/body>.*/si", "", $html);
+				//$body = preg_replace("/.*<body[^>]*>|<\/body>.*/si", "", $html);
 				if(strpos($contentType, "ISO-8859-1") != FALSE){
-					$bodyencoded = mb_convert_encoding($body, "UTF-8", "ISO-8859-1");
-					file_put_contents($cache_file, $bodyencoded, LOCK_EX);
+					$htmlencoded = mb_convert_encoding($html, "UTF-8", "ISO-8859-1");
+					file_put_contents($cache_file, $htmlencoded, LOCK_EX);
 					
-					echo $bodyencoded;
+					echo $htmlencoded;
 				}else{
-					file_put_contents($cache_file, $body, LOCK_EX);
-					echo $body;
+					file_put_contents($cache_file, $html, LOCK_EX);
+					echo $html;
 				}
 			}else{
 				echo "Error";
