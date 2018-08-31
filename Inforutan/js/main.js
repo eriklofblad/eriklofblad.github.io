@@ -368,13 +368,26 @@ function getOnCallDr(medinetSite, positionAndElement){
 		var d = new Date(Date.now());
 		var isoString = d.toISOString();
 		var dateString = isoString.split("T");
-		console.log("ett varv i getOnCallDr")
+		if(medinetSite.search("sateet") != -1){
+			var firstCut = htmlData.indexOf('<td id="pm-8-');
+			console.log(firstCut);
+			var secondCut = htmlData.lastIndexOf('<td id="pm-8-');
+			console.log(secondCut);
+			var splitHtml = htmlData.slice(firstCut, secondCut);
+			console.log(splitHtml);
+			var splitHtml2 = "<tr><td><table><tbody><tr>" + splitHtml + "</tr></td></table></tbody></tr>"
+			var htmlData2 = $(splitHtml2);
+		}else{
+			var htmlData2 = $(htmlData);
+		}
 		$.get('getWebPage.php', { site: medinetUserSite }, function(html){
+			var html2 = $(html);
 			$.each(positionAndElement, function(position, elementId){
 				var selectElement = "#" + position + "-" + dateString[0] + " td";
-				var onCallDrAbr = $(htmlData).find(selectElement).html()
+				var onCallDrAbr = $(htmlData2).find(selectElement).html()
+				console.log("ett varv i getOnCallDr")
 				if(onCallDrAbr != ""){
-					var o = $(html).find("td:contains(" + onCallDrAbr + ")");
+					var o = $(html2).find("td:contains(" + onCallDrAbr + ")");
 					$(elementId).html(o.prev().html());
 				}
 			});
