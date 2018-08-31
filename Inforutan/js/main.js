@@ -373,10 +373,8 @@ function getOnCallDr(medinetSite, positionAndElement){
 			console.log(firstCut);
 			var secondCut = htmlData.lastIndexOf('<td id="pm-8-');
 			console.log(secondCut);
-			var splitHtml = htmlData.slice(firstCut, secondCut);
-			console.log(splitHtml);
-			var splitHtml2 = "<tr><td><table><tbody><tr>" + splitHtml + "</tr></td></table></tbody></tr>"
-			var htmlData2 = $(splitHtml2);
+			var splitHtml = "<tr><td><table><tbody><tr>" + htmlData.slice(firstCut, secondCut); + "</tr></td></table></tbody></tr>"
+			var htmlData2 = $(splitHtml);
 		}else{
 			var htmlData2 = $(htmlData);
 		}
