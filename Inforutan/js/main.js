@@ -1,5 +1,4 @@
 $(document).ready(function () {
-	$.ajaxSetup({ cache: false });
 
 	/**
 	Polyfill for missing function startsWith within Internet Explorer 
@@ -15,10 +14,7 @@ $(document).ready(function () {
     checkUser();
     
 	getOnCallDr('https://schema.medinet.se/ksneurorad/schema/neuron', {'day-79':"#neuroNattJour", 'day-80': "#neuroBakjour"});
-	getOnCallDr('https://schema.medinet.se/ksrtgsolna/schema/sateet', {'pm-190':"#solnaKvallsjour", 'pm-8':"#solnaNattjour"});
-	//getOnCallDr('https://schema.medinet.se/ksneurorad/schema/neuron', "day-80", "#neuroBakjour");
-	// getOnCallDr('https://schema.medinet.se/ksrtgsolna/schema/sateet', 'pm-190', "#solnaKvallsjour");
-	// getOnCallDr('https://schema.medinet.se/ksrtgsolna/schema/sateet', 'pm-8', "#solnaNattjour");
+	getOnCallDr('https://schema.medinet.se/ksrtgsolna/schema/sateet', {'pm-190':"#solnaKvallsjour", 'pm-189':"#solnaKvallsjour", 'pm-8':"#solnaNattjour", 'pm-7':"#solnaNattjour"});
 
 	/**
 	Hide collapseable card if pressed anywhere on the card
@@ -47,6 +43,7 @@ $(document).ready(function () {
 		selector: '[data-toggle]'
 	});
 
+	//catch the submitted form and handle with ajax instead.
 	$('#userSettingsForm').submit(event, function(){
 		submitUserForm();
 		event.preventDefault();
