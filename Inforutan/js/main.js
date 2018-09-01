@@ -368,16 +368,22 @@ function getOnCallDr(medinetSite, positionAndElement){
 		var d = new Date(Date.now());
 		var isoString = d.toISOString();
 		var dateString = isoString.split("T");
-		if(medinetSite.search("sateet") != -1){
-			var firstCut = htmlData.indexOf('<td id="pm-8-');
-			console.log(firstCut);
-			var secondCut = htmlData.lastIndexOf('<td id="pm-8-');
-			console.log(secondCut);
-			var splitHtml = "<tr><td><table><tbody><tr>" + htmlData.slice(firstCut, secondCut); + "</tr></td></table></tbody></tr>"
-			var htmlData2 = $(splitHtml);
-		}else{
-			var htmlData2 = $(htmlData);
-		}
+		var firstCut = Infinity;
+		var secondCut = 0;
+		$.each(positionAndElement, function(pos, elem){
+			var testFirstCut = htmlData.indexOf('<td id="' + pos + '-');
+			var testSecondCut = htmlData.lastIndexOf('<td id="' + pos + '-');
+			if(testFirstCut != -1 && testFirstCut < firstCut){
+				firstCut = testFirstCut;
+			}
+			if(testSecondCut != -1 && testSecondCut > secondCut){
+				secondCut = testSecondCut;
+			}
+		});
+		console.log(firstCut);
+		console.log(secondCut);
+		var splitHtml = "<tr><td><table><tbody><tr>" + htmlData.slice(firstCut, secondCut); + "</tr></td></table></tbody></tr>"
+		var htmlData2 = $(splitHtml);
 		$.get('getWebPage.php', { site: medinetUserSite }, function(html){
 			var html2 = $(html);
 			$.each(positionAndElement, function(position, elementId){
@@ -386,7 +392,13 @@ function getOnCallDr(medinetSite, positionAndElement){
 				console.log("ett varv i getOnCallDr")
 				if(onCallDrAbr != ""){
 					var o = $(html2).find("td:contains(" + onCallDrAbr + ")");
-					$(elementId).html(o.prev().html());
+					var insert = o.prev().children().html()
+					if(insert != undefined){
+						$(elementId).html(insert);
+					}else{
+						$(elementId).html(o.prev().html());
+					}
+					
 				}
 			});
 		});
