@@ -14,7 +14,8 @@ $(document).ready(function () {
     checkUser();
     
 	getOnCallDr('https://schema.medinet.se/ksneurorad/schema/neuron', {'day-79':"#neuroNattJour", 'day-80': "#neuroBakjour"});
-	getOnCallDr('https://schema.medinet.se/ksrtgsolna/schema/sateet', {'pm-190':"#solnaKvallsjour", 'pm-189':"#solnaKvallsjour", 'pm-8':"#solnaNattjour", 'pm-7':"#solnaNattjour"});
+	getOnCallDr('https://schema.medinet.se/ksrtgsolna/schema/sateet', {'pm-190':"#solnaKvallsjour", 'pm-189':"#solnaKvallsjour", 'pm-8':"#solnaNattjour", 'pm-7':"#solnaNattjour", 'pm-9':"#solnaMellanjour", 'pm-4':"#solnaNattBakjour", 'pm-5':"#solnaDagBakjour", 'pm-6':"#solnaHelgDagjour"}, ["bakjour" ,"mellanjour"]);
+	getOnCallDr('https://schema.medinet.se/ksfys/schema/tyokoe', {'pm-11':"#kfSkvall", 'pm-12':"#kfShelg"});
 
 	/**
 	Hide collapseable card if pressed anywhere on the card
@@ -78,13 +79,15 @@ $(document).ready(function () {
 Remember selected tab on refresh and between sessions
 Requires nav-tab to have myTab ID and the tabs to have the datatoggle "tab"
 */
-function keepTabOnReload() {
+function keepTabOnReload(inclSetTab) {
 	$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
 		localStorage.setItem('activeTab', $(e.target).attr('href'));
 	});
 	var activeTab = localStorage.getItem('activeTab');
 	if (activeTab) {
-		$('#myTab a[href="' + activeTab + '"]').tab('show');
+		if(inclSetTab || activeTab != "#userSettings"){
+			$('#myTab a[href="' + activeTab + '"]').tab('show');
+		}
 	}
 }
 
@@ -250,6 +253,7 @@ function checkUser() {
 		userData = $.ajax({
 			url: userFile,
 			dataType: "json",
+			cache: false,
 			error: function(xhr, status){
 				console.log(status);
 				console.log('"'+ userName + '" is a new user');
@@ -267,10 +271,7 @@ function checkUser() {
     }else{
 		console.log('no user');
 		//Remember selected tab on refresh and between sessions
-		var activeTab = localStorage.getItem('activeTab');
-		if (activeTab != "#userSettings") {
-			keepTabOnReload();
-		}
+		keepTabOnReload(false);
     }
 }
 
@@ -301,7 +302,7 @@ function populateUserSettings(repopulate){
 		//if the user has set a specific start tab, start there. Otherwise start with the last tab.
 		if(userData.responseJSON.startTab == "1"){
 			//Remember selected tab on refresh and between sessions
-			keepTabOnReload();
+			keepTabOnReload(true);
 		}else{
 			$('#myTab a[href="#' + userData.responseJSON.startTab + '"]').tab('show');
 		}
@@ -316,6 +317,7 @@ function repopulateUserSettings(){
 	userData = $.ajax({
 		url: userFile,
 		dataType: "json",
+		cache: false,
 		error: function(xhr, status){
 			console.log(status);
 		},
@@ -334,7 +336,8 @@ function submitUserForm(){
 		url: 'set-user-settings.php',
 		data: formData,
 		processData: false,
-		contentType: false
+		contentType: false,
+		cache: false
 	}).done(function(data){
 		if(data.startsWith("Success")){
 			$('#userSettingsForm').append('<div class="alert alert-success mt-3 alert-dismissible fade show" role="alert" id="postAlert">Inställningar sparade</div>');
@@ -362,12 +365,18 @@ function failAlert(){
 
 
 
-function getOnCallDr(medinetSite, positionAndElement){
-	$.get('getWebPage.php', { site: medinetSite }, function (htmlData) {
+function getOnCallDr(medinetSite, positionAndElement,medinetcuts){
+	if(medinetcuts != undefined){
+		var getWebPage = encodeURI("getWebPage.php?site="+medinetSite+"&medinetcut1="+medinetcuts[0]+"&medinetcut2="+medinetcuts[1]);
+	}else{
+		var getWebPage = encodeURI("getWebPage.php?site="+medinetSite);
+	}
+	$.get(getWebPage, function (htmlData) {
 		var medinetUserSite = medinetSite + "/menu/users"
 		var d = new Date(Date.now());
 		var isoString = d.toISOString();
 		var dateString = isoString.split("T");
+		/*
 		var firstCut = Infinity;
 		var secondCut = 0;
 		$.each(positionAndElement, function(pos, elem){
@@ -383,22 +392,30 @@ function getOnCallDr(medinetSite, positionAndElement){
 		console.log(firstCut);
 		console.log(secondCut);
 		var splitHtml = "<tr><td><table><tbody><tr>" + htmlData.slice(firstCut, secondCut); + "</tr></td></table></tbody></tr>"
-		var htmlData2 = $(splitHtml);
+		*/
+		var htmlData2 = $(htmlData);
 		$.get('getWebPage.php', { site: medinetUserSite }, function(html){
 			var html2 = $(html);
-			$.each(positionAndElement, function(position, elementId){
+			$.each(positionAndElement, function(position, elementId){			
 				var selectElement = "#" + position + "-" + dateString[0] + " td";
 				var onCallDrAbr = $(htmlData2).find(selectElement).html()
-				console.log("ett varv i getOnCallDr")
-				if(onCallDrAbr != ""){
-					var o = $(html2).find("td:contains(" + onCallDrAbr + ")");
-					var insert = o.prev().children().html()
-					if(insert != undefined){
-						$(elementId).html(insert);
-					}else{
-						$(elementId).html(o.prev().html());
+				if(onCallDrAbr != undefined && onCallDrAbr != "&nbsp;"){
+					var KFmedinet = medinetSite.indexOf("tyokoe");
+					if( KFmedinet != -1){
+						var onCallDrAbr = onCallDrAbr.charAt(0) + onCallDrAbr.charAt(2);
 					}
-					
+					console.log(onCallDrAbr);
+					var o = $(html2).find("td:contains(" + onCallDrAbr + ")");
+					var insert = o.prev().children().html();
+					console.log(insert);
+					if(insert != undefined){
+						$(elementId).append("<td>" + insert + "</td>");
+					}else if(o != undefined){
+						console.log(o.prev().html());
+						$(elementId).append("<td>" + o.prev().html() + "</td>");
+					}
+
+					$(elementId).show();			
 				}
 			});
 		});

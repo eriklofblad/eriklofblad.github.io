@@ -23,10 +23,24 @@
 			$responseCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 			curl_close($ch);
 			if($responseCode == 200){
-				$startpos = strpos($html, "<body>");
-				$endpos = strpos($html, "</body>");
+				if(isset($_GET["medinetcut1"]) && isset($_GET["medinetcut2"])){
+					$firstcut = $_GET["medinetcut1"];
+					$secondcut = $_GET["medinetcut2"];
+					$medinetconcat = true;
+				}else{
+					$firstcut = "<body>";
+					$secondcut = "</body>";
+					$medinetconcat1 = false;
+				}
+
+				$startpos = stripos($html, $firstcut);
+				$endpos = strripos($html, $secondcut);
 				$length = $endpos - $startpos;
-				$body = substr($html, $startpos, $length);
+				if($medinetconcat === true){
+					$body = "<body><td><tr><tbody><table><td>" . substr($html, $startpos, $length) . "</td></table></tbody></tr></td></body>";
+				}else{
+					$body = substr($html, $startpos, $length);
+				}
 				//$body = preg_replace('~<body[^>]*>(.*?)</body>~si', "", $html) or die("Unable to do preg_replace");
 				if(strpos($contentType, "ISO-8859-1") != FALSE){
 					$htmlencoded = mb_convert_encoding($body, "UTF-8", "ISO-8859-1");
