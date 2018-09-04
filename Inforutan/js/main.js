@@ -1,5 +1,5 @@
 $(document).ready(function () {
-
+	$.ajaxSetup({ cache: false });
 	/**
 	Polyfill for missing function startsWith within Internet Explorer 
 	*/
@@ -253,7 +253,6 @@ function checkUser() {
 		userData = $.ajax({
 			url: userFile,
 			dataType: "json",
-			cache: false,
 			error: function(xhr, status){
 				console.log(status);
 				console.log('"'+ userName + '" is a new user');
@@ -317,7 +316,6 @@ function repopulateUserSettings(){
 	userData = $.ajax({
 		url: userFile,
 		dataType: "json",
-		cache: false,
 		error: function(xhr, status){
 			console.log(status);
 		},
@@ -337,7 +335,6 @@ function submitUserForm(){
 		data: formData,
 		processData: false,
 		contentType: false,
-		cache: false
 	}).done(function(data){
 		if(data.startsWith("Success")){
 			$('#userSettingsForm').append('<div class="alert alert-success mt-3 alert-dismissible fade show" role="alert" id="postAlert">Inställningar sparade</div>');
