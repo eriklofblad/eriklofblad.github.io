@@ -36,7 +36,7 @@ $(document).ready(function () {
 
 	//Scrape website
 	webScraper(); //Run once before the loop
-	setInterval(webScraper, 300000); //Run every 5 minuteske
+	setInterval(webScraper, 300000); //Run every 5 minutes
 
 	//Show tooltip
 	$(document).tooltip({
@@ -108,7 +108,7 @@ function webScraper() {
 	Akut info
 	*/
 	// Working on hospital network (Uncomment and remove the test link below this link)
-	$.get('getWebPage.php', { site: 'http://inuti.karolinska.se/Driftinformation/Driftinformation/Akut-driftinformation/' }, function (html) {
+	$.get('getWebPage.php', { site: 'http://inuti.karolinska.se/Driftinformation/Driftinformation/Akut-driftinformation/', cachetime: 5 }, function (html) {
 
 	//######################### OBS Testing purpose only (Remove on production) OBS ######################
 	// $.get('/Infopanel/getWebPage.php', { site: 'http://localhost/Infopanel/AkutDriftinformation.html' }, function (html) {
@@ -146,7 +146,7 @@ function webScraper() {
 	Planerad/Ongoing info
 	*/
 	// Working on hospital network (Uncomment and remove the test link below this link)
-	$.get('getWebPage.php', { site: 'http://inuti.karolinska.se/Driftinformation/Driftinformation/Planerad-driftsinformation/' }, function (html) {
+	$.get('getWebPage.php', { site: 'http://inuti.karolinska.se/Driftinformation/Driftinformation/Planerad-driftsinformation/', cachetime:5 }, function (html) {
 
 	//######################### OBS Testing purpose only (Remove on production) OBS ######################
 	// $.get('/Infopanel/getWebPage.php', { site: 'http://localhost/Infopanel/PlaneradDriftinformation.html' }, function (html) {
@@ -364,9 +364,9 @@ function failAlert(){
 
 function getOnCallDr(medinetSite, positionAndElement,medinetcuts){
 	if(medinetcuts != undefined){
-		var getWebPage = encodeURI("getWebPage.php?site="+medinetSite+"&medinetcut1="+medinetcuts[0]+"&medinetcut2="+medinetcuts[1]);
+		var getWebPage = encodeURI("getWebPage.php?site="+medinetSite+"&medinetcut1="+medinetcuts[0]+"&medinetcut2="+medinetcuts[1]+"&cachetime=180");
 	}else{
-		var getWebPage = encodeURI("getWebPage.php?site="+medinetSite);
+		var getWebPage = encodeURI("getWebPage.php?site="+medinetSite+"&cachetime=180");
 	}
 	$.get(getWebPage, function (htmlData) {
 		var medinetUserSite = medinetSite + "/menu/users"
@@ -391,7 +391,7 @@ function getOnCallDr(medinetSite, positionAndElement,medinetcuts){
 		var splitHtml = "<tr><td><table><tbody><tr>" + htmlData.slice(firstCut, secondCut); + "</tr></td></table></tbody></tr>"
 		*/
 		var htmlData2 = $(htmlData);
-		$.get('getWebPage.php', { site: medinetUserSite }, function(html){
+		$.get('getWebPage.php', { site: medinetUserSite, cachetime: 2880 }, function(html){
 			var html2 = $(html);
 			$.each(positionAndElement, function(position, elementId){			
 				var selectElement = "#" + position + "-" + dateString[0] + " td";

@@ -8,7 +8,12 @@
 		$site = $_GET["site"];
 		$cache_file = "cache/cache-".hash('md5', $site).".html";
 		//Requires cURL to be installed on server
-		if (file_exists($cache_file) && (filemtime($cache_file) > (time() - 600 ))) { // 600 seconds = 10 min.
+		if(isset($_GET["cachetime"])){
+			$cache_time = $_GET["cachetime"] * 60;
+		}else{
+			$cache_time = 600;
+		}
+		if (file_exists($cache_file) && (filemtime($cache_file) > (time() - $cache_time))) { // 600 seconds = 10 min.
 			$file = file_get_contents($cache_file);
 			echo $file;
 		}else{
