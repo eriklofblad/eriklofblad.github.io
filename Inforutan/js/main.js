@@ -13,9 +13,9 @@ $(document).ready(function () {
 
     checkUser();
     
-	getOnCallDr('https://schema.medinet.se/ksneurorad/schema/neuron', {'day-79':"#neuroNattJour", 'day-80': "#neuroBakjour"});
+	getOnCallDr('https://schema.medinet.se/ksneurorad/schema/neuron', {'day-79':"#neuroNattJour", 'day-80': "#neuroBakjour"}, ["Primärjour dag", "Bakjour (ö)"]);
 	getOnCallDr('https://schema.medinet.se/ksrtgsolna/schema/sateet', {'pm-190':"#solnaKvallsjour", 'pm-189':"#solnaKvallsjour", 'pm-8':"#solnaNattjour", 'pm-7':"#solnaNattjour", 'pm-9':"#solnaMellanjour", 'pm-4':"#solnaNattBakjour", 'pm-5':"#solnaDagBakjour", 'pm-6':"#solnaHelgDagjour"}, ["bakjour" ,"mellanjour"]);
-	getOnCallDr('https://schema.medinet.se/ksfys/schema/tyokoe', {'pm-11':"#kfSkvall", 'pm-12':"#kfShelg"});
+	getOnCallDr('https://schema.medinet.se/ksfys/schema/tyokoe', {'pm-11':"#kfSkvall", 'pm-12':"#kfShelg"}, ["Helg", "Kranskärlsrond"]);
 
 	/**
 	Hide collapseable card if pressed anywhere on the card
@@ -371,8 +371,7 @@ function getOnCallDr(medinetSite, positionAndElement,medinetcuts){
 	$.get(getWebPage, function (htmlData) {
 		var medinetUserSite = medinetSite + "/menu/users"
 		var d = new Date(Date.now());
-		var isoString = d.toISOString();
-		var dateString = isoString.split("T");
+		var dateString = d.toISOString().split("T");
 		/*
 		var firstCut = Infinity;
 		var secondCut = 0;
@@ -391,6 +390,7 @@ function getOnCallDr(medinetSite, positionAndElement,medinetcuts){
 		var splitHtml = "<tr><td><table><tbody><tr>" + htmlData.slice(firstCut, secondCut); + "</tr></td></table></tbody></tr>"
 		*/
 		var htmlData2 = $(htmlData);
+		console.log(htmlData2);
 		$.get('getWebPage.php', { site: medinetUserSite, cachetime: 2880 }, function(html){
 			var html2 = $(html);
 			$.each(positionAndElement, function(position, elementId){			
