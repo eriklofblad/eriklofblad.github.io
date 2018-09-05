@@ -1,5 +1,5 @@
 $(document).ready(function () {
-	$.ajaxSetup({ cache: false });
+	$.ajaxSetup({ cache: false, timeout: 5000 });
 	/**
 	Polyfill for missing function startsWith within Internet Explorer 
 	*/

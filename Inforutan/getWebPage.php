@@ -27,7 +27,7 @@
 			$contentType = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
 			$responseCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 			curl_close($ch);
-			if($responseCode == 200){
+			if($responseCode >= 200 && $responseCode < 300){
 				#convert from charset ISO-8859-1 to UTF-8
 				if(strpos($contentType, "ISO-8859-1") != FALSE){
 					$html= mb_convert_encoding($html, "UTF-8", "ISO-8859-1");
