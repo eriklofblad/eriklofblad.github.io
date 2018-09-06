@@ -403,23 +403,20 @@ function getOnCallDr(medinetSite, positionAndElement,medinetcuts){
 					}
 					console.log(onCallDrAbr);
 					var o = $(html2).find("td:contains(" + onCallDrAbr + ")");
-					var insert = o.prev().children().html();
-					console.log(insert);
-					if(insert != undefined){
-						$(elementId).append("<td>" + insert + "</td>");
-						
-					}else if(o != undefined){
-						insert = o.prev().html()
-						console.log(insert);
-						firstIndex = insert.indexOf(",");
-						lastIndex = insert.lastIndexOf(",");
-						if(firstIndex != lastIndex){
-							console.log(insert.substring(0, lastIndex))
-							$(elementId).append("<td>" + insert.substring(0,lastIndex) + "</td>");
-						}else{
-							$(elementId).append("<td>" + insert + "</td>");
-						}
+					var insertparent = o.prev().html();
+					var insertchild = o.prev().children().html();
+					if(insertchild != undefined){
+						insert = insertchild;
+					}else if(insertparent != undefined){
+						insert = insertparent;
+					}else{
+						console.log("Ingen jour funnen");
+						return;
 					}
+					console.log(insert);
+
+					insert2 = insert.split(",");
+					$(elementId).append("<td>" + insert2[1] + " " + insert2[0] + "</td>");
 
 					$(elementId).show();			
 				}
