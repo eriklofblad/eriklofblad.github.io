@@ -415,6 +415,7 @@ function getOnCallDr(medinetSite, positionAndElement,medinetcuts, getUserList){
 				console.log(onCallDr);
 				if(onCallDr != undefined){
 					$(elementId).append("<td>" + onCallDr + "</td>").show();
+					$(elementId).append("<td>" + onCallDr + "</td>");
 				}
 				
 			});
