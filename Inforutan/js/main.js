@@ -407,9 +407,18 @@ function getOnCallDr(medinetSite, positionAndElement,medinetcuts){
 					console.log(insert);
 					if(insert != undefined){
 						$(elementId).append("<td>" + insert + "</td>");
+						
 					}else if(o != undefined){
-						console.log(o.prev().html());
-						$(elementId).append("<td>" + o.prev().html() + "</td>");
+						insert = o.prev().html()
+						console.log(insert);
+						firstIndex = insert.indexOf(",");
+						lastIndex = insert.lastIndexOf(",");
+						if(firstIndex != lastIndex){
+							console.log(insert.substring(0, lastIndex))
+							$(elementId).append("<td>" + insert.substring(0,lastIndex) + "</td>");
+						}else{
+							$(elementId).append("<td>" + insert + "</td>");
+						}
 					}
 
 					$(elementId).show();			
