@@ -17,10 +17,10 @@ function getMedinetSites(){
     );
 
     $positions = array(
-        array("primärjour 1" => "pm-190", "primärjour 2" => "pm-189", "primärjour 3" => "pm-8", "primärjour 4" => "pm-7"),
-        array("neuroNattJour" => 'day-79', "neuroBakjour" => 'day-80'),
+        array("primärjour 1" => "pm-190", "primärjour 2" => "pm-189", "primärjour 3" => "pm-8", "primärjour 4" => "pm-7","solnaHelgDagjour" => "pm-6", "solnaMellanjour" => "pm-9", "solnaNattBakjour"=>"pm-4", "solnaDagBakjour"=>"pm-5"),
+        array("neuroHelgDag" => "day-154", "neuroNattJour" => 'day-79', "neuroBakjour" => 'day-80'),
         array("kfSkvall" => 'pm-11', "kfShelg" => 'pm-12'),
-        array("Hnattjour"=>'pm-1', "Hnattjour2"=>'pm-2', "Hnattjour3"=>'pm-3', "Hbakjour"=>"pm-4", "Hhelg" => "pm-7", "Hhelg2" => 'pm-8', "Hhelg3" => 'pm-16')
+        array("Hnattjour"=>'pm-1', "Hnattjour2"=>'pm-2', "Hnattjour3"=>'pm-3',"Hhelg" => "pm-7", "Hhelg2" => 'pm-8', "Hhelg3" => 'pm-16', "Hbakjour"=>"pm-4")
 
     );
 
@@ -61,7 +61,6 @@ function getMedinetSites(){
         $n = 0;
         foreach($positions[$i] as $jour => $position){
             $findposition = $position . "-" . date('Y-m-d');
-            echo $findposition . "<br>";
             $test = stripos($medinetsite, $findposition);
             if($test != false){
                 $firstfind = "slotInfo('";
@@ -69,7 +68,6 @@ function getMedinetSites(){
                 if(stripos($medinetsite, "</td>", $test) > $firstcut){
                     $secondcut = stripos($medinetsite, "',", $firstcut);
                     $jourkod = substr($medinetsite,$firstcut, $secondcut-$firstcut);
-                    echo $jourkod . "<br>";
                     $jourkoder[$i][$n] = $jourkod;
                     $n++;
                 }
@@ -142,14 +140,39 @@ function getMedinetInfo($jourkoder){
             if($test < $secondcut){
                 $firstcut = $test + 1;
             }
-            $journamn = substr($response, $firstcut, $secondcut - $firstcut);
-            $journamn = trim($journamn);
-            $trimjournamn = stripos($journamn, " ");
-            if($trimjournamn > 0){
-                $journamn = substr($journamn, 0, $trimjournamn);
+            $jourtyp = substr($response, $firstcut, $secondcut - $firstcut);
+            $jourtyp = trim($jourtyp);
+            $trimjourtyp = stripos($jourtyp, " ");
+            if($trimjourtyp > 0){
+                $jourtyp = substr($jourtyp, 0, $trimjourtyp);
             }
-            echo $site[$n]. " " .$journamn. "<br>";
-            echo $response;
+
+            if(stripos($jourtyp, "jour") == 0){
+                $jourtyp = $jourtyp . "jour";
+            }
+
+            
+            $firstfind2 = "<td>";
+            $firstcut = stripos($response,$firstfind2, $secondcut) + strlen($firstfind2);
+            $secondcut = stripos($response, "</td>", $firstcut);
+            $jourtid = explode(" - ", substr($response, $firstcut, $secondcut - $firstcut));
+            $jourstarttid = $jourtid[0];
+            $jourstopptid = $jourtid[1];
+
+            $firstcut = stripos($response,$firstfind2, $secondcut) + strlen($firstfind2);
+            $secondcut = stripos($response, "</td>", $firstcut);
+            $journamninit = substr($response, $firstcut, $secondcut - $firstcut);
+            $journamn = substr($journamninit, 0, strrpos($journamninit, ","));
+            $journamn = str_ireplace("Nrad-ST", "", $journamn);
+            $journamn = str_ireplace("Nrad ST", "", $journamn);
+            $journamn = str_ireplace(",", "", $journamn);
+            $journamn = str_ireplace("  ", " ", $journamn);
+
+            echo $site[$n]. " " .$jourtyp. "<br>";
+            echo $jourstarttid . "<br>";
+            echo $jourstopptid . "<br>";
+            echo $journamn. "<br>";
+            echo str_replace("ffffe0","E86745",$response);
         }
     }
 
