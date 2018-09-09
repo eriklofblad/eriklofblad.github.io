@@ -156,8 +156,8 @@ function getMedinetInfo($jourkoder){
             $firstcut = stripos($response,$firstfind2, $secondcut) + strlen($firstfind2);
             $secondcut = stripos($response, "</td>", $firstcut);
             $jourtid = explode(" - ", substr($response, $firstcut, $secondcut - $firstcut));
-            $jourstarttid = $jourtid[0];
-            $jourstopptid = $jourtid[1];
+            $starttimestamp = strtotime($jourtid[0]);
+            $stopptimestamp = strtotime($jourtid[1]);
 
             $firstcut = stripos($response,$firstfind2, $secondcut) + strlen($firstfind2);
             $secondcut = stripos($response, "</td>", $firstcut);
@@ -168,9 +168,19 @@ function getMedinetInfo($jourkoder){
             $journamn = str_ireplace(",", "", $journamn);
             $journamn = str_ireplace("  ", " ", $journamn);
 
-            echo $site[$n]. " " .$jourtyp. "<br>";
-            echo $jourstarttid . "<br>";
-            echo $jourstopptid . "<br>";
+            $starttime = idate('H', $starttimestamp);
+            $stopptime = idate('H', $stopptimestamp);
+            if(idate('d',$starttimestamp) < idate('d', $stopptimestamp)){
+                $jourtyp = $jourtyp . " natt";
+            }else if($starttime < 12){
+                $jourtyp = $jourtyp . " dag";
+            }else if($starttime <17){
+                $jourtyp = $jourtyp. " kväll";
+            }
+
+            echo $site[$n]. " " .$jourtyp. " ". $starttime . "-" . $stopptime."<br>";
+            echo $starttimestamp . "<br>";
+            echo $stopptimestamp . "<br>";
             echo $journamn. "<br>";
             echo str_replace("ffffe0","E86745",$response);
         }
