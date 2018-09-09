@@ -1,6 +1,28 @@
 <?php
 
-function getMedinetSites(){
+
+$jour_file = "cache/cache-jourer.json";
+
+$cache_time = 120; //minutes
+
+$cutoff_time = 180; //minutes
+
+$filetime = filemtime($jour_file);
+
+if (file_exists($jour_file) && $filetime > (time() - $cache_time*60) && idate('md',$filetime) == idate('md')) {
+    $file = file_get_contents($jour_file);
+    echo $file;
+}else if(file_exists($jour_file) && filemtime($jour_file) > (time() - $cutoff_time*60) && idate('md',$filetime) == idate('md')){
+    $file = file_get_contents($jour_file);
+    echo $file;
+    getMedinetSites($jour_file);
+}else{
+    getMedinetSites($jour_file);
+    $file = file_get_contents($jour_file);
+    echo $file;
+}
+
+function getMedinetSites($jour_file){
 
     $curloptions = array(
         CURLOPT_RETURNTRANSFER => 1,
@@ -17,7 +39,7 @@ function getMedinetSites(){
     );
 
     $positions = array(
-        array("primärjour 1" => "pm-190", "primärjour 2" => "pm-189", "primärjour 3" => "pm-8", "primärjour 4" => "pm-7","solnaHelgDagjour" => "pm-6", "solnaMellanjour" => "pm-9", "solnaNattBakjour"=>"pm-4", "solnaDagBakjour"=>"pm-5"),
+        array("primärjour 1" => "pm-190", "primärjour 2" => "pm-189", "primärjour 3" => "pm-8", "primärjour 4" => "pm-7","solnaHelgDagjour" => "pm-6", "solnaMellanjour" => "pm-9", "solnaDagBakjour"=>"pm-5", "solnaNattBakjour"=>"pm-4"),
         array("neuroHelgDag" => "day-154", "neuroNattJour" => 'day-79', "neuroBakjour" => 'day-80'),
         array("kfSkvall" => 'pm-11', "kfShelg" => 'pm-12'),
         array("Hnattjour"=>'pm-1', "Hnattjour2"=>'pm-2', "Hnattjour3"=>'pm-3',"Hhelg" => "pm-7", "Hhelg2" => 'pm-8', "Hhelg3" => 'pm-16', "Hbakjour"=>"pm-4")
@@ -77,11 +99,11 @@ function getMedinetSites(){
         }
     }
 
-    getMedinetInfo($jourkoder);
+    getMedinetInfo($jourkoder, $jour_file);
 
 }
 
-function getMedinetInfo($jourkoder){
+function getMedinetInfo($jourkoder, $jour_file){
 
     $db_names = array(
         "ksrtgsolna",
@@ -131,6 +153,13 @@ function getMedinetInfo($jourkoder){
     }
     curl_multi_close($mh2);
 
+    $finalJSON = array(
+        Solna => array(),
+        Neuro => array(),
+        KF => array(),
+        Huddinge => array()
+    );
+
     foreach ($res as $n => $responsearray){
         foreach($responsearray as $i => $response){
             $firstfind = '<td class="heading">';
@@ -171,23 +200,24 @@ function getMedinetInfo($jourkoder){
             $starttime = idate('H', $starttimestamp);
             $stopptime = idate('H', $stopptimestamp);
             if(idate('d',$starttimestamp) < idate('d', $stopptimestamp)){
-                $jourtyp = $jourtyp . " natt";
+                if($starttime > 12){
+                    $jourtod = "natt";
+                }
             }else if($starttime < 12){
-                $jourtyp = $jourtyp . " dag";
+                $jourtod = "dag";
             }else if($starttime <17){
-                $jourtyp = $jourtyp. " kväll";
+                $jourtod = "kväll";
             }
 
-            echo $site[$n]. " " .$jourtyp. " ". $starttime . "-" . $stopptime."<br>";
-            echo $starttimestamp . "<br>";
-            echo $stopptimestamp . "<br>";
-            echo $journamn. "<br>";
-            echo str_replace("ffffe0","E86745",$response);
+            // echo $site[$n]. " " .$jourtyp. " ". $jourtod. " " . $starttime . "-" . $stopptime."<br>";
+            // echo $journamn. "<br>";
+            //echo str_replace("ffffe0","E86745",$response);
+
+            $finalJSON[$site[$n]][]= array("jourtyp"=>utf8_encode($jourtyp), "jourtod"=>$jourtod,"starttime"=>$starttime, "stopptime"=>$stopptime, "journamn"=>utf8_encode($journamn));
         }
     }
-
+    //var_dump($finalJSON);
+    file_put_contents($jour_file, json_encode($finalJSON) , LOCK_EX); ;
 }
-
-getMedinetSites();
 
 ?>
