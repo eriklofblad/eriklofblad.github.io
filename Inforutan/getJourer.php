@@ -59,9 +59,15 @@ function getMedinetSites($jour_file){
 
     $mh = curl_multi_init();
 
+    $medinetpostdata = json_decode(file_get_contents("medinetpostdata.json", true));
+
     foreach ($curlurls as $i => $url) {
         $conn[$i] = curl_init($url);
         curl_setopt_array($conn[$i], $curloptions);
+        if($i == 3 || $i == 0){
+            curl_setopt($conn[$i], CURLOPT_POST, TRUE);
+            curl_setopt($conn[$i], CURLOPT_POSTFIELDS, $medinetpostdata[$i]);
+        }
         curl_multi_add_handle($mh, $conn[$i]);
     }
 
