@@ -149,6 +149,7 @@
 			<hr>
 			<h6>Länkar</h6>
 			<form action="https://app.statdx.com/login" method="POST" target="_blank">
+				<a href="https://uniview.bft.sll.se/UniView/#/" class="btn btn-primary btn-sm" target="_blank">UniView</a>
 				<input type="text" name="username" id="SDusername" hidden>
 				<input type="password" name="password" id="SDpassword" hidden>
 				<button class="btn btn-primary btn-sm" type="submit">StatDx</button>
@@ -183,7 +184,7 @@
 							<th scope="col" colspan="2">Dygnets jourer</th>
 						</tr>
 					</thead>
-					<tbody>
+					<tbody id="jourListaBody">
 						<tr id="neuroNattJour" style="display: none;">
 							<td>Neuro Natt</td>
 						</tr>
