@@ -1,9 +1,9 @@
 <?php
 
 
-$initialtime =  microtime(true);
+//$initialtime =  microtime(true);
 
-$intermediatetime = microtime(true);
+//$intermediatetime = microtime(true);
 
 $jour_file = "cache/cache-jourer.json";
 
@@ -13,7 +13,6 @@ $cutoff_time = 180; //minutes
 
 $filetime = filemtime($jour_file);
 
-/*
 if (file_exists($jour_file) && $filetime > (time() - $cache_time*60) && idate('md',$filetime) == idate('md')) {
     $file = file_get_contents($jour_file);
     echo $file;
@@ -26,16 +25,15 @@ if (file_exists($jour_file) && $filetime > (time() - $cache_time*60) && idate('m
     $file = file_get_contents($jour_file);
     echo $file;
 }
-*/
 
-getMedinetSites($jour_file);
+//getMedinetSites($jour_file);
 
-echo "<br> sluttid "  . (microtime(true) - $initialtime) . "<br>";
+//echo "<br> sluttid "  . (microtime(true) - $initialtime) . "<br>";
 
 function getMedinetSites($jour_file){
 
-    global $initialtime;
-    global $intermediatetime;
+    //global $initialtime;
+    //global $intermediatetime;
 
     $curloptions = array(
         CURLOPT_RETURNTRANSFER => 1,
@@ -85,8 +83,8 @@ function getMedinetSites($jour_file){
 
     curl_multi_close($mh);
 
-    echo "efter första hämtning "  . (microtime(true) - $intermediatetime) . "<br>";
-    $intermediatetime = microtime(true);
+    //echo "efter första hämtning "  . (microtime(true) - $intermediatetime) . "<br>";
+    //$intermediatetime = microtime(true);
 
     $jourkoder = array(
         array(),
@@ -110,7 +108,6 @@ function getMedinetSites($jour_file){
 
         //echo "first = " . $firstcut . " " . "second = " . $secondcut . "length = " . ($secondcut-$firstcut) . "<br>";
         $medinetsite = substr($medinetsite,$firstcut, $secondcut-$firstcut);
-        
         $n = 0;
 
         foreach($positions[$i] as $jour => $position){
@@ -131,16 +128,16 @@ function getMedinetSites($jour_file){
             
         }
     }
-    echo "efter första processning "  . (microtime(true) - $intermediatetime) . "<br>";
-    $intermediatetime = microtime(true);
+    //echo "efter första processning "  . (microtime(true) - $intermediatetime) . "<br>";
+    //$intermediatetime = microtime(true);
     getMedinetInfo($jourkoder, $jour_file);
 
 }
 
 function getMedinetInfo($jourkoder, $jour_file){
 
-    global $initialtime;
-    global $intermediatetime;
+    //global $initialtime;
+    //global $intermediatetime;
 
     $db_names = array(
         "ksrtgsolna",
@@ -190,8 +187,8 @@ function getMedinetInfo($jourkoder, $jour_file){
     }
     curl_multi_close($mh2);
 
-    echo "efter andra hämtning "  . (microtime(true) - $intermediatetime) . "<br>";
-    $intermediatetime = microtime(true);
+    //echo "efter andra hämtning "  . (microtime(true) - $intermediatetime) . "<br>";
+    //$intermediatetime = microtime(true);
 
     $finalJSON = array(
         Solna => array(),
@@ -257,10 +254,10 @@ function getMedinetInfo($jourkoder, $jour_file){
         }
     }
 
-    echo "efter andra processning " . (microtime(true) - $intermediatetime) . "<br>";
+    //echo "efter andra processning " . (microtime(true) - $intermediatetime) . "<br>";
     //var_dump($finalJSON);
 
-    echo json_encode($finalJSON);
+    //echo json_encode($finalJSON);
     file_put_contents($jour_file, json_encode($finalJSON) , LOCK_EX); ;
 }
 
