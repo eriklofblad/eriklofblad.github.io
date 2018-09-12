@@ -1,5 +1,5 @@
 $(document).ready(function () {
-	$.ajaxSetup({ cache: false, timeout: 5000 });
+	$.ajaxSetup({ cache: false });
 	/**
 	Polyfill for missing function startsWith within Internet Explorer 
 	*/
@@ -11,12 +11,16 @@ $(document).ready(function () {
 	
 	var userData
 
-    checkUser();
-    
+	checkUser();
+	
+	getOnCallDr2();
+	
+	/*
 	getOnCallDr('https://schema.medinet.se/ksneurorad/schema/neuron', {'#day-79':"#neuroNattJour", '#day-80': "#neuroBakjour"}, ["Primärjour dag", "Bakjour (ö)"], true);
 	getOnCallDr('https://schema.medinet.se/ksrtgsolna/schema/sateet', {'#pm-190':"#solnaKvallsjour", '#pm-189':"#solnaKvallsjour", '#pm-8':"#solnaNattjour", '#pm-7':"#solnaNattjour", '#pm-9':"#solnaMellanjour", '#pm-4':"#solnaNattBakjour", '#pm-5':"#solnaDagBakjour", '#pm-6':"#solnaHelgDagjour"}, ["bakjour" ,"mellanjour"], true);
 	getOnCallDr('https://schema.medinet.se/ksfys/schema/tyokoe', {'#pm-11':"#kfSkvall", '#pm-12':"#kfShelg"}, ["Helg", "Kranskärlsrond"], true);
 	getOnCallDr('https://schema.medinet.se/ksrtghuddinge/schema/dicom', {'#pm-1':"#Hnattjour", '#pm-2':"#Hnattjour", '#pm-3':"#Hnattjour", "#pm-4":"#Hbakjour"}, ["Primärjour typ A", "Traumasökare"], false);
+	*/
 
 	/**
 	Hide collapseable card if pressed anywhere on the card
@@ -418,5 +422,17 @@ function getOnCallDr(medinetSite, positionAndElement,medinetcuts, getUserList){
 				}
 			});
 		}
+	});
+}
+
+function getOnCallDr2(){
+	$.getJSON('getJourer.php', function(data){
+		$.each(data, function(site, jourarray){
+			$.each(jourarray, function(index, jour){
+				$("#jourListaBody").append(
+					'<tr class="' + site + '"><td>' + site + " " + jour.jourtyp + " " + jour.jourtod + " " + jour.starttime + "-" + jour.stopptime +  '</td><td>' + jour.journamn + '</td></tr>'
+				);
+			});
+		});
 	});
 }
