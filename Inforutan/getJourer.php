@@ -46,14 +46,16 @@ function getMedinetSites($jour_file){
         'https://schema.medinet.se/ksrtgsolna/schema/sateet',
         'https://schema.medinet.se/ksneurorad/schema/neuron',
         'https://schema.medinet.se/ksfys/schema/tyokoe',
-        'https://schema.medinet.se/ksrtghuddinge/schema/dicom'
+        'https://schema.medinet.se/ksrtghuddinge/schema/dicom',
+        'https://schema.medinet.se/albrtg/schema/SAOsE1nY'
     );
 
     $positions = array(
         array("primärjour 1" => "pm-190", "primärjour 2" => "pm-189", "primärjour 3" => "pm-8", "primärjour 4" => "pm-7","solnaHelgDagjour" => "pm-6", "solnaMellanjour" => "pm-9", "solnaDagBakjour"=>"pm-5", "solnaNattBakjour"=>"pm-4"),
         array("neuroHelgDag" => "day-154", "neuroNattJour" => 'day-79', "neuroBakjour" => 'day-80'),
         array("kfSkvall" => 'pm-11', "kfShelg" => 'pm-12'),
-        array("Hnattjour"=>'pm-1', "Hnattjour2"=>'pm-2', "Hnattjour3"=>'pm-3',"Hhelg" => "pm-7", "Hhelg2" => 'pm-8', "Hhelg3" => 'pm-16', "Hbakjour"=>"pm-4")
+        array("Hnattjour"=>'pm-1', "Hnattjour2"=>'pm-2', "Hnattjour3"=>'pm-3',"Hhelg" => "pm-7", "Hhelg2" => 'pm-8', "Hhelg3" => 'pm-16', "Hbakjour"=>"pm-4"),
+        array("vardagnatt" => 'day-91', "helgdag" => 'day-92', "helgnatt" => 'day-93')
 
     );
 
@@ -64,7 +66,7 @@ function getMedinetSites($jour_file){
     foreach ($curlurls as $i => $url) {
         $conn[$i] = curl_init($url);
         curl_setopt_array($conn[$i], $curloptions);
-        if($i == 3 || $i == 0){
+        if($i == 3 || $i == 0 || $i == 4){
             curl_setopt($conn[$i], CURLOPT_POST, TRUE);
             curl_setopt($conn[$i], CURLOPT_POSTFIELDS, $medinetpostdata[$i]);
         }
@@ -104,6 +106,7 @@ function getMedinetSites($jour_file){
         array("rjour", "bakjour ("),
         array("helg", "rlsrond"),
         array("rjour", "punktionsjour"),
+        array("jour vardag", "mellanjour helg")
     );
 
     foreach ($res as $i => $medinetsite){
@@ -149,14 +152,16 @@ function getMedinetInfo($jourkoder, $jour_file){
         "ksrtgsolna",
         "ksneurorad",
         "ksfys",
-        "ksrtghuddinge"
+        "ksrtghuddinge",
+        "albrtg"
     );
 
     $site = array(
         "Solna",
         "Neuro",
         "KF",
-        "Huddinge"
+        "Huddinge",
+        "Barn"
     );
 
     $curloptions = array(
@@ -200,7 +205,8 @@ function getMedinetInfo($jourkoder, $jour_file){
         Solna => array(),
         Neuro => array(),
         KF => array(),
-        Huddinge => array()
+        Huddinge => array(),
+        Barn => array()
     );
 
     foreach ($res as $n => $responsearray){
@@ -219,10 +225,6 @@ function getMedinetInfo($jourkoder, $jour_file){
                 $jourtyp = substr($jourtyp, 0, $trimjourtyp);
             }
 
-            if(stripos($jourtyp, "jour") == 0){
-                $jourtyp = $jourtyp . "jour";
-            }
-
             
             $firstfind2 = "<td>";
             $firstcut = stripos($response,$firstfind2, $secondcut) + strlen($firstfind2);
@@ -234,6 +236,11 @@ function getMedinetInfo($jourkoder, $jour_file){
             $firstcut = stripos($response,$firstfind2, $secondcut) + strlen($firstfind2);
             $secondcut = stripos($response, "</td>", $firstcut);
             $journamninit = substr($response, $firstcut, $secondcut - $firstcut);
+            if(substr($journamninit, 0, 2) == "20"){
+                $firstcut = stripos($response,$firstfind2, $secondcut) + strlen($firstfind2);
+                $secondcut = stripos($response, "</td>", $firstcut);
+                $journamninit = substr($response, $firstcut, $secondcut - $firstcut);
+            }
             $journamn = substr($journamninit, 0, strrpos($journamninit, ","));
             $journamn = str_ireplace("Nrad-ST", "", $journamn);
             $journamn = str_ireplace("Nrad ST", "", $journamn);
@@ -250,6 +257,13 @@ function getMedinetInfo($jourkoder, $jour_file){
                 $jourtod = "dag";
             }else if($starttime <17){
                 $jourtod = "kväll";
+            }
+
+            if(idate('i', $starttimestamp)!=0){
+                $starttime = date('H:i', $starttimestamp);
+            }
+            if(idate('i', $stopptimestamp)!=0){
+                $stopptime = date('H:i', $stopptimestamp);
             }
 
             // echo $site[$n]. " " .$jourtyp. " ". $jourtod. " " . $starttime . "-" . $stopptime."<br>";
