@@ -121,11 +121,14 @@ function getMedinetSites($jour_file){
 
         foreach($positions[$i] as $jour => $position){
             $findposition = $position . "-" . date('Y-m-d');
+            //echo $findposition. " ";
             $test = stripos($medinetsite, $findposition);
-            if($test != false){
+            //echo $test. " ";
+            if($test != false && $test > 500){
                 $firstfind = "slotInfo('";
                 $firstcut = stripos($medinetsite, $firstfind, $test) + strlen($firstfind);
-                if(stripos($medinetsite, "</td>", $test) > $firstcut){
+                //echo $firstcut. " ";
+                if(stripos($medinetsite, "</td>", $test) > $firstcut && $firstcut > $test){
                     $secondcut = stripos($medinetsite, "',", $firstcut);
                     $jourkod = substr($medinetsite,$firstcut, $secondcut-$firstcut);
                     $jourkoder[$i][$n] = $jourkod;
