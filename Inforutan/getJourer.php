@@ -5,6 +5,22 @@
 
 //$intermediatetime = microtime(true);
 
+$db_names = array(
+    "ksrtgsolna",
+    "ksneurorad",
+    "ksfys",
+    "ksrtghuddinge",
+    "albrtg"
+);
+
+$medinetcodes = array(
+    "sateet",
+    "neuron",
+    "tyokoe",
+    "dicom",
+    "SAOsE1nY"
+);
+
 $jour_file = "cache/cache-jourer.json";
 
 $cache_time = 120; //minutes
@@ -26,28 +42,24 @@ if (file_exists($jour_file) && $filetime > (time() - $cache_time*60) && idate('m
     echo $file;
 }
 
+
+
 //getMedinetSites($jour_file);
 
 //echo "<br> sluttid "  . (microtime(true) - $initialtime) . "<br>";
 
 function getMedinetSites($jour_file){
 
-    //global $initialtime;
-    //global $intermediatetime;
+    global $initialtime;
+    global $intermediatetime;
+    global $db_names;
+    global $medinetcodes;
+
 
     $curloptions = array(
         CURLOPT_RETURNTRANSFER => 1,
         CURLOPT_CONNECTTIMEOUT => 5,
         CURLOPT_SSL_VERIFYPEER => false
-    );
-
-
-    $curlurls = array(
-        'https://schema.medinet.se/ksrtgsolna/schema/sateet',
-        'https://schema.medinet.se/ksneurorad/schema/neuron',
-        'https://schema.medinet.se/ksfys/schema/tyokoe',
-        'https://schema.medinet.se/ksrtghuddinge/schema/dicom',
-        'https://schema.medinet.se/albrtg/schema/SAOsE1nY'
     );
 
     $positions = array(
@@ -61,15 +73,13 @@ function getMedinetSites($jour_file){
 
     $mh = curl_multi_init();
 
-    $medinetpostdata = json_decode(file_get_contents("medinetpostdata.json", true));
-
-    foreach ($curlurls as $i => $url) {
+    foreach ($db_names as $i => $db_name) {
+        $url = "https://schema.medinet.se/". $db_name . "/schema/" . $medinetcodes[$i];
         $conn[$i] = curl_init($url);
+        $medinetpostdata = "yearweek=". date('Y') ."%3A".date('W')."&schedule_type=week_vs_activity&schedule_subtype=days&show-no-weeks=1&confirmMessage=%C3%84r+du+s%C3%A4ker%3F&userId=-100&code=".$medinetcodes[$i]."&customer=".$db_name."&language=se";
         curl_setopt_array($conn[$i], $curloptions);
-        if($i == 3 || $i == 0 || $i == 4){
-            curl_setopt($conn[$i], CURLOPT_POST, TRUE);
-            curl_setopt($conn[$i], CURLOPT_POSTFIELDS, $medinetpostdata[$i]);
-        }
+        curl_setopt($conn[$i], CURLOPT_POST, TRUE);
+        curl_setopt($conn[$i], CURLOPT_POSTFIELDS, $medinetpostdata);
         curl_multi_add_handle($mh, $conn[$i]);
     }
 
@@ -84,7 +94,7 @@ function getMedinetSites($jour_file){
         }
     } while ($status === CURLM_CALL_MULTI_PERFORM || $active);
 
-    foreach ($curlurls as $i => $url) {
+    foreach ($db_names as $i => $db_name) {
         $res[$i] = curl_multi_getcontent($conn[$i]);
         curl_multi_remove_handle($mh, $conn[$i]);
     }
@@ -124,7 +134,7 @@ function getMedinetSites($jour_file){
             //echo $findposition. " ";
             $test = stripos($medinetsite, $findposition);
             //echo $test. " ";
-            if($test != false && $test > 500){
+            if($test != false){
                 $firstfind = "slotInfo('";
                 $firstcut = stripos($medinetsite, $firstfind, $test) + strlen($firstfind);
                 //echo $firstcut. " ";
@@ -148,16 +158,9 @@ function getMedinetSites($jour_file){
 
 function getMedinetInfo($jourkoder, $jour_file){
 
-    //global $initialtime;
-    //global $intermediatetime;
-
-    $db_names = array(
-        "ksrtgsolna",
-        "ksneurorad",
-        "ksfys",
-        "ksrtghuddinge",
-        "albrtg"
-    );
+    global $initialtime;
+    global $intermediatetime;
+    global $db_names;
 
     $site = array(
         "Solna",
