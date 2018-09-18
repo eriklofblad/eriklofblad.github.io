@@ -387,8 +387,12 @@ function getOnCallDr2(getSites){
 			$.each(jourArray, function(index, jour){
 				$.each(getSites, function(index, siteGet){
 					if(site == siteGet){
-						$("#jourListaBody").append(
-							'<tr class="' + site + '"><td>' + site + " " + jour.jourtyp + " " + jour.jourtod + " " + jour.starttime + "-" + jour.stopptime +  '</td><td>' + jour.journamn + '</td></tr>'
+						if(jour.jourtyp == "Bakjour" || jour.jourtyp == "Mellanjour"){
+							 var jourtypfiltered = jour.jourtyp + " ";
+						}else{
+							var jourtypfiltered = jour.jourtod + "jour ";
+						}
+						$("#jourListaBody").append('<tr class="' + site + '"><td>' + site + " " + jourtypfiltered + jour.starttime + "-" + jour.stopptime +  '</td><td>' + jour.journamn + '</td></tr>'
 						);
 					}
 				});
