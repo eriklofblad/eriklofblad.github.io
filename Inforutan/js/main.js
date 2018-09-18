@@ -14,13 +14,6 @@ $(document).ready(function () {
 	checkUser();
 	
 	getOnCallDr2();
-	
-	/*
-	getOnCallDr('https://schema.medinet.se/ksneurorad/schema/neuron', {'#day-79':"#neuroNattJour", '#day-80': "#neuroBakjour"}, ["Primärjour dag", "Bakjour (ö)"], true);
-	getOnCallDr('https://schema.medinet.se/ksrtgsolna/schema/sateet', {'#pm-190':"#solnaKvallsjour", '#pm-189':"#solnaKvallsjour", '#pm-8':"#solnaNattjour", '#pm-7':"#solnaNattjour", '#pm-9':"#solnaMellanjour", '#pm-4':"#solnaNattBakjour", '#pm-5':"#solnaDagBakjour", '#pm-6':"#solnaHelgDagjour"}, ["bakjour" ,"mellanjour"], true);
-	getOnCallDr('https://schema.medinet.se/ksfys/schema/tyokoe', {'#pm-11':"#kfSkvall", '#pm-12':"#kfShelg"}, ["Helg", "Kranskärlsrond"], true);
-	getOnCallDr('https://schema.medinet.se/ksrtghuddinge/schema/dicom', {'#pm-1':"#Hnattjour", '#pm-2':"#Hnattjour", '#pm-3':"#Hnattjour", "#pm-4":"#Hbakjour"}, ["Primärjour typ A", "Traumasökare"], false);
-	*/
 
 	/**
 	Hide collapseable card if pressed anywhere on the card
@@ -365,65 +358,6 @@ function failAlert(){
 	}, 5000);
 }
 
-
-
-function getOnCallDr(medinetSite, positionAndElement,medinetcuts, getUserList){
-	if(medinetcuts != undefined){
-		var getWebPage = encodeURI("getWebPage.php?site="+medinetSite+"&medinetcut1="+medinetcuts[0]+"&medinetcut2="+medinetcuts[1]+"&cachetime=180");
-	}else{
-		var getWebPage = encodeURI("getWebPage.php?site="+medinetSite+"&cachetime=180");
-	}
-	$.get(getWebPage, function (htmlData) {
-		var medinetUserSite = medinetSite + "/menu/users"
-		var d = new Date(Date.now());
-		var dateString = d.toISOString().split("T");
-		var htmlData2 = $(htmlData);
-		//console.log(htmlData2);
-		if(getUserList){
-			$.get('getWebPage.php', { site: medinetUserSite, cachetime: 2880 }, function(html){
-				var html2 = $(html);
-				$.each(positionAndElement, function(position, elementId){			
-					var selectElement = position + "-" + dateString[0] + " td";
-					var onCallDrAbr = $(htmlData2).find(selectElement).html()
-					if(onCallDrAbr != undefined && onCallDrAbr != "&nbsp;"){
-						var KFmedinet = medinetSite.indexOf("tyokoe");
-						if( KFmedinet != -1){
-							var onCallDrAbr = onCallDrAbr.charAt(0) + onCallDrAbr.charAt(2);
-						}
-						console.log(onCallDrAbr);
-						var o = $(html2).find("td:contains(" + onCallDrAbr + ")");
-						var insertparent = o.prev().html();
-						var insertchild = o.prev().children().html();
-						if(insertchild != undefined){
-							insert = insertchild;
-						}else if(insertparent != undefined){
-							insert = insertparent;
-						}else{
-							console.log("Ingen jour funnen");
-							return;
-						}
-						console.log(insert);
-
-						insert2 = insert.split(",");
-						$(elementId).append("<td>" + insert2[1] + " " + insert2[0] + "</td>");
-
-						$(elementId).show();			
-					}
-				});
-			});
-		}else{
-			$.each(positionAndElement, function(position, elementId){			
-				var selectElement = position + "-" + dateString[0] + " td";
-				console.log(selectElement);
-				var onCallDr = $(htmlData2).find(selectElement).html();
-				console.log(onCallDr);
-				if(onCallDr != undefined){
-					$(elementId).append("<td>" + onCallDr + "</td>").show();
-				}
-			});
-		}
-	});
-}
 
 function getOnCallDr2(){
 	$.getJSON('getJourer.php', function(data){
