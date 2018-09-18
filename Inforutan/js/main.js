@@ -12,8 +12,6 @@ $(document).ready(function () {
 	var userData
 
 	checkUser();
-	
-	getOnCallDr2();
 
 	/**
 	Hide collapseable card if pressed anywhere on the card
@@ -259,6 +257,12 @@ function checkUser() {
 				document.getElementById("newUserAlert").innerHTML = "<h4>Välkommen som ny användare</h4><p>Ställ in dina inställningar och tryck sen på spara. Genom att spara godkänner du att den information om dig som du angett sparas på denna server. Du kan när som helst återkomma hit och ta bort dina användarinställningar.</p>"
 				document.getElementById("saveUserSettings").innerHTML = "Spara & Godkänn"
 				$('#myTab a[href="#userSettings"]').tab('show');
+				onCallSites = ["Solna","Neuro","KF","Huddinge","Barn"]
+				$.each(onCallSites, function(index, site){
+					onCallSite = "#" + site + "Oncall";
+					$(onCallSite).prop("checked", true);
+				});
+				getOnCallDr2(onCallSites);
 			},
 			success: function(){
 				console.log('User "' + userName +  '" already excists');
@@ -269,6 +273,8 @@ function checkUser() {
 		console.log('no user');
 		//Remember selected tab on refresh and between sessions
 		keepTabOnReload(false);
+		onCallSites = ["Solna","Neuro","KF","Huddinge","Barn"]
+		getOnCallDr2(onCallSites);
     }
 }
 
@@ -277,13 +283,28 @@ function populateUserSettings(repopulate){
 	console.log(repopulate);
 	
 	$.each(userData.responseJSON, function(key, value){
-		if(key != "medinetSite"){
+		if(key != "medinetSite" && key != "chooseOnCall"){
 			$("[name=" + key + "]").val(value);
 		}
 		
 	});
 	if(userData.responseJSON.phoneNumber1 != ""){
-		document.getElementById("displayUserPhoneNumber").innerHTML = '<div class="alert alert-secondary">Ditt telefonnummer är ' + userData.responseJSON.phoneNumber1 + '<button type="button" class="close" data-dismiss="alert"><span>&times;</span></button></div>';
+		document.getElementById("displayUserPhoneNumber").innerHTML = '<div class="alert alert-secondary py-2">Ditt telefonnummer är ' + userData.responseJSON.phoneNumber1 + '<button type="button" class="close" data-dismiss="alert"><span>&times;</span></button></div>';
+	}
+
+	if(userData.responseJSON.chooseOnCall != undefined){
+		$.each(userData.responseJSON.chooseOnCall, function(index, site){
+			onCallSite = "#" + site + "Oncall";
+			$(onCallSite).prop("checked", true);
+		});
+		getOnCallDr2(userData.responseJSON.chooseOnCall);
+	}else{
+		onCallSites = ["Solna","Neuro","KF","Huddinge","Barn"]
+		$.each(onCallSites, function(index, site){
+			onCallSite = "#" + site + "Oncall";
+			$(onCallSite).prop("checked", true);
+		});
+		getOnCallDr2(onCallSites);
 	}
 	
 	if(userData.responseJSON.medinetSite != null){
@@ -335,7 +356,7 @@ function submitUserForm(){
 		contentType: false,
 	}).done(function(data){
 		if(data.startsWith("Success")){
-			$('#userSettingsForm').append('<div class="alert alert-success mt-3 alert-dismissible fade show" role="alert" id="postAlert">Inställningar sparade</div>');
+			$('#userSettingsForm').append('<span class="alert alert-success p-2 alert-trim alert-dismissible fade show" role="alert" id="postAlert">Inställningar sparade</span>');
 			setTimeout(function(){
 				$("#postAlert").alert('close');
 			}, 5000);
@@ -352,20 +373,26 @@ function submitUserForm(){
 }
 
 function failAlert(){
-	$('#userSettingsForm').append('<div class="alert alert-danger mt-3 alert-dismissible fade show" role="alert" id="postAlert">Misslyckades med att spara dina instälningar</div>');
+	$('#userSettingsForm').append('<span class="alert alert-danger alert-trim alert-dismissible fade show" role="alert" id="postAlert">Misslyckades med att spara dina instälningar</span>');
 	setTimeout(function(){
 		$("#postAlert").alert('close');
 	}, 5000);
 }
 
 
-function getOnCallDr2(){
+function getOnCallDr2(getSites){
+	$("#jourListaBody").html("");
 	$.getJSON('getJourer.php', function(data){
-		$.each(data, function(site, jourarray){
-			$.each(jourarray, function(index, jour){
-				$("#jourListaBody").append(
-					'<tr class="' + site + '"><td>' + site + " " + jour.jourtyp + " " + jour.jourtod + " " + jour.starttime + "-" + jour.stopptime +  '</td><td>' + jour.journamn + '</td></tr>'
-				);
+		$.each(data, function(site, jourArray){
+			$.each(jourArray, function(index, jour){
+				$.each(getSites, function(index, siteGet){
+					if(site == siteGet){
+						$("#jourListaBody").append(
+							'<tr class="' + site + '"><td>' + site + " " + jour.jourtyp + " " + jour.jourtod + " " + jour.starttime + "-" + jour.stopptime +  '</td><td>' + jour.journamn + '</td></tr>'
+						);
+					}
+				});
+				
 			});
 		});
 	});

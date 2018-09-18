@@ -202,42 +202,6 @@
 						</tr>
 					</thead>
 					<tbody id="jourListaBody">
-						<tr id="neuroNattJour" style="display: none;">
-							<td>Neuro Natt</td>
-						</tr>
-						<tr id="neuroBakjour" style="display: none;">
-							<td>Neuro Bakjour</td>
-						</tr>
-						<tr id="solnaHelgDagjour" style="display: none;">
-							<td>Solna Helg Dagjour</td>
-						</tr>
-						<tr id="solnaKvallsjour" style="display: none;">
-							<td>Solna Kvällsjour</td>
-						</tr>
-						<tr id="solnaMellanjour" style="display: none;">
-							<td>Solna Mellanjour</td>
-						</tr>
-						<tr id="solnaNattjour" style="display: none;">
-							<td>Solna Nattjour</td>
-						</tr>
-						<tr id="solnaNattBakjour" style="display: none;">
-							<td>Solna Natt Bakjour</td>
-						</tr>
-						<tr id="solnaDagBakjour" style="display: none;">
-							<td>Solna Dag Bakjour</td>
-						</tr>
-						<tr id="kfSkvall" style="display: none;">
-							<td>KF Solna Kvällsjour</td>
-						</tr>
-						<tr id="kfShelg" style="display: none;">
-							<td>KF Solna Helgjour</td>
-						</tr>
-						<tr id="Hnattjour" style="display: none;">
-							<td>Huddinge Nattjour</td>
-						</tr>
-						<tr id="Hbakjour" style="display: none;">
-							<td>Huddinge Bakjour</td>
-						</tr>
 					</tbody>
 				</table>
 			</div>
@@ -337,6 +301,29 @@
 						<option value="schema">Schema</option>
 						<option value="akut">Akut</option>
 					</select>
+				</div>
+				<div class="form-group" id="chooseOnCall">
+					<label for="chooseOnCall">Välj jourlinjer att visa</label><br>
+					<div class="custom-control custom-checkbox custom-control-inline">
+						<input type="checkbox" class="custom-control-input" id="SolnaOncall" name="chooseOnCall[]" value="Solna">
+						<label class="custom-control-label" for="SolnaOncall">Solna</label>
+					</div>
+					<div class="custom-control custom-checkbox custom-control-inline">
+						<input type="checkbox" class="custom-control-input" id="KFOncall" name="chooseOnCall[]" value="KF">
+						<label class="custom-control-label" for="KFOncall">Klinfys</label>
+					</div>
+					<div class="custom-control custom-checkbox custom-control-inline">
+						<input type="checkbox" class="custom-control-input" id="NeuroOncall" name="chooseOnCall[]" value="Neuro">
+						<label class="custom-control-label" for="NeuroOncall">Neuro</label>
+					</div>
+					<div class="custom-control custom-checkbox custom-control-inline">
+						<input type="checkbox" class="custom-control-input" id="HuddingeOncall" name="chooseOnCall[]" value="Huddinge">
+						<label class="custom-control-label" for="HuddingeOncall">Huddinge</label>
+					</div>
+					<div class="custom-control custom-checkbox custom-control-inline">
+						<input type="checkbox" class="custom-control-input" id="BarnOncall" name="chooseOnCall[]" value="Barn">
+						<label class="custom-control-label" for="BarnOncall">Barn</label>
+					</div>
 				</div>
 				<div class="form-group">
 					<label for="userMedinetPassword">Lösenord till medinet</label>
