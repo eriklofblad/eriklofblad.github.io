@@ -1,9 +1,15 @@
 <?php
 
 
-//$initialtime =  microtime(true);
 
-//$intermediatetime = microtime(true);
+
+if(isset($_REQUEST["debug"])){
+    $debug = true;
+    $initialtime =  microtime(true);
+    $intermediatetime = microtime(true);
+}else{
+    $debug = false;
+}
 
 $db_names = array(
     "ksrtgsolna",
@@ -29,29 +35,36 @@ $cutoff_time = 180; //minutes
 
 $filetime = filemtime($jour_file);
 
-if (file_exists($jour_file) && $filetime > (time() - $cache_time*60) && idate('md',$filetime) == idate('md')) {
-    $file = file_get_contents($jour_file);
-    echo $file;
-}else if(file_exists($jour_file) && filemtime($jour_file) > (time() - $cutoff_time*60) && idate('md',$filetime) == idate('md')){
-    $file = file_get_contents($jour_file);
-    echo $file;
+
+if(!$debug){
+    if (file_exists($jour_file) && $filetime > (time() - $cache_time*60) && idate('md',$filetime) == idate('md')) {
+        $file = file_get_contents($jour_file);
+        echo $file;
+    }else if(file_exists($jour_file) && filemtime($jour_file) > (time() - $cutoff_time*60) && idate('md',$filetime) == idate('md')){
+        $file = file_get_contents($jour_file);
+        echo $file;
+        getMedinetSites($jour_file);
+    }else{
+        getMedinetSites($jour_file);
+        $file = file_get_contents($jour_file);
+        echo $file;
+    }
+
+}else if($debug){
     getMedinetSites($jour_file);
-}else{
-    getMedinetSites($jour_file);
-    $file = file_get_contents($jour_file);
-    echo $file;
+
+    echo "<br> sluttid "  . (microtime(true) - $initialtime) . "<br>";
 }
 
 
 
-//getMedinetSites($jour_file);
-
-//echo "<br> sluttid "  . (microtime(true) - $initialtime) . "<br>";
 
 function getMedinetSites($jour_file){
-
-    global $initialtime;
-    global $intermediatetime;
+    global $debug;
+    if($debug){
+        global $initialtime;
+        global $intermediatetime;
+    }
     global $db_names;
     global $medinetcodes;
 
@@ -77,6 +90,7 @@ function getMedinetSites($jour_file){
         $url = "https://schema.medinet.se/". $db_name . "/schema/" . $medinetcodes[$i];
         $conn[$i] = curl_init($url);
         $medinetpostdata = "yearweek=". date('Y') ."%3A".date('W')."&schedule_type=week_vs_activity&schedule_subtype=days&show-no-weeks=1&confirmMessage=%C3%84r+du+s%C3%A4ker%3F&userId=-100&code=".$medinetcodes[$i]."&customer=".$db_name."&language=se";
+        if($debug){echo $medinetpostdata . "<br>";}
         curl_setopt_array($conn[$i], $curloptions);
         curl_setopt($conn[$i], CURLOPT_POST, TRUE);
         curl_setopt($conn[$i], CURLOPT_POSTFIELDS, $medinetpostdata);
@@ -100,9 +114,10 @@ function getMedinetSites($jour_file){
     }
 
     curl_multi_close($mh);
-
-    //echo "efter första hämtning "  . (microtime(true) - $intermediatetime) . "<br>";
-    //$intermediatetime = microtime(true);
+    if($debug){
+        echo "efter första hämtning "  . (microtime(true) - $intermediatetime) . "<br>";
+        $intermediatetime = microtime(true);
+    }
 
     $jourkoder = array(
         array(),
@@ -113,7 +128,7 @@ function getMedinetSites($jour_file){
 
     $cutpositions = array(
         array("bakjour", "lunchvakt dt"),
-        array("rjour", "bakjour ("),
+        array("rjour", "ej jour"),
         array("helg", "rlsrond"),
         array("rjour", "punktionsjour"),
         array("jour vardag", "mellanjour helg")
@@ -121,19 +136,21 @@ function getMedinetSites($jour_file){
 
     foreach ($res as $i => $medinetsite){
 
-        //echo $i . $cutpositions[$i][0] . " " . $cutpositions[$i][1] . "<br>";
         $firstcut = stripos($medinetsite, $cutpositions[$i][0]);
         $secondcut = strripos($medinetsite, $cutpositions[$i][1], $firstcut);
-
-        //echo "first = " . $firstcut . " " . "second = " . $secondcut . "length = " . ($secondcut-$firstcut) . "<br>";
+        if($debug){
+            echo "<br>". $db_names[$i]. "<br>";
+            echo $i . $cutpositions[$i][0] . " " . $cutpositions[$i][1] . "<br>";
+            echo "first = " . $firstcut . " " . "second = " . $secondcut . "length = " . ($secondcut-$firstcut) . "<br>";
+        }
         $medinetsite = substr($medinetsite,$firstcut, $secondcut-$firstcut);
         $n = 0;
 
         foreach($positions[$i] as $jour => $position){
             $findposition = $position . "-" . date('Y-m-d');
-            //echo $findposition. " ";
+            if($debug){echo $findposition. " ";}
             $test = stripos($medinetsite, $findposition);
-            //echo $test. " ";
+            if($debug){echo $test. " ";}
             if($test != false){
                 $firstfind = "slotInfo('";
                 $firstcut = stripos($medinetsite, $firstfind, $test) + strlen($firstfind);
@@ -142,7 +159,7 @@ function getMedinetSites($jour_file){
                     $secondcut = stripos($medinetsite, "',", $firstcut);
                     $jourkod = substr($medinetsite,$firstcut, $secondcut-$firstcut);
                     $jourkoder[$i][$n] = $jourkod;
-                    //echo $i . ": " . $jourkod . "<br>";
+                    if($debug){echo $i . ": " . $jourkod . "<br>";}
                     $n++;
                 }
                 
@@ -150,14 +167,16 @@ function getMedinetSites($jour_file){
             
         }
     }
-    //echo "efter första processning "  . (microtime(true) - $intermediatetime) . "<br>";
-    //$intermediatetime = microtime(true);
+    if($debug){
+        echo "efter första processning "  . (microtime(true) - $intermediatetime) . "<br>";
+        $intermediatetime = microtime(true);
+    }
     getMedinetInfo($jourkoder, $jour_file);
 
 }
 
 function getMedinetInfo($jourkoder, $jour_file){
-
+    global $debug;
     global $initialtime;
     global $intermediatetime;
     global $db_names;
@@ -203,10 +222,10 @@ function getMedinetInfo($jourkoder, $jour_file){
         }
     }
     curl_multi_close($mh2);
-
-    //echo "efter andra hämtning "  . (microtime(true) - $intermediatetime) . "<br>";
-    //$intermediatetime = microtime(true);
-
+    if($debug){
+        echo "efter andra hämtning "  . (microtime(true) - $intermediatetime) . "<br>";
+        $intermediatetime = microtime(true);
+    }
     $finalJSON = array(
         Solna => array(),
         Neuro => array(),
@@ -279,12 +298,14 @@ function getMedinetInfo($jourkoder, $jour_file){
             $finalJSON[$site[$n]][]= array("jourtyp"=>utf8_encode($jourtyp), "jourtod"=>$jourtod,"starttime"=>$starttime, "stopptime"=>$stopptime, "journamn"=>utf8_encode($journamn));
         }
     }
+    if($debug){
+        echo "efter andra processning " . (microtime(true) - $intermediatetime) . "<br>";
+        // var_dump($finalJSON);
 
-    //echo "efter andra processning " . (microtime(true) - $intermediatetime) . "<br>";
-    //var_dump($finalJSON);
-
-    //echo json_encode($finalJSON);
-    file_put_contents($jour_file, json_encode($finalJSON) , LOCK_EX); ;
+        echo json_encode($finalJSON);
+    }else{
+        file_put_contents($jour_file, json_encode($finalJSON) , LOCK_EX);
+    }
 }
 
 ?>
