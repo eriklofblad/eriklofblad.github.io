@@ -1,3 +1,5 @@
+var userData;
+
 $(document).ready(function () {
 	$.ajaxSetup({ cache: false });
 	/**
@@ -8,8 +10,6 @@ $(document).ready(function () {
 			return this.substr(!pos || pos < 0 ? 0 : +pos, search.length) === search;
 		};
     }
-	
-	var userData
 
 	checkUser();
 
@@ -68,7 +68,6 @@ $(document).ready(function () {
 			});
 		};
 	});
-
 });
 
 /**
@@ -400,4 +399,16 @@ function getOnCallDr2(getSites){
 			});
 		});
 	});
+}
+
+function statdxSubmit(){
+	if(userData === undefined){
+		window.open("https://app.statdx.com/login");
+	}else{
+		if(userData.responseJSON.statdxusername != undefined){
+			document.getElementById("statdxform").submit();
+		}else{
+			window.open("https://app.statdx.com/login");
+		}
+	}
 }
