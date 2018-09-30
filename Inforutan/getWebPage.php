@@ -32,25 +32,20 @@
 				if(strpos($contentType, "ISO-8859-1") != FALSE){
 					$html= mb_convert_encoding($html, "UTF-8", "ISO-8859-1");
 				}
-
-				if(isset($_GET["medinetcut1"]) && isset($_GET["medinetcut2"])){
-					$firstcut = $_GET["medinetcut1"];
-					$secondcut = $_GET["medinetcut2"];
-					$medinetconcat = true;
+				if(isset($_GET["newscut"])){
+					$firstcut = 'class="news-list">';
+					$secondcut = '</section>';
 				}else{
 					$firstcut = "<body>";
 					$secondcut = "</body>";
-					$medinetconcat1 = false;
 				}
 
-				$startpos = stripos($html, $firstcut);
+				$startpos = stripos($html, $firstcut) + strlen($firstcut);
 				$endpos = strripos($html, $secondcut);
 				$length = $endpos - $startpos;
-				if($medinetconcat === true){
-					$body = "<body><table><tbody><tr><td><table><tbody><tr><td>" . substr($html, $startpos, $length) . "</td></tr></tbody></table></td></tr></tbody></table></body>";
-				}else{
-					$body = substr($html, $startpos, $length);
-				}
+
+				$body = "<!DOCTYPE html><html><head></head><body>" . substr($html, $startpos, $length) . "</body></html>";
+
 				//$body = preg_replace('~<body[^>]*>(.*?)</body>~si', "", $html) or die("Unable to do preg_replace");
 				
 				echo $body;

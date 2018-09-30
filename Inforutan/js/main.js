@@ -10,21 +10,14 @@ $(document).ready(function () {
 		String.prototype.startsWith = function (search, pos) {
 			return this.substr(!pos || pos < 0 ? 0 : +pos, search.length) === search;
 		};
-    }
+	}
+	
+	//Checks if a username is supplied in the query, if it is it gets the user settings and populates them on the page
 
 	checkUser();
 
-	/**
-	Hide collapseable card if pressed anywhere on the card
-	*/
-	// 	$('.card').on('click', function(event) {
-	// 		var target = $(event.target).children('a').attr('href');
-	// 		$(target).collapse('toggle');
-	//    });
+	//Toggle cards if pressed anywhere on the card header
 
-	/**
-	Hide collapseable card if pressed anywhere on the card
-	*/
 	$('.card-header').on('click', function (event) {
 		var target = $(event.target).attr('data-target');
 		$(target).collapse('toggle');
@@ -83,10 +76,10 @@ function webScraper() {
 	Akut info
 	*/
 	// Working on hospital network (Uncomment and remove the test link below this link)
-	$.get('getWebPage.php', { site: 'http://inuti.karolinska.se/Driftinformation/Driftinformation/Akut-driftinformation/', cachetime: 5 }, function (html) {
+	$.get('getWebPage.php', { site: 'http://inuti.karolinska.se/Driftinformation/Driftinformation/Akut-driftinformation/', cachetime: 5, newscut: "true" }, function (html) {
 
 	//######################### OBS Testing purpose only (Remove on production) OBS ######################
-	// $.get('/Infopanel/getWebPage.php', { site: 'http://localhost/Infopanel/AkutDriftinformation.html' }, function (html) {
+	//$.get('getWebPage.php', { site: 'http://localhost/AkutDriftinformation.htm', cachetime: 5, newscut: "true" }, function (html) {
 		//######################### OBS Testing purpose only (Remove on production) OBS ######################    
 
 		//Extract the news tag
@@ -121,7 +114,7 @@ function webScraper() {
 	Planerad/Ongoing info
 	*/
 	// Working on hospital network (Uncomment and remove the test link below this link)
-	$.get('getWebPage.php', { site: 'http://inuti.karolinska.se/Driftinformation/Driftinformation/Planerad-driftsinformation/', cachetime:5 }, function (html) {
+	$.get('getWebPage.php', { site: 'http://inuti.karolinska.se/Driftinformation/Driftinformation/Planerad-driftsinformation/', cachetime:5, newscut: "true" }, function (html) {
 
 	//######################### OBS Testing purpose only (Remove on production) OBS ######################
 	// $.get('/Infopanel/getWebPage.php', { site: 'http://localhost/Infopanel/PlaneradDriftinformation.html' }, function (html) {
@@ -241,7 +234,7 @@ function checkUser() {
 					onCallSite = "#" + site + "Oncall";
 					$(onCallSite).prop("checked", true);
 				});
-				getOnCallDr2(onCallSites);
+				getOnCallDr(onCallSites);
 			},
 			success: function(){
 				console.log('User "' + userName +  '" already excists');
@@ -253,7 +246,7 @@ function checkUser() {
 		//Remember selected tab on refresh and between sessions
 		keepTabOnReload(false);
 		onCallSites = ["Solna","Neuro","KF","Huddinge","Barn"]
-		getOnCallDr2(onCallSites);
+		getOnCallDr(onCallSites);
     }
 }
 
@@ -276,14 +269,14 @@ function populateUserSettings(repopulate){
 			onCallSite = "#" + site + "Oncall";
 			$(onCallSite).prop("checked", true);
 		});
-		getOnCallDr2(userData.responseJSON.chooseOnCall);
+		getOnCallDr(userData.responseJSON.chooseOnCall);
 	}else{
 		onCallSites = ["Solna","Neuro","KF","Huddinge","Barn"]
 		$.each(onCallSites, function(index, site){
 			onCallSite = "#" + site + "Oncall";
 			$(onCallSite).prop("checked", true);
 		});
-		getOnCallDr2(onCallSites);
+		getOnCallDr(onCallSites);
 	}
 	
 	if(userData.responseJSON.medinetSite != null){
@@ -359,7 +352,7 @@ function failAlert(){
 }
 
 
-function getOnCallDr2(getSites){
+function getOnCallDr(getSites){
 	$("#jourListaBody").html("");
 	$.getJSON('getJourer.php', function(data){
 		$.each(data, function(site, jourArray){
