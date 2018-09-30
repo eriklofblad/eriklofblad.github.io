@@ -274,7 +274,7 @@ function getMedinetInfo($jourkoder, $jour_file){
 
             $starttime = idate('H', $starttimestamp);
             $stopptime = idate('H', $stopptimestamp);
-            if(idate('d',$starttimestamp) < idate('d', $stopptimestamp) || idate('m',$starttimestamp) < idate('m', $stopptimestamp)){
+            if(idate('d',$starttimestamp) != idate('d', $stopptimestamp)){
                 if($starttime > 12){
                     $jourtod = "Natt";
                 }
