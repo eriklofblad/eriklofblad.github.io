@@ -398,6 +398,7 @@ function openPhoneSearch(){
 		searchWindow = window.open('phone.html',"_blank", "width=400, height=600, resizable=yes, scrollbars=yes");
 	}else{
 		searchWindow.focus();
+		searchWindow.document.getElementById("searchNumber").focus();
 	}
 	
 }
