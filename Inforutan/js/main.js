@@ -1,4 +1,5 @@
 var userData;
+var searchWindow;
 
 $(document).ready(function () {
 	$.ajaxSetup({ cache: false });
@@ -30,6 +31,8 @@ $(document).ready(function () {
 	});
 
 
+
+
 	//Scrape website
 	webScraper(); //Run once before the loop
 	setInterval(webScraper, 300000); //Run every 5 minutes
@@ -44,29 +47,6 @@ $(document).ready(function () {
 	$('#userSettingsForm').submit(event, function(){
 		submitUserForm();
 		event.preventDefault();
-	});
-
-	//Search for phonenumbers
-	$('#searchNumber').keyup(function () {
-		$('#numberList').html('');
-		//$('#state').val('');
-		var searchField = $('#searchNumber').val();
-		if (searchField != '') {
-			var expression = new RegExp(searchField, 'i');
-			$.getJSON('telefonbok_3.json', function (data) {
-				$('#numberList').html('<thead><tr><th>Namn</th><th>Nummer</th><th>Roll</th><th>FO</th></thead>');
-				$('#numberList').append('<tbody>');
-				$.each(data, function (key1, value1) {
-					$.each(value1, function (key, value) {
-						if (value.name.search(expression) != -1) {
-							//här väljer vi vilka noder som ska visas
-							$('#numberList').append('<tr><th id="erikstest" scope="row" data-toggle="tooltip" title="' + value.description + '">' + value.name + '</th><td>' + value.phonenumber + '</td><td>' + value.type + '</td><td>' + value.organisation + '</td></tr>');
-						}
-					});
-				});
-				$('#numberList').append('</tbody>');
-			});
-		};
 	});
 });
 
@@ -411,4 +391,13 @@ function statdxSubmit(){
 			window.open("https://app.statdx.com/login");
 		}
 	}
+}
+
+function openPhoneSearch(){
+	if(!searchWindow || searchWindow.closed){
+		searchWindow = window.open('phone.html',"_blank", "width=400, height=600, resizable=yes, scrollbars=yes");
+	}else{
+		searchWindow.focus();
+	}
+	
 }
