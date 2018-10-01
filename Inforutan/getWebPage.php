@@ -44,7 +44,7 @@
 				$endpos = strripos($html, $secondcut);
 				$length = $endpos - $startpos;
 
-				$body = "<!DOCTYPE html><html><head></head><body>" . substr($html, $startpos, $length) . "</body></html>";
+				$body = "<!DOCTYPE html><html><head></head><body>" . trim(substr($html, $startpos, $length)) . "</body></html>";
 
 				//$body = preg_replace('~<body[^>]*>(.*?)</body>~si', "", $html) or die("Unable to do preg_replace");
 				
