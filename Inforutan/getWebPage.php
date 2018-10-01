@@ -33,15 +33,15 @@
 					$html= mb_convert_encoding($html, "UTF-8", "ISO-8859-1");
 				}
 				if(isset($_GET["newscut"])){
-					$firstcut = 'class="news-list">';
+					$firstcut = '<section class="news-list">';
 					$secondcut = '</section>';
 				}else{
 					$firstcut = "<body>";
 					$secondcut = "</body>";
 				}
 
-				$startpos = stripos($html, $firstcut) + strlen($firstcut);
-				$endpos = strripos($html, $secondcut);
+				$startpos = stripos($html, $firstcut);
+				$endpos = strripos($html, $secondcut) + strlen($secondcut);
 				$length = $endpos - $startpos;
 
 				$body = "<!DOCTYPE html><html><head></head><body>" . trim(substr($html, $startpos, $length)) . "</body></html>";
