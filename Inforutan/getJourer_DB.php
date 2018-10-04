@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__ . "/vendor/autoload.php";
+
 if(isset($_REQUEST["debug"])){
     $debug = true;
     $initialtime =  microtime(true);
