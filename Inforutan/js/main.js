@@ -48,7 +48,7 @@ Remember selected tab on refresh and between sessions
 Requires nav-tab to have myTab ID and the tabs to have the datatoggle "tab"
 */
 function keepTabOnReload(inclSetTab) {
-	$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+	$('#myTab a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
 		localStorage.setItem('activeTab', $(e.target).attr('href'));
 	});
 	var activeTab = localStorage.getItem('activeTab');
@@ -354,22 +354,20 @@ function failAlert(){
 
 function getOnCallDr(getSites){
 	$("#jourListaBody").html("");
-	$.getJSON('getJourer.php', function(data){
-		$.each(data, function(site, jourArray){
-			$.each(jourArray, function(index, jour){
-				$.each(getSites, function(index, siteGet){
-					if(site == siteGet){
-						if(jour.jourtyp == "Bakjour" || jour.jourtyp == "Mellanjour"){
-							 var jourtypfiltered = jour.jourtyp + " ";
-						}else{
-							var jourtypfiltered = jour.jourtod + "jour ";
-						}
-						$("#jourListaBody").append('<tr class="' + site + '"><td>' + site + " " + jourtypfiltered + jour.starttime + "-" + jour.stopptime +  '</td><td>' + jour.journamn + '</td></tr>'
-						);
-					}
-				});
-				
-			});
+	var jourRequest = 'getJourer_DB.php?';
+	$.each(getSites, function(index, site){
+		jourRequest += "site[]=" + site + "&";
+	});
+	$.getJSON(jourRequest, function(data){
+		$.each(data, function(index, jour){
+			if(jour.jourtyp == "Bakjour" || jour.jourtyp == "Mellanjour"){
+					var jourtypfiltered = jour.jourtyp + " ";
+			}else{
+				var jourtypfiltered = jour.jourtod + "jour ";
+			}
+			$("#jourListaBody").append('<tr class="' + jour.site + '"><td>' + jour.site + " " + jourtypfiltered + jour.starttime + "-" + jour.stopptime +  '</td><td>' + jour.journamn + '</td></tr>'
+			);
+			
 		});
 	});
 }

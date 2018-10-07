@@ -184,16 +184,34 @@
 				</div>
 			</div>
 			<hr>
+			<h5>Dygnets jourer</h5>
 			<div id="jourLista">
-				<table class="table table-borderless table-sm">
-					<thead>
-						<tr>
-							<th scope="col" colspan="2">Dygnets jourer</th>
-						</tr>
-					</thead>
-					<tbody id="jourListaBody">
-					</tbody>
-				</table>
+				<ul class="nav nav-pills nav-fill" id="jourTab">
+					<li class="nav-item">
+						<a class="nav-link px-1 py-2" data-toggle="tab" href="#jouryesterday">Igår</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link px-1 py-2 active" data-toggle="tab" href="#jourtoday">Idag</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link px-1 py-2" data-toggle="tab" href="#jourtomorrow">Imorn</a>
+					</li>
+				</ul>
+				<div class="tab-content">
+					<div id="jouryesterday" class="tab-pane fade">
+
+					</div>
+					<div id="jourtoday" class="tab-pane fade active show">
+						<table class="table table-borderless table-sm">
+							<tbody id="jourListaBody">
+							</tbody>
+						</table>
+					</div>
+					
+					<div id="jourtomorrow" class="tab-pane fade">
+
+					</div>
+				</div>
 			</div>
 		</div>
 		<div id="akut" class="tab-pane fade container-fluid mt-5">
