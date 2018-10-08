@@ -121,7 +121,7 @@ function webScraper() {
 		//######################### OBS Testing purpose only (Remove on production) OBS ######################
 
 		//The limit for how many days ahead should be displayed
-		var todaysDate = new Date($.now());
+		var todaysDate = new Date();
 		var firstDateLimit = new Date(); //Limits how long ahead to search for RIS/PACS/takecare
 		var secondDateLimit = new Date(); //Limits how long ahead to display other news
 
@@ -358,14 +358,34 @@ function getOnCallDr(getSites){
 	$.each(getSites, function(index, site){
 		jourRequest += "site[]=" + site + "&";
 	});
-	$.getJSON(jourRequest, function(data){
+	var d = new Date();
+	d.setHours(d.getHours()-7);
+	jourRequest += "centerdate=" + d.toISOString().substr(0,10);
+	var intDate = d.getDate()-1;
+	for(i=0; i<3; i++){
+		d.setDate(intDate+i);
+		document.getElementById("jourListaBody"+i).id = "jourListaBody" + d.toLocaleDateString();
+		var jourlink = document.getElementById("jourLink"+i);
+		jourlink.id = "jourLink" + d.toLocaleDateString();
+		jourlink.innerHTML = d.getDate() + "/" + (d.getMonth()+1);
+	}
+
+	d = new Date();
+
+	document.getElementById("jourLink" + d.toLocaleDateString()).insertAdjacentHTML('beforeend', ' <span class="badge badge-light">Idag</span>');
+	$.ajax({
+		type: 'GET',
+		url: jourRequest,
+		dataType: "json"
+	}).done(function(data){
 		$.each(data, function(index, jour){
 			if(jour.jourtyp == "Bakjour" || jour.jourtyp == "Mellanjour"){
 					var jourtypfiltered = jour.jourtyp + " ";
 			}else{
 				var jourtypfiltered = jour.jourtod + "jour ";
 			}
-			$("#jourListaBody").append('<tr class="' + jour.site + '"><td>' + jour.site + " " + jourtypfiltered + jour.starttime + "-" + jour.stopptime +  '</td><td>' + jour.journamn + '</td></tr>'
+			var jourid = "jourListaBody"+ jour.startdate;
+			document.getElementById(jourid).insertAdjacentHTML('beforeend','<tr class="' + jour.site + '"><td>' + jour.site + " " + jourtypfiltered + jour.starttime + "-" + jour.stopptime +  '</td><td>' + jour.journamn + '</td></tr>'
 			);
 			
 		});

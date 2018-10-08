@@ -14,13 +14,19 @@ if(isset($_GET["site"])){
         $sites[] = ['site' => $site];
     };
 
+    $centerdate = $_GET["centerdate"];
+    $centerdateobject = new DateTimeImmutable($centerdate);
+    $firstdate = $centerdateobject->add(new DateInterval('P1D'))->format('Y-m-d');
+    $lastdate = $centerdateobject->sub(new DateInterval('P1D'))->format('Y-m-d');
+
 
     $jourer = $jourcollection->find(
         [   '$and' => [
                 ['$or' =>
                 [
-                    ['startdate' => '2018-10-07']
-                    //['startdate' => '2018-10-08']
+                    ['startdate' => $centerdate],
+                    ['startdate' => $firstdate],
+                    ['startdate' => $lastdate]
                 ]],
                 ['$or' => $sites]
             ]

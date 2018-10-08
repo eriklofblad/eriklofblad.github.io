@@ -188,28 +188,34 @@
 			<div id="jourLista">
 				<ul class="nav nav-pills nav-fill" id="jourTab">
 					<li class="nav-item">
-						<a class="nav-link px-1 py-2" data-toggle="tab" href="#jouryesterday">Igår</a>
+						<a id="jourLink0" class="nav-link px-1 py-2" data-toggle="tab" href="#jouryesterday">Igår</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link px-1 py-2 active" data-toggle="tab" href="#jourtoday">Idag</a>
+						<a id="jourLink1" class="nav-link px-1 py-2 active" data-toggle="tab" href="#jourtoday">Idag</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link px-1 py-2" data-toggle="tab" href="#jourtomorrow">Imorn</a>
+						<a id="jourLink2" class="nav-link px-1 py-2" data-toggle="tab" href="#jourtomorrow">Imorn</a>
 					</li>
 				</ul>
 				<div class="tab-content">
 					<div id="jouryesterday" class="tab-pane fade">
-
+						<table class="table table-borderless table-sm">
+							<tbody id="jourListaBody0">
+							</tbody>
+						</table>
 					</div>
 					<div id="jourtoday" class="tab-pane fade active show">
 						<table class="table table-borderless table-sm">
-							<tbody id="jourListaBody">
+							<tbody id="jourListaBody1">
 							</tbody>
 						</table>
 					</div>
 					
 					<div id="jourtomorrow" class="tab-pane fade">
-
+						<table class="table table-borderless table-sm">
+							<tbody id="jourListaBody2">
+							</tbody>
+						</table>
 					</div>
 				</div>
 			</div>
