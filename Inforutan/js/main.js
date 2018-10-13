@@ -4,14 +4,14 @@ var searchWindow;
 $(document).ready(function () {
 	$.ajaxSetup({ cache: false });
 	/**
-	Polyfill for missing function startsWith within Internet Explorer 
+	Polyfill for missing function startsWith within Internet Explorer
 	*/
 	if (!String.prototype.startsWith) {
 		String.prototype.startsWith = function (search, pos) {
 			return this.substr(!pos || pos < 0 ? 0 : +pos, search.length) === search;
 		};
 	}
-	
+
 	//Checks if a username is supplied in the query, if it is it gets the user settings and populates them on the page
 
 	checkUser();
@@ -80,7 +80,7 @@ function webScraper() {
 
 	//######################### OBS Testing purpose only (Remove on production) OBS ######################
 	//$.get('getWebPage.php', { site: 'http://localhost/AkutDriftinformation.htm', cachetime: 5, newscut: "true" }, function (html) {
-		//######################### OBS Testing purpose only (Remove on production) OBS ######################    
+		//######################### OBS Testing purpose only (Remove on production) OBS ######################
 
 		//Extract the news tag
 		var news_elements = $(html).find('.news');
@@ -143,7 +143,7 @@ function webScraper() {
 			//Extract the 10 first characters from the date in the news and convert it to Date-format
 			var date = new Date(a.prev().attr('datetime').substring(0, 10));
 
-			//Remove news if older than the first limit 
+			//Remove news if older than the first limit
 			if (date > firstDateLimit) {
 				a.parent().remove();
 			}
@@ -214,7 +214,7 @@ function getUrlParameter(name) {
 
 //Check if a username is specified and if so set the user settings.
 function checkUser() {
-	userName = getUrlParameter('user') 
+	userName = getUrlParameter('user')
     if(userName != ''){
 		$("#navSettings").show();
 		userFile = "userData/" + userName + ".json"
@@ -253,12 +253,12 @@ function checkUser() {
 //This function is run when a known user logs on and applies that users settings.
 function populateUserSettings(repopulate){
 	console.log(repopulate);
-	
+
 	$.each(userData.responseJSON, function(key, value){
 		if(key != "medinetSite" && key != "chooseOnCall"){
 			$("[name=" + key + "]").val(value);
 		}
-		
+
 	});
 	if(userData.responseJSON.phoneNumber1 != ""){
 		document.getElementById("displayUserPhoneNumber").innerHTML = '<div class="alert alert-secondary py-2">Ditt telefonnummer är ' + userData.responseJSON.phoneNumber1 + '<button type="button" class="close" data-dismiss="alert"><span>&times;</span></button></div>';
@@ -278,13 +278,13 @@ function populateUserSettings(repopulate){
 		});
 		getOnCallDr(onCallSites);
 	}
-	
+
 	if(userData.responseJSON.medinetSite != null){
 		selectSite = "medinetSite" + userData.responseJSON.medinetSite;
 		document.getElementById(selectSite).checked = true;
 		document.getElementById(selectSite).parentNode.classList.add("active");
 	}
-	
+
 	document.getElementById("SDusername").value = userData.responseJSON.statdxusername;
 	document.getElementById("SDpassword").value = userData.responseJSON.statdxpassword;
 
@@ -297,8 +297,8 @@ function populateUserSettings(repopulate){
 			$('#myTab a[href="#' + userData.responseJSON.startTab + '"]').tab('show');
 		}
 	}
-	
-	
+
+
 }
 
 function repopulateUserSettings(){
@@ -338,7 +338,7 @@ function submitUserForm(){
 			failAlert();
 			console.log(data);
 		}
-		
+
 	}).fail(function(){
 		failAlert();
 	});
@@ -353,7 +353,7 @@ function failAlert(){
 
 
 function getOnCallDr(getSites){
-	$("#jourListaBody").html("");
+
 	var jourRequest = 'getJourer_DB.php?';
 	$.each(getSites, function(index, site){
 		jourRequest += "site[]=" + site + "&";
@@ -364,15 +364,18 @@ function getOnCallDr(getSites){
 	var intDate = d.getDate()-1;
 	for(i=0; i<3; i++){
 		d.setDate(intDate+i);
-		document.getElementById("jourListaBody"+i).id = "jourListaBody" + d.toLocaleDateString();
+		var datestring = d.toLocaleDateString();
+		var jourbody = document.getElementById("jourListaBody"+i);
+		jourbody.setAttribute("data-date", datestring.replace(/\u200e/g,""));
+		jourbody.innerHTML = "";
 		var jourlink = document.getElementById("jourLink"+i);
-		jourlink.id = "jourLink" + d.toLocaleDateString();
+		jourlink.setAttribute("data-date", datestring);
 		jourlink.innerHTML = d.getDate() + "/" + (d.getMonth()+1);
 	}
 
 	d = new Date();
 
-	document.getElementById("jourLink" + d.toLocaleDateString()).insertAdjacentHTML('beforeend', ' <span class="badge badge-light">Idag</span>');
+	document.querySelector('a[data-date="' + d.toLocaleDateString()+'"]').insertAdjacentHTML('beforeend', ' <span class="badge badge-light">Idag</span>');
 	$.ajax({
 		type: 'GET',
 		url: jourRequest,
@@ -384,10 +387,9 @@ function getOnCallDr(getSites){
 			}else{
 				var jourtypfiltered = jour.jourtod + "jour ";
 			}
-			var jourid = "jourListaBody"+ jour.startdate;
-			document.getElementById(jourid).insertAdjacentHTML('beforeend','<tr class="' + jour.site + '"><td>' + jour.site + " " + jourtypfiltered + jour.starttime + "-" + jour.stopptime +  '</td><td>' + jour.journamn + '</td></tr>'
-			);
-			
+			var query = 'tbody[data-date="' + jour.startdate +'"]'
+			document.querySelector(query).insertAdjacentHTML('beforeend','<tr class="' + jour.site + '"><td>' + jour.site + " " + jourtypfiltered + jour.starttime + "-" + jour.stopptime +  '</td><td>' + jour.journamn + '</td></tr>');
+
 		});
 	});
 }
@@ -411,5 +413,5 @@ function openPhoneSearch(){
 		searchWindow.focus();
 		searchWindow.document.getElementById("searchNumber").focus();
 	}
-	
+
 }
