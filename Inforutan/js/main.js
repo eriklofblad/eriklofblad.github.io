@@ -47,15 +47,13 @@ $(document).ready(function () {
 Remember selected tab on refresh and between sessions
 Requires nav-tab to have myTab ID and the tabs to have the datatoggle "tab"
 */
-function keepTabOnReload(inclSetTab) {
+function keepTabOnReload() {
 	$('#myTab a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
 		localStorage.setItem('activeTab', $(e.target).attr('href'));
 	});
 	var activeTab = localStorage.getItem('activeTab');
 	if (activeTab) {
-		if(inclSetTab || activeTab != "#userSettings"){
-			$('#myTab a[href="' + activeTab + '"]').tab('show');
-		}
+		$('#myTab a[href="' + activeTab + '"]').tab('show');
 	}
 }
 
@@ -216,7 +214,6 @@ function getUrlParameter(name) {
 function checkUser() {
 	userName = getUrlParameter('user')
     if(userName != ''){
-		$("#navSettings").show();
 		userFile = "userData/" + userName + ".json"
 		userData = $.ajax({
 			url: userFile,
@@ -226,10 +223,10 @@ function checkUser() {
 				console.log('"'+ userName + '" is a new user');
 				document.getElementById("userNameInput").value = userName;
 				document.getElementById("newUserAlert").className = "alert alert-primary";
-				document.getElementById("newUserAlert").innerHTML = "<h4>Välkommen som ny användare</h4><p>Ställ in dina inställningar och tryck sen på spara. Genom att spara godkänner du att den information om dig som du angett sparas på denna server. Du kan när som helst återkomma hit och ta bort dina användarinställningar.</p>"
-				document.getElementById("saveUserSettings").innerHTML = "Spara & Godkänn"
+				document.getElementById("newUserAlert").innerHTML = "<h4>Välkommen som ny användare</h4><p>Ställ in dina inställningar och tryck sen på spara. Genom att spara godkänner du att den information om dig som du angett sparas på denna server. Du kan när som helst återkomma hit och ta bort dina användarinställningar.</p>";
+				document.getElementById("saveUserSettings").innerHTML = "Spara & Godkänn";
 				$('#myTab a[href="#userSettings"]').tab('show');
-				onCallSites = ["Solna","Neuro","KF","Huddinge","Barn"]
+				onCallSites = ["Solna","Neuro","KF","Huddinge","Barn"];
 				$.each(onCallSites, function(index, site){
 					onCallSite = "#" + site + "Oncall";
 					$(onCallSite).prop("checked", true);
@@ -243,8 +240,11 @@ function checkUser() {
 		});
     }else{
 		console.log('no user');
+		document.getElementById("userSettingsForm").innerHTML = "";
+		document.getElementById("newUserAlert").className = "alert alert-primary";
+		document.getElementById("newUserAlert").innerHTML = '<h4>Skapa konto</h4><p>För att kunna göra användarinställingar måste du skapa ett konto. Detta gör du genom att gå in i <kbd>inställningar/avancerade inställningar/</kbd> och söka efter infopanel. I slutet av den angivna adressen lägger du till <kbd>?user=*ditt HSAID*</kbd> (4 tecken). När du sen stänger ner inställningsfönstret så kommer det i den här rutan dyka upp flera inställningar.</p>';
 		//Remember selected tab on refresh and between sessions
-		keepTabOnReload(false);
+		keepTabOnReload();
 		onCallSites = ["Solna","Neuro","KF","Huddinge","Barn"]
 		getOnCallDr(onCallSites);
     }
@@ -292,7 +292,7 @@ function populateUserSettings(repopulate){
 		//if the user has set a specific start tab, start there. Otherwise start with the last tab.
 		if(userData.responseJSON.startTab == "1"){
 			//Remember selected tab on refresh and between sessions
-			keepTabOnReload(true);
+			keepTabOnReload();
 		}else{
 			$('#myTab a[href="#' + userData.responseJSON.startTab + '"]').tab('show');
 		}
@@ -364,7 +364,7 @@ function getOnCallDr(getSites){
 	var intDate = d.getDate()-1;
 	for(i=0; i<3; i++){
 		d.setDate(intDate+i);
-		var datestring = d.toLocaleDateString();
+		var datestring = d.toISOString().substr(0,10);
 		var jourbody = document.getElementById("jourListaBody"+i);
 		jourbody.setAttribute("data-date", datestring.replace(/\u200e/g,""));
 		jourbody.innerHTML = "";
@@ -375,7 +375,7 @@ function getOnCallDr(getSites){
 
 	d = new Date();
 
-	document.querySelector('a[data-date="' + d.toLocaleDateString()+'"]').insertAdjacentHTML('beforeend', ' <span class="badge badge-light">Idag</span>');
+	document.querySelector('a[data-date="' + d.toISOString().substr(0,10)+'"]').insertAdjacentHTML('beforeend', ' <span class="badge badge-light">Idag</span>');
 	$.ajax({
 		type: 'GET',
 		url: jourRequest,

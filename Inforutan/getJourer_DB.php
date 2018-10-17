@@ -1,10 +1,17 @@
 <?php
 
 require_once __DIR__ . "/vendor/autoload.php";
+require_once __DIR__ . "/secrets/secrets.php";
 
-$client = new MongoDB\Client("mongodb://inforutan:ip10KS02Los3n0rd@ds046027.mlab.com:46027/infopanel");
+$secr = new MDSecrets;
 
-$jourcollection = $client->selectCollection('infopanel','testcollection3');
+$client = new MongoDB\Client("mongodb://". $secr->mongo_username . ":" . $secr->mongo_password . "@ds046027.mlab.com:46027/infopanel");
+
+$jourcollection = $client->selectCollection('infopanel','jourer');
+
+
+
+
 
 if(isset($_GET["site"])){
 

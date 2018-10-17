@@ -2,6 +2,13 @@
 
 require_once __DIR__ . "/vendor/autoload.php";
 
+require_once __DIR__ . "/secrets/secrets.php";
+
+$secr = new MDSecrets;
+
+$client = new MongoDB\Client("mongodb://". $secr->mongo_username . ":" . $secr->mongo_password . "@ds046027.mlab.com:46027/infopanel");
+
+
 date_default_timezone_set('Europe/Stockholm');
 
 if(isset($_REQUEST["forceUpdate"])){
@@ -13,9 +20,7 @@ if(isset($_REQUEST["forceUpdate"])){
 
 $timeNow = new DateTimeImmutable();
 
-$client = new MongoDB\Client("mongodb://inforutan:ip10KS02Los3n0rd@ds046027.mlab.com:46027/infopanel");
-
-$jourcollection = $client->selectCollection('infopanel','testcollection3');
+$jourcollection = $client->selectCollection('infopanel','jourer');
 
 if(isset($_REQUEST["debug"])){
     $debug = true;
@@ -55,13 +60,13 @@ $dates = array(
 
 
 if(!$debug){
-    
-    
+
+
     $getUpdateTime = $jourcollection->findOne(['startdate' => $timeNow->format('Y-m-d')]);
     if($getUpdateTime !== null){
         $lastModified = $getUpdateTime['lastModified']->toDateTime();
         $cacheCutoff = $timeNow->sub(new DateInterval('PT' . $cache_time . 'M'));
-        
+
         if($lastModified < $cacheCutoff){
             getMedinetSites();
             echo "Updated total time: " . (microtime(true) - $initialtime) . "<br>";
@@ -79,7 +84,7 @@ if(!$debug){
         echo "Upload to Mlab: " . (microtime(true) - $intermediatetime) . "<br>";
         garbageCollection();
     }
-    
+
 
 }else if($debug){
     getMedinetSites();
@@ -181,7 +186,7 @@ function getMedinetSites(){
         $medinetsite = substr($medinetsite,$firstcut, $secondcut-$firstcut);
 
         foreach($positions[$i] as $jour => $position){
-            
+
             foreach($dates as $num => $date){
                 $findposition = $position . "-" . $date;
                 if($debug){echo $findposition. " ";}
@@ -197,10 +202,10 @@ function getMedinetSites(){
                         $jourkoder[$i][] = $jourkod;
                         if($debug){echo $i . ": " . $jourkod . "<br>";}
                     }
-                    
+
                 }
             }
-            
+
         }
     }
     if($debug){
@@ -286,7 +291,7 @@ function getMedinetInfo($jourkoder){
                 $jourtyp = substr($jourtyp, 0, $trimjourtyp);
             }
 
-            
+
             $firstfind2 = "<td>";
             $firstcut = stripos($response,$firstfind2, $secondcut) + strlen($firstfind2);
             $secondcut = stripos($response, "</td>", $firstcut);
@@ -337,20 +342,20 @@ function getMedinetInfo($jourkoder){
                 $finalJSON[]= array("site"=>$site[$n], "startdate"=>$startdate, "jourkod"=>$jourkoder[$n][$i] , "jourtyp"=>utf8_encode($jourtyp), "jourtod"=>$jourtod,"starttime"=>$starttime, "stopptime"=>$stopptime, "journamn"=>utf8_encode($journamn));
             }else{
                 $preUpload[] = [
-                    'replaceOne' =>[  
+                    'replaceOne' =>[
                         [
                             "site"=>$site[$n],
                             "startdate"=>$startdate,
                             "jourkod"=>$jourkoder[$n][$i],
                         ],
                         [
-                            "site"=>$site[$n], 
-                            "startdate"=>$startdate, 
-                            "jourkod"=>$jourkoder[$n][$i], 
-                            "jourtyp"=>utf8_encode($jourtyp), 
+                            "site"=>$site[$n],
+                            "startdate"=>$startdate,
+                            "jourkod"=>$jourkoder[$n][$i],
+                            "jourtyp"=>utf8_encode($jourtyp),
                             "jourtod"=>$jourtod,
-                            "starttime"=>$starttime, 
-                            "stopptime"=>$stopptime, 
+                            "starttime"=>$starttime,
+                            "stopptime"=>$stopptime,
                             "journamn"=>utf8_encode($journamn),
                             "lastModified" => new MongoDB\BSON\UTCDateTime($timeNow)
                         ],
@@ -385,7 +390,7 @@ function garbageCollection(){
         echo "Deleted ". $deleteResult->getDeletedCount() . " Documents from date: " . $date . "<br>";
     }
 
-    
+
 }
 
 ?>

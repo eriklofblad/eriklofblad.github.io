@@ -24,11 +24,29 @@ class ComposerStaticInit882a0f7952fab36cf0f41ac8b3011bc9
         ),
     );
 
+    public static $prefixesPsr0 = array (
+        's' => 
+        array (
+            'stringEncode' => 
+            array (
+                0 => __DIR__ . '/..' . '/paquettg/string-encode/src',
+            ),
+        ),
+        'P' => 
+        array (
+            'PHPHtmlParser' => 
+            array (
+                0 => __DIR__ . '/..' . '/paquettg/php-html-parser/src',
+            ),
+        ),
+    );
+
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInit882a0f7952fab36cf0f41ac8b3011bc9::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit882a0f7952fab36cf0f41ac8b3011bc9::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit882a0f7952fab36cf0f41ac8b3011bc9::$prefixesPsr0;
 
         }, null, ClassLoader::class);
     }
