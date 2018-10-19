@@ -4,14 +4,14 @@ var searchWindow;
 $(document).ready(function () {
 	$.ajaxSetup({ cache: false });
 	/**
-	Polyfill for missing function startsWith within Internet Explorer 
+	Polyfill for missing function startsWith within Internet Explorer
 	*/
 	if (!String.prototype.startsWith) {
 		String.prototype.startsWith = function (search, pos) {
 			return this.substr(!pos || pos < 0 ? 0 : +pos, search.length) === search;
 		};
 	}
-	
+
 	//Checks if a username is supplied in the query, if it is it gets the user settings and populates them on the page
 
 	checkUser();
@@ -47,15 +47,13 @@ $(document).ready(function () {
 Remember selected tab on refresh and between sessions
 Requires nav-tab to have myTab ID and the tabs to have the datatoggle "tab"
 */
-function keepTabOnReload(inclSetTab) {
-	$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+function keepTabOnReload() {
+	$('#myTab a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
 		localStorage.setItem('activeTab', $(e.target).attr('href'));
 	});
 	var activeTab = localStorage.getItem('activeTab');
 	if (activeTab) {
-		if(inclSetTab || activeTab != "#userSettings"){
-			$('#myTab a[href="' + activeTab + '"]').tab('show');
-		}
+		$('#myTab a[href="' + activeTab + '"]').tab('show');
 	}
 }
 
@@ -80,7 +78,7 @@ function webScraper() {
 
 	//######################### OBS Testing purpose only (Remove on production) OBS ######################
 	//$.get('getWebPage.php', { site: 'http://localhost/AkutDriftinformation.htm', cachetime: 5, newscut: "true" }, function (html) {
-		//######################### OBS Testing purpose only (Remove on production) OBS ######################    
+		//######################### OBS Testing purpose only (Remove on production) OBS ######################
 
 		//Extract the news tag
 		var news_elements = $(html).find('.news');
@@ -121,7 +119,7 @@ function webScraper() {
 		//######################### OBS Testing purpose only (Remove on production) OBS ######################
 
 		//The limit for how many days ahead should be displayed
-		var todaysDate = new Date($.now());
+		var todaysDate = new Date();
 		var firstDateLimit = new Date(); //Limits how long ahead to search for RIS/PACS/takecare
 		var secondDateLimit = new Date(); //Limits how long ahead to display other news
 
@@ -143,7 +141,7 @@ function webScraper() {
 			//Extract the 10 first characters from the date in the news and convert it to Date-format
 			var date = new Date(a.prev().attr('datetime').substring(0, 10));
 
-			//Remove news if older than the first limit 
+			//Remove news if older than the first limit
 			if (date > firstDateLimit) {
 				a.parent().remove();
 			}
@@ -214,9 +212,8 @@ function getUrlParameter(name) {
 
 //Check if a username is specified and if so set the user settings.
 function checkUser() {
-	userName = getUrlParameter('user') 
+	userName = getUrlParameter('user')
     if(userName != ''){
-		$("#navSettings").show();
 		userFile = "userData/" + userName + ".json"
 		userData = $.ajax({
 			url: userFile,
@@ -226,10 +223,10 @@ function checkUser() {
 				console.log('"'+ userName + '" is a new user');
 				document.getElementById("userNameInput").value = userName;
 				document.getElementById("newUserAlert").className = "alert alert-primary";
-				document.getElementById("newUserAlert").innerHTML = "<h4>Välkommen som ny användare</h4><p>Ställ in dina inställningar och tryck sen på spara. Genom att spara godkänner du att den information om dig som du angett sparas på denna server. Du kan när som helst återkomma hit och ta bort dina användarinställningar.</p>"
-				document.getElementById("saveUserSettings").innerHTML = "Spara & Godkänn"
+				document.getElementById("newUserAlert").innerHTML = "<h4>Välkommen som ny användare</h4><p>Ställ in dina inställningar och tryck sen på spara. Genom att spara godkänner du att den information om dig som du angett sparas på denna server. Du kan när som helst återkomma hit och ta bort dina användarinställningar.</p>";
+				document.getElementById("saveUserSettings").innerHTML = "Spara & Godkänn";
 				$('#myTab a[href="#userSettings"]').tab('show');
-				onCallSites = ["Solna","Neuro","KF","Huddinge","Barn"]
+				onCallSites = ["Solna","Neuro","KF","Huddinge","Barn"];
 				$.each(onCallSites, function(index, site){
 					onCallSite = "#" + site + "Oncall";
 					$(onCallSite).prop("checked", true);
@@ -243,8 +240,11 @@ function checkUser() {
 		});
     }else{
 		console.log('no user');
+		document.getElementById("userSettingsForm").innerHTML = "";
+		document.getElementById("newUserAlert").className = "alert alert-primary";
+		document.getElementById("newUserAlert").innerHTML = '<h4>Skapa konto</h4><p>För att kunna göra användarinställingar måste du skapa ett konto. Detta gör du genom att gå in i <kbd>inställningar/avancerade inställningar/</kbd> och söka efter infopanel. I slutet av den angivna adressen lägger du till <kbd>?user=*ditt HSAID*</kbd> (4 tecken). När du sen stänger ner inställningsfönstret så kommer det i den här rutan dyka upp flera inställningar.</p>';
 		//Remember selected tab on refresh and between sessions
-		keepTabOnReload(false);
+		keepTabOnReload();
 		onCallSites = ["Solna","Neuro","KF","Huddinge","Barn"]
 		getOnCallDr(onCallSites);
     }
@@ -253,12 +253,12 @@ function checkUser() {
 //This function is run when a known user logs on and applies that users settings.
 function populateUserSettings(repopulate){
 	console.log(repopulate);
-	
+
 	$.each(userData.responseJSON, function(key, value){
 		if(key != "medinetSite" && key != "chooseOnCall"){
 			$("[name=" + key + "]").val(value);
 		}
-		
+
 	});
 	if(userData.responseJSON.phoneNumber1 != ""){
 		document.getElementById("displayUserPhoneNumber").innerHTML = '<div class="alert alert-secondary py-2">Ditt telefonnummer är ' + userData.responseJSON.phoneNumber1 + '<button type="button" class="close" data-dismiss="alert"><span>&times;</span></button></div>';
@@ -278,13 +278,13 @@ function populateUserSettings(repopulate){
 		});
 		getOnCallDr(onCallSites);
 	}
-	
+
 	if(userData.responseJSON.medinetSite != null){
 		selectSite = "medinetSite" + userData.responseJSON.medinetSite;
 		document.getElementById(selectSite).checked = true;
 		document.getElementById(selectSite).parentNode.classList.add("active");
 	}
-	
+
 	document.getElementById("SDusername").value = userData.responseJSON.statdxusername;
 	document.getElementById("SDpassword").value = userData.responseJSON.statdxpassword;
 
@@ -292,13 +292,13 @@ function populateUserSettings(repopulate){
 		//if the user has set a specific start tab, start there. Otherwise start with the last tab.
 		if(userData.responseJSON.startTab == "1"){
 			//Remember selected tab on refresh and between sessions
-			keepTabOnReload(true);
+			keepTabOnReload();
 		}else{
 			$('#myTab a[href="#' + userData.responseJSON.startTab + '"]').tab('show');
 		}
 	}
-	
-	
+
+
 }
 
 function repopulateUserSettings(){
@@ -338,7 +338,7 @@ function submitUserForm(){
 			failAlert();
 			console.log(data);
 		}
-		
+
 	}).fail(function(){
 		failAlert();
 	});
@@ -353,23 +353,43 @@ function failAlert(){
 
 
 function getOnCallDr(getSites){
-	$("#jourListaBody").html("");
-	$.getJSON('getJourer.php', function(data){
-		$.each(data, function(site, jourArray){
-			$.each(jourArray, function(index, jour){
-				$.each(getSites, function(index, siteGet){
-					if(site == siteGet){
-						if(jour.jourtyp == "Bakjour" || jour.jourtyp == "Mellanjour"){
-							 var jourtypfiltered = jour.jourtyp + " ";
-						}else{
-							var jourtypfiltered = jour.jourtod + "jour ";
-						}
-						$("#jourListaBody").append('<tr class="' + site + '"><td>' + site + " " + jourtypfiltered + jour.starttime + "-" + jour.stopptime +  '</td><td>' + jour.journamn + '</td></tr>'
-						);
-					}
-				});
-				
-			});
+
+	var jourRequest = 'getJourer_DB.php?';
+	$.each(getSites, function(index, site){
+		jourRequest += "site[]=" + site + "&";
+	});
+	var d = new Date();
+	d.setHours(d.getHours()-7);
+	jourRequest += "centerdate=" + d.toISOString().substr(0,10);
+	var intDate = d.getDate()-1;
+	for(i=0; i<3; i++){
+		d.setDate(intDate+i);
+		var datestring = d.toISOString().substr(0,10);
+		var jourbody = document.getElementById("jourListaBody"+i);
+		jourbody.setAttribute("data-date", datestring.replace(/\u200e/g,""));
+		jourbody.innerHTML = "";
+		var jourlink = document.getElementById("jourLink"+i);
+		jourlink.setAttribute("data-date", datestring);
+		jourlink.innerHTML = d.getDate() + "/" + (d.getMonth()+1);
+	}
+
+	d = new Date();
+
+	document.querySelector('a[data-date="' + d.toISOString().substr(0,10)+'"]').insertAdjacentHTML('beforeend', ' <span class="badge badge-light">Idag</span>');
+	$.ajax({
+		type: 'GET',
+		url: jourRequest,
+		dataType: "json"
+	}).done(function(data){
+		$.each(data, function(index, jour){
+			if(jour.jourtyp == "Bakjour" || jour.jourtyp == "Mellanjour"){
+					var jourtypfiltered = jour.jourtyp + " ";
+			}else{
+				var jourtypfiltered = jour.jourtod + "jour ";
+			}
+			var query = 'tbody[data-date="' + jour.startdate +'"]'
+			document.querySelector(query).insertAdjacentHTML('beforeend','<tr class="' + jour.site + '"><td>' + jour.site + " " + jourtypfiltered + jour.starttime + "-" + jour.stopptime +  '</td><td>' + jour.journamn + '</td></tr>');
+
 		});
 	});
 }
@@ -393,5 +413,5 @@ function openPhoneSearch(){
 		searchWindow.focus();
 		searchWindow.document.getElementById("searchNumber").focus();
 	}
-	
+
 }

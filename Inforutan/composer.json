@@ -1,0 +1,6 @@
+{
+    "require": {
+        "mongodb/mongodb": "^1.4",
+        "paquettg/php-html-parser": "^1.7"
+    }
+}
