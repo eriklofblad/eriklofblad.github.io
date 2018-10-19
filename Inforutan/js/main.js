@@ -14,7 +14,7 @@ $(document).ready(function () {
 
 	//Checks if a username is supplied in the query, if it is it gets the user settings and populates them on the page
 
-	checkUser();
+	checkUser(false);
 
 	//Toggle cards if pressed anywhere on the card header
 
@@ -211,42 +211,34 @@ function getUrlParameter(name) {
 };
 
 //Check if a username is specified and if so set the user settings.
-function checkUser() {
+function checkUser(repopulate) {
 	userName = getUrlParameter('user')
     if(userName != ''){
-		userFile = "userData/" + userName + ".json"
 		userData = $.ajax({
-			url: userFile,
+			url: "user-settings.php",
+			data: {user: userName},
 			dataType: "json",
-			error: function(xhr, status){
-				console.log(status);
-				console.log('"'+ userName + '" is a new user');
-				document.getElementById("userNameInput").value = userName;
-				document.getElementById("newUserAlert").className = "alert alert-primary";
-				document.getElementById("newUserAlert").innerHTML = "<h4>Välkommen som ny användare</h4><p>Ställ in dina inställningar och tryck sen på spara. Genom att spara godkänner du att den information om dig som du angett sparas på denna server. Du kan när som helst återkomma hit och ta bort dina användarinställningar.</p>";
-				document.getElementById("saveUserSettings").innerHTML = "Spara & Godkänn";
-				$('#myTab a[href="#userSettings"]').tab('show');
-				onCallSites = ["Solna","Neuro","KF","Huddinge","Barn"];
-				$.each(onCallSites, function(index, site){
-					onCallSite = "#" + site + "Oncall";
-					$(onCallSite).prop("checked", true);
-				});
-				getOnCallDr(onCallSites);
-			},
-			success: function(){
+		}).done(function(data){
+			if(data.status == "success"){
 				console.log('User "' + userName +  '" already excists');
-				populateUserSettings(false);
+				populateUserSettings(repopulate);
+			}else{
+				console.log(data.statusText);
+				console.log('"'+ userName + '" is a new user');
+				newUser(userName);
 			}
+		}).fail(function(jqXHR, textStatus, errorThrown){
+			console.log('error retreiving user status');
+			console.log("Status= " + textStatus);
+			document.getElementById("userSettingsForm").innerHTML = "";
+			document.getElementById("newUserAlert").className = "alert alert-danger";
+			document.getElementById("newUserAlert").innerHTML = '<h4>Varning!</h4><p>Lyckades ej kontrollera användarens status</p>';
 		});
     }else{
 		console.log('no user');
 		document.getElementById("userSettingsForm").innerHTML = "";
 		document.getElementById("newUserAlert").className = "alert alert-primary";
 		document.getElementById("newUserAlert").innerHTML = '<h4>Skapa konto</h4><p>För att kunna göra användarinställingar måste du skapa ett konto. Detta gör du genom att gå in i <kbd>inställningar/avancerade inställningar/</kbd> och söka efter infopanel. I slutet av den angivna adressen lägger du till <kbd>?user=*ditt HSAID*</kbd> (4 tecken). När du sen stänger ner inställningsfönstret så kommer det i den här rutan dyka upp flera inställningar.</p>';
-		//Remember selected tab on refresh and between sessions
-		keepTabOnReload();
-		onCallSites = ["Solna","Neuro","KF","Huddinge","Barn"]
-		getOnCallDr(onCallSites);
     }
 }
 
@@ -254,22 +246,24 @@ function checkUser() {
 function populateUserSettings(repopulate){
 	console.log(repopulate);
 
-	$.each(userData.responseJSON, function(key, value){
+	$.each(userData.responseJSON.userData, function(key, value){
 		if(key != "medinetSite" && key != "chooseOnCall"){
 			$("[name=" + key + "]").val(value);
+		}else if(key == "_id"){
+			//do nothing
 		}
 
 	});
-	if(userData.responseJSON.phoneNumber1 != ""){
-		document.getElementById("displayUserPhoneNumber").innerHTML = '<div class="alert alert-secondary py-2">Ditt telefonnummer är ' + userData.responseJSON.phoneNumber1 + '<button type="button" class="close" data-dismiss="alert"><span>&times;</span></button></div>';
+	if(userData.responseJSON.userData.phoneNumber1 != ""){
+		document.getElementById("displayUserPhoneNumber").innerHTML = '<div class="alert alert-secondary py-2">Ditt telefonnummer är ' + userData.responseJSON.userData.phoneNumber1 + '<button type="button" class="close" data-dismiss="alert"><span>&times;</span></button></div>';
 	}
 
-	if(userData.responseJSON.chooseOnCall != undefined){
-		$.each(userData.responseJSON.chooseOnCall, function(index, site){
+	if(userData.responseJSON.userData.chooseOnCall != undefined){
+		$.each(userData.responseJSON.userData.chooseOnCall, function(index, site){
 			onCallSite = "#" + site + "Oncall";
 			$(onCallSite).prop("checked", true);
 		});
-		getOnCallDr(userData.responseJSON.chooseOnCall);
+		getOnCallDr(userData.responseJSON.userData.chooseOnCall);
 	}else{
 		onCallSites = ["Solna","Neuro","KF","Huddinge","Barn"]
 		$.each(onCallSites, function(index, site){
@@ -279,42 +273,48 @@ function populateUserSettings(repopulate){
 		getOnCallDr(onCallSites);
 	}
 
-	if(userData.responseJSON.medinetSite != null){
-		selectSite = "medinetSite" + userData.responseJSON.medinetSite;
+	if(userData.responseJSON.userData.medinetSite != null){
+		selectSite = "medinetSite" + userData.responseJSON.userData.medinetSite;
 		document.getElementById(selectSite).checked = true;
 		document.getElementById(selectSite).parentNode.classList.add("active");
 	}
 
-	document.getElementById("SDusername").value = userData.responseJSON.statdxusername;
-	document.getElementById("SDpassword").value = userData.responseJSON.statdxpassword;
+	document.getElementById("SDusername").value = userData.responseJSON.userData.statdxusername;
+	document.getElementById("SDpassword").value = userData.responseJSON.userData.statdxpassword;
 
 	if(repopulate === false){
 		//if the user has set a specific start tab, start there. Otherwise start with the last tab.
-		if(userData.responseJSON.startTab == "1"){
+		if(userData.responseJSON.userData.startTab == "1"){
 			//Remember selected tab on refresh and between sessions
 			keepTabOnReload();
 		}else{
-			$('#myTab a[href="#' + userData.responseJSON.startTab + '"]').tab('show');
+			$('#myTab a[href="#' + userData.responseJSON.userData.startTab + '"]').tab('show');
 		}
 	}
 
 
 }
 
-function repopulateUserSettings(){
-	userName = getUrlParameter('user')
-	userFile = "userData/" + userName + ".json"
-	userData = $.ajax({
-		url: userFile,
-		dataType: "json",
-		error: function(xhr, status){
-			console.log(status);
-		},
-		success: function(){
-			console.log('Reloading user settings');
-			populateUserSettings(true);
-		}
+
+function newUser(userName){
+	document.getElementById("userNameInput").value = userName;
+	document.getElementById("newUserAlert").className = "alert alert-primary";
+	document.getElementById("newUserAlert").innerHTML = "<h4>Välkommen som ny användare</h4><p>Ställ in dina inställningar och tryck sen på spara. Genom att spara godkänner du att den information om dig som du angett sparas på denna server. Du kan när som helst återkomma hit och ta bort dina användarinställningar.</p>";
+	document.getElementById("saveUserSettings").innerHTML = "Spara & Godkänn";
+	$('#myTab a[href="#userSettings"]').tab('show');
+	onCallSites = ["Solna","Neuro","KF","Huddinge","Barn"];
+	$.each(onCallSites, function(index, site){
+		onCallSite = "#" + site + "Oncall";
+		$(onCallSite).prop("checked", true);
 	});
+	getOnCallDr(onCallSites);
+}
+
+function noUser(){
+	//Remember selected tab on refresh and between sessions
+	keepTabOnReload();
+	onCallSites = ["Solna","Neuro","KF","Huddinge","Barn"]
+	getOnCallDr(onCallSites);
 }
 
 function submitUserForm(){
@@ -322,30 +322,31 @@ function submitUserForm(){
 	var formData = new FormData(formElement);
 	$.ajax({
 		type: 'POST',
-		url: 'set-user-settings.php',
+		url: 'user-settings.php',
 		data: formData,
 		processData: false,
 		contentType: false,
 	}).done(function(data){
-		if(data.startsWith("Success")){
+		if(data.status == "success"){
 			$('#userSettingsForm').append('<span class="alert alert-success p-2 alert-trim alert-dismissible fade show" role="alert" id="postAlert">Inställningar sparade</span>');
 			setTimeout(function(){
 				$("#postAlert").alert('close');
 			}, 5000);
 			console.log(data);
-			repopulateUserSettings();
+			checkUser(true);
+			document.getElementById("saveUserSettings").innerHTML = "Spara";
 		}else{
-			failAlert();
+			failAlert(data.statusText);
 			console.log(data);
 		}
 
 	}).fail(function(){
-		failAlert();
+		failAlert("Okänt fel");
 	});
 }
 
-function failAlert(){
-	$('#userSettingsForm').append('<span class="alert alert-danger alert-trim alert-dismissible fade show" role="alert" id="postAlert">Misslyckades med att spara dina instälningar</span>');
+function failAlert(failText){
+	$('#userSettingsForm').append('<span class="alert alert-danger alert-trim alert-dismissible fade show" role="alert" id="postAlert">' + failText + '</span>');
 	setTimeout(function(){
 		$("#postAlert").alert('close');
 	}, 5000);
@@ -359,6 +360,7 @@ function getOnCallDr(getSites){
 		jourRequest += "site[]=" + site + "&";
 	});
 	var d = new Date();
+	//console.log(d.toISOString());
 	d.setHours(d.getHours()-7);
 	jourRequest += "centerdate=" + d.toISOString().substr(0,10);
 	var intDate = d.getDate()-1;
@@ -398,7 +400,7 @@ function statdxSubmit(){
 	if(userData === undefined){
 		window.open("https://app.statdx.com/login");
 	}else{
-		if(userData.responseJSON.statdxusername != undefined){
+		if(userData.responseJSON.userData.statdxusername != undefined){
 			document.getElementById("statdxform").submit();
 		}else{
 			window.open("https://app.statdx.com/login");

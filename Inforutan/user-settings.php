@@ -3,19 +3,30 @@
 require_once __DIR__ . "/vendor/autoload.php";
 require_once __DIR__ . "/secrets/secrets.php";
 
-$userdata = new UserData;
+try{
+    $userdata = new UserData;
 
-$secr = new MDSecrets;
+    $secr = new MDSecrets;
 
-$client = new MongoDB\Client("mongodb://". $secr->mongo_username . ":" . $secr->mongo_password . "@ds046027.mlab.com:46027/infopanel");
+    $client = new MongoDB\Client("mongodb://". $secr->mongo_username . ":" . $secr->mongo_password . "@ds046027.mlab.com:46027/infopanel");
 
-header('Content-type: application/json; charset=UTF-8');
+    header('Content-type: application/json; charset=UTF-8');
 
-$userdata->validateUserData($_POST) or die (json_encode($userdata->response));
+    if($_SERVER["REQUEST_METHOD"] == "POST"){
+        $userdata->validateUserData($_POST);
 
-$userdata->uploadUserSettings($client) or die (json_encode($userdata->response));
-
-echo json_encode($userdata->response);
+        $userdata->uploadUserSettings($client);
+    }else if($_SERVER["REQUEST_METHOD"] == "GET"){
+        $userdata->getUserSettings($client);
+    }
+    echo json_encode($userdata->response);
+} catch(Exception $e) {
+    $response = [
+        "status" => "error",
+        "statusText" => $e->getMessage()
+    ];
+    echo json_encode($response);
+}
 
 class UserData{
 
@@ -32,13 +43,7 @@ class UserData{
 
     public $response = [
         "status" => "",
-        "statusText" => "",
-        "updatedData" => "",
-        "mongoResult" => [
-            "Matched count" => "",
-            "Modified count" => "",
-            "Upserted count" => ""
-        ]
+        "statusText" => ""
     ];
 
     private $validated = false;
@@ -47,19 +52,15 @@ class UserData{
         if(strlen($postData["userName"]) === 4){
             $this->userName = htmlspecialchars($postData["userName"]);
         }else{
-            $this->response["status"] = "error";
-            $this->response["statusText"]="Användarnamet är inte ett HSAID";
-            return false;
+            throw new Exception("Användarnamet är inte ett HSAID");
         }
 
         if(count($postData["chooseOnCall"]) > 5){
-            $this->response["status"] = "error";
-            $this->response["statusText"]="Ogiltigt antal Joursiter";
-            return false;
+            throw new Exception("Ogiltigt antal Joursiter");
         }
 
         foreach($this->userData as $key => $value){
-            if($postData[$key] != null && count($postData[$key]) == 1){
+            if(isset($postData[$key]) && count($postData[$key]) == 1){
                 $this->userData[$key] = htmlspecialchars($postData[$key]);
             }else if(count($postData[$key]) > 1){
                 foreach($postData[$key] as $i => $val){
@@ -94,14 +95,32 @@ class UserData{
                 $this->response["mongoResult"]["Upserted count"] = $updateResult->getUpsertedCount();
                 return true;
             }else{
-                $this->response["status"] = "error";
-                $this->response["statusText"]="Lyckades inte spara inställningarna";
-                return false;
+                throw new Exception("Lyckades inte spara inställningarna");
             }
         }else{
-            $this->response["status"] = "error";
-            $this->response["statusText"]="Inställningarna var ej validerade";
-            return false;
+            throw new Exception("Inställningarna var ej validerade");
+        }
+
+
+    }
+
+
+    public function getUserSettings($mongoClient){
+        if(isset($_GET["user"])){
+            $userscollection = $mongoClient->selectCollection('infopanel','users');
+
+            $findresult = $userscollection->findOne(['userName' => $_GET["user"]]);
+
+            if($findresult === null){
+                throw new Exception("Ingen användare hittad");
+            }else{
+                $this->response["status"] = "success";
+                $this->response["statusText"]="Användare hittad";
+                $this->response["userData"] = $findresult;
+                return true;
+            }
+        }else{
+            throw new Exception("Inget användarnamn angivet");
         }
 
 
