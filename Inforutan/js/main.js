@@ -239,7 +239,8 @@ function checkUser(repopulate) {
 		document.getElementById("userSettingsForm").innerHTML = "";
 		document.getElementById("newUserAlert").className = "alert alert-primary";
 		document.getElementById("newUserAlert").innerHTML = '<h4>Skapa konto</h4><p>För att kunna göra användarinställingar måste du skapa ett konto. Detta gör du genom att gå in i <kbd>inställningar/avancerade inställningar/</kbd> och söka efter infopanel. I slutet av den angivna adressen lägger du till <kbd>?user=*ditt HSAID*</kbd> (4 tecken). När du sen stänger ner inställningsfönstret så kommer det i den här rutan dyka upp flera inställningar.</p>';
-    }
+		noUser();
+	}
 }
 
 //This function is run when a known user logs on and applies that users settings.
@@ -313,7 +314,8 @@ function newUser(userName){
 function noUser(){
 	//Remember selected tab on refresh and between sessions
 	keepTabOnReload();
-	onCallSites = ["Solna","Neuro","KF","Huddinge","Barn"]
+	onCallSites = ["Solna","Neuro","KF","Huddinge","Barn"];
+
 	getOnCallDr(onCallSites);
 }
 
@@ -360,15 +362,15 @@ function getOnCallDr(getSites){
 		jourRequest += "site[]=" + site + "&";
 	});
 	var d = new Date();
-	//console.log(d.toISOString());
+	console.log(createDateString(d));
 	d.setHours(d.getHours()-7);
-	jourRequest += "centerdate=" + d.toISOString().substr(0,10);
+	jourRequest += "centerdate=" + createDateString(d);
 	var intDate = d.getDate()-1;
 	for(i=0; i<3; i++){
 		d.setDate(intDate+i);
-		var datestring = d.toISOString().substr(0,10);
+		var datestring = createDateString(d);
 		var jourbody = document.getElementById("jourListaBody"+i);
-		jourbody.setAttribute("data-date", datestring.replace(/\u200e/g,""));
+		jourbody.setAttribute("data-date", datestring);
 		jourbody.innerHTML = "";
 		var jourlink = document.getElementById("jourLink"+i);
 		jourlink.setAttribute("data-date", datestring);
@@ -377,7 +379,7 @@ function getOnCallDr(getSites){
 
 	d = new Date();
 
-	document.querySelector('a[data-date="' + d.toISOString().substr(0,10)+'"]').insertAdjacentHTML('beforeend', ' <span class="badge badge-light">Idag</span>');
+	document.querySelector('a[data-date="' + createDateString(d)+'"]').insertAdjacentHTML('beforeend', ' <span class="badge badge-light">Idag</span>');
 	$.ajax({
 		type: 'GET',
 		url: jourRequest,
@@ -416,4 +418,18 @@ function openPhoneSearch(){
 		searchWindow.document.getElementById("searchNumber").focus();
 	}
 
+}
+
+function createDateString(dateObject){
+	year = dateObject.getFullYear();
+	month = dateObject.getMonth()+1;
+	if(month < 10){
+		month= "0" + month;
+	}
+	day = dateObject.getDate();
+	if(day < 10){
+		day= "0" + day;
+	}
+
+	return year + "-" + month + "-" + day;
 }
