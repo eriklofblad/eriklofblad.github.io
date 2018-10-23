@@ -1,28 +1,14 @@
 <?php
 
-require_once __DIR__ . "/vendor/autoload.php";
+require_once __DIR__ . "/secrets/pwdencryption.php";
+require_once __DIR__ . "/secrets/secrets.php";
 
-$client = new MongoDB\Client("mongodb://inforutan:ip10KS02Los3n0rd@ds046027.mlab.com:46027/infopanel");
+$encrypt = new Pwdencryption;
+$scr = new Secrets;
 
-$jourcollection = $client->selectCollection('infopanel','testcollection3');
+$base64 = base64_encode(openssl_random_pseudo_bytes(32));
+$hex = bin2hex(openssl_random_pseudo_bytes(32));
 
-$timeNow = new DateTimeImmutable();
-
-$today = $timeNow->format('Y-m-d');
-$tomorrow = $timeNow->add(new DateInterval('P1D'))->format('Y-m-d');
-$dATomorrow = $timeNow->add(new DateInterval('P2D'))->format('Y-m-d');
-
-$dates = array(
-    $today,
-    $tomorrow,
-    $dATomorrow
-);
-
-foreach($dates as $number => $date){
-    $deleteResult = $jourcollection->deleteMany(['startdate'=> $date, 'lastModified' => ['$lt' => new MongoDB\BSON\UTCDateTime($timeNow)]]);
-
-    echo "Deleted ". $deleteResult->getDeletedCount() . " Documents from: " . $date;
-}
-
-
+echo "Base64= " . $base64 . " Length= " . strlen($base64) . "<br>";
+echo "Hex= " . $hex . " Length= " . strlen($hex) . "<br>";
 ?>

@@ -322,6 +322,10 @@ function noUser(){
 function submitUserForm(){
 	var formElement = document.getElementById('userSettingsForm');
 	var formData = new FormData(formElement);
+	var userKeyval = getUrlParameter('key');
+	if(userKeyval != ""){
+		formData.append("userKey", userKeyval);
+	}
 	$.ajax({
 		type: 'POST',
 		url: 'user-settings.php',

@@ -4,7 +4,7 @@ require_once __DIR__ . "/vendor/autoload.php";
 
 require_once __DIR__ . "/secrets/secrets.php";
 
-$secr = new MDSecrets;
+$secr = new Secrets;
 
 $client = new MongoDB\Client("mongodb://". $secr->mongo_username . ":" . $secr->mongo_password . "@ds046027.mlab.com:46027/infopanel");
 
