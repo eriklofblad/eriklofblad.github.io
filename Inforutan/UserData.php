@@ -140,10 +140,21 @@ class UserData{
 
     public function getPassword($pwdType, $userName, $userKey){
         $encrypt = new Pwdencryption;
-        $scr = new Secrets;
+        $secr = new Secrets;
         $mongoClient = new MongoDB\Client("mongodb://". $secr->mongo_username . ":" . $secr->mongo_password . "@ds046027.mlab.com:46027/infopanel");
 
+        $userscollection = $mongoClient->selectCollection('infopanel','users');
 
+        $findresult = $userscollection->findOne([
+            'userName' => $userName
+            ],[
+            'projection' => [
+                '_id' => 0,
+                $pwdType => 1
+            ]
+        ]);
+        $decryptedData = $encrypt->decrypt($findresult[$pwdType], $userKey);
+        return $decryptedData;
     }
 }
 
