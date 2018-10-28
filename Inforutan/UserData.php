@@ -46,8 +46,7 @@ class UserData{
                         throw new Exception("Ingen eller för kort krypteringsnyckel");
                     }else{
                         if($postData[$key] != $this->placeholderpassword){
-                            $encryptkey = $encrypt->makeKey($scr->encrypt_serverkey, $postData["userKey"]);
-                            $this->userData[$key] = $encrypt->encrypt($postData[$key], $encryptkey);
+                            $this->userData[$key] = $encrypt->encrypt($postData[$key], $postData["userKey"]);
                         }else{
                             unset($this->userData[$key]);
                         }

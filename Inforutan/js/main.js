@@ -280,9 +280,6 @@ function populateUserSettings(repopulate){
 		document.getElementById(selectSite).parentNode.classList.add("active");
 	}
 
-	document.getElementById("SDusername").value = userData.responseJSON.userData.statdxusername;
-	document.getElementById("SDpassword").value = userData.responseJSON.userData.statdxpassword;
-
 	if(repopulate === false){
 		//if the user has set a specific start tab, start there. Otherwise start with the last tab.
 		if(userData.responseJSON.userData.startTab == "1"){
@@ -406,8 +403,31 @@ function statdxSubmit(){
 	if(userData === undefined){
 		window.open("https://app.statdx.com/login");
 	}else{
-		if(userData.responseJSON.userData.statdxusername != undefined){
-			document.getElementById("statdxform").submit();
+		userdatauser = getUrlParameter('user');
+		userdatakey = getUrlParameter('key');
+		statdxusername = userData.responseJSON.userData.statdxusername;
+		statdxpassword = userData.responseJSON.userData.statdxpassword;
+		if(statdxusername != "" && statdxpassword == "PlaceHolder" && userdatauser != "" && userdatakey != ""){
+			$.ajax({
+				url: "getPassword.php",
+				method: "GET",
+				data: {
+					user: userdatauser,
+					userKey: userdatakey,
+					pwtype: "statdxpassword"
+				},
+				dataType: "json",
+			}).done(function(data){
+				if(data.status == "success"){
+					form = '<form id="statdxform" action="https://app.statdx.com/login" method="POST" target="_blank" hidden><input type="text" name="username" value="' + statdxusername + '"><input type="password" name="password" value="' + data.statdxpassword +'"></form>';
+					$(form).appendTo("#metod").submit().remove();
+				}else{
+					window.open("https://app.statdx.com/login");
+				}
+
+			}).fail(function(){
+				window.open("https://app.statdx.com/login");
+			});
 		}else{
 			window.open("https://app.statdx.com/login");
 		}
