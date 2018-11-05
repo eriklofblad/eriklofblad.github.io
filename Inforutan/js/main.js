@@ -202,7 +202,7 @@ function webScraper() {
 	});
 }
 
-//Function to parse the username from the query string
+//Function to parse strings from the query string
 function getUrlParameter(name) {
     name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
     var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
@@ -212,7 +212,14 @@ function getUrlParameter(name) {
 
 //Check if a username is specified and if so set the user settings.
 function checkUser(repopulate) {
-	userName = getUrlParameter('user')
+	userName = getUrlParameter('user');
+	userKey = getUrlParameter('key');
+	if(userKey == ""){
+		document.getElementById("protectedsettings").innerHTML = '';
+		$("#encryptionkey").show();
+	}else{
+		$("#encryptionkey").hide();
+	}
     if(userName != ''){
 		userData = $.ajax({
 			url: "user-settings.php",

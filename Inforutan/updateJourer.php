@@ -114,7 +114,7 @@ function getMedinetSites(){
     );
 
     $positions = array(
-        array("primärjour 1" => "pm-190", "primärjour 2" => "pm-189", "primärjour 3" => "pm-8", "primärjour 4" => "pm-7","solnaHelgDagjour" => "pm-6", "solnaMellanjour" => "pm-9", "solnaDagBakjour"=>"pm-5", "solnaNattBakjour"=>"pm-4"),
+        array("primärjour 1" => "pm-190", "primärjour 2" => "pm-189", "primärjour 3" => "pm-8", "primärjour 4" => "pm-7","solnaHelgjour" => "pm-6", "solnaMellanjour" => "pm-9", "solnaDagBakjour"=>"pm-5", "solnaNattBakjour"=>"pm-4", "solnaHelgdagJour1"=>"pm-140", "solnaHelgdagJour2"=>"pm-191", "solnaHelgdagJour3"=>"pm-153"),
         array("neuroHelgDag" => "day-154", "neuroNattJour" => 'day-79', "neuroBakjour" => 'day-80'),
         array("kfSkvall" => 'pm-11', "kfShelg" => 'pm-12'),
         array("Hnattjour"=>'pm-1', "Hnattjour2"=>'pm-2', "Hnattjour3"=>'pm-3',"Hhelg" => "pm-7", "Hhelg2" => 'pm-8', "Hhelg3" => 'pm-16', "Hbakjour"=>"pm-4"),

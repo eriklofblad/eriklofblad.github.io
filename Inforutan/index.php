@@ -340,28 +340,31 @@
 						<label class="custom-control-label" for="BarnOncall">Barn</label>
 					</div>
 				</div>
-				<div class="form-group">
-					<label for="userMedinetPassword">Lösenord till medinet</label>
-					<input type="password" class="form-control" id="userMedinetPassword" placeholder="Lösenord" name="medinetPassword">
-					<div class="btn-group btn-group-toggle mt-2" data-toggle="buttons" id="chooseSite">
-						<label class="btn btn-secondary btn-sm">
-						  <input type="radio" name="medinetSite" id="medinetSiteSolnartg" value="Solnartg" autocomplete="off"> Solna
-						</label>
-						<label class="btn btn-secondary btn-sm">
-						  <input type="radio" name="medinetSite" id="medinetSiteHuddingertg" value="Huddingertg" autocomplete="off"> Huddinge
-						</label>
-						<label class="btn btn-secondary btn-sm">
-						  <input type="radio" name="medinetSite" id="medinetSiteNeuro" value="Neuro" autocomplete="off"> Neuro
-						</label>
+				<div id="protectedsettings">
+					<div class="form-group">
+						<label for="userMedinetPassword">Lösenord till medinet</label>
+						<input type="password" class="form-control" id="userMedinetPassword" placeholder="Lösenord" name="medinetPassword">
+						<div class="btn-group btn-group-toggle mt-2" data-toggle="buttons" id="chooseSite">
+							<label class="btn btn-secondary btn-sm">
+							  <input type="radio" name="medinetSite" id="medinetSiteSolnartg" value="Solnartg" autocomplete="off"> Solna
+							</label>
+							<label class="btn btn-secondary btn-sm">
+							  <input type="radio" name="medinetSite" id="medinetSiteHuddingertg" value="Huddingertg" autocomplete="off"> Huddinge
+							</label>
+							<label class="btn btn-secondary btn-sm">
+							  <input type="radio" name="medinetSite" id="medinetSiteNeuro" value="Neuro" autocomplete="off"> Neuro
+							</label>
+						</div>
+						<small id="medinetPasswordInfo" class="form-text text-muted">Används för att automatiskt kunna logga in på medinet via länken under schema</small>
 					</div>
-					<small id="medinetPasswordInfo" class="form-text text-muted">Används för att automatiskt kunna logga in på medinet via länken under schema</small>
+					<div class="form-group">
+						<label for="statDxUserName">Inloggningsuppgifter till StatDx</label>
+						<input type="text" class="form-control" name="statdxusername" id="statDxUserName" placeholder="Användarnamn">
+						<input type="password" class="form-control" name="statdxpassword" id="statDxPassword" placeholder="Lösenord">
+						<small class="form-text text-muted">Används för automatisk inloggning till StatDx</small>
+					</div>
 				</div>
-				<div class="form-group">
-					<label for="statDxUserName">Inloggningsuppgifter till StatDx</label>
-					<input type="text" class="form-control" name="statdxusername" id="statDxUserName" placeholder="Användarnamn">
-					<input type="password" class="form-control" name="statdxpassword" id="statDxPassword" placeholder="Lösenord">
-					<small class="form-text text-muted">Används för automatisk inloggning till StatDx</small>
-				</div>
+				<div id="encryptionkey" class="alert alert-info"><h5>För att kunna spara lösenord till statdx och medinet måste du lägga till en krypteringsnyckel till adressen till infopanel genom att lägga till följande: <code>&key=<?php echo bin2hex(openssl_random_pseudo_bytes(16));?></code></h5></div>
 				<button id="saveUserSettings" type="submit" class="btn btn-primary">Spara</button>
 			</form>
 		</div>
