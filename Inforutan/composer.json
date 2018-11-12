@@ -1,4 +1,6 @@
 {
+    "name": "infopanel",
+    "description": "Infopanel till Sectra PACS för Karolinska Sjukhuset",
     "require": {
         "mongodb/mongodb": "^1.4",
         "paquettg/php-html-parser": "^1.7"
