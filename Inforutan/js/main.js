@@ -245,7 +245,7 @@ function checkUser(repopulate) {
 		console.log('no user');
 		document.getElementById("userSettingsForm").innerHTML = "";
 		document.getElementById("newUserAlert").className = "alert alert-primary";
-		document.getElementById("newUserAlert").innerHTML = '<h4>Skapa konto</h4><p>För att kunna göra användarinställingar måste du skapa ett konto. Detta gör du genom att gå in i <kbd>inställningar/avancerade inställningar/</kbd> och söka efter infopanel. I slutet av den angivna adressen lägger du till <kbd>?user=*ditt HSAID*</kbd> (4 tecken). När du sen stänger ner inställningsfönstret så kommer det i den här rutan dyka upp flera inställningar.</p>';
+		document.getElementById("newUserAlert").innerHTML = '<h4>Skapa konto</h4><p>För att kunna göra användarinställingar måste du skapa ett konto. Detta gör du genom att gå in i <kbd>Verktyg/Alternativ</kbd>. I inställningarna väljer du <kbd>Avancerade inställningar</kbd> och navigerar fram till <kbd>Information Window/Worklist and Search/Infopanel</kbd>. I slutet av den angivna URL:en lägger du till <kbd>?user=*ditt HSAID*</kbd> (4 tecken). När du sen stänger ner inställningsfönstret så kommer det i den här rutan dyka upp flera inställningar.</p>';
 		noUser();
 	}
 }
